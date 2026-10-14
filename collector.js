@@ -16,7 +16,8 @@ const PROBLEMS = ["jam", "door", "locked", "damage", "glass", "litter", "graffit
 const TXT = {
   da: {
     app: "Indsamler", startShift: "Start vagt", endShift: "Afslut vagt", onShift: "På vagt",
-    tabRoute: "Rute", tabSnakes: "Slanger", tabToday: "Indsats", tabRank: "Rangliste", tabKit: "Udstyr",
+    startMyShift: "Start min vagt", stopMyShift: "Stop min vagt", shiftHint: "Vi finder den bedste rute til dig.", stopsLeft: n => `${n} stop tilbage`, allDone: "Færdig – godt gået!", newRoute: "Ny rute", somethingElse: "Noget var anderledes", findIt: "Slangen er markeret på kortet.", routeOptions: "Rute",
+    tabRoute: "Rute", tabSnakes: "Slanger", tabToday: "Mine tal", tabRank: "Rangliste", tabKit: "Udstyr",
     otherNear: "En anden indsamler er tæt på – den bliver taget", avoided: n => `${n} slange${n === 1 ? "" : "r"} er overladt til andre: en indsamler er allerede tæt på, eller sponsoren har forspring.`, sponsorTurn: m => `Sponsorens forspring: ${m} min.`,
     plan: "Planlæg rute", replan: "Planlæg igen", startRoute: "Start ruten", routeActive: "Ruten er i gang",
     stops: n => `${n} stop`, km: "km", min: "min", cans: "dåser", dkk: "kr",
@@ -36,7 +37,7 @@ const TXT = {
     howFullNow: "Hvor fuld er den nu?", cansTaken: "Dåser taget (valgfrit)", save: "Gem", notNow: "Ikke nu",
     farWarn: m => `Din position er ${m} m fra slangen. Gem alligevel?`, saved: (c) => `Gemt${c ? ` · ${c} dåser` : ""}`, savedOffline: n => `Gemt på telefonen. Sendes når du har net (${n} venter)`,
     dupe: "Du har lige gemt denne slange.", error: "Kunne ikke gemme. Prøv igen.",
-    todayVisits: "Besøg", todayCans: "Dåser", todayValue: "≈ værdi", todayKm: "Gået", week: "Seneste 7 dage", none: "Ingen besøg endnu i dag.",
+    todayVisits: "Besøg", todayCans: "Dåser og flasker", todayValue: "≈ værdi", todayKm: "Gået", week: "Seneste 7 dage", none: "Ingen besøg endnu i dag.",
     outcome: { emptied: "Tømt", partial: "Delvist tømt", was_empty: "Var tom", not_emptied: "Ikke tømt" },
     settings: "Indstillinger", language: "Sprog", arriveRadius: "Vis tjek-ind når jeg er inden for", endPoint: "Slutpunkt",
     endNone: "Intet slutpunkt", endSet: "Vælg på kortet", endPick: "Tryk på kortet for at sætte slutpunktet (fx en pantautomat).", endClear: "Fjern",
@@ -57,7 +58,8 @@ const TXT = {
   },
   en: {
     app: "Collector", startShift: "Start shift", endShift: "End shift", onShift: "On shift",
-    tabRoute: "Route", tabSnakes: "Snakes", tabToday: "Impact", tabRank: "Ranking", tabKit: "Toolkit",
+    startMyShift: "Start my shift", stopMyShift: "Stop my shift", shiftHint: "We find the best route for you.", stopsLeft: n => `${n} stop${n === 1 ? "" : "s"} left`, allDone: "All done – great job!", newRoute: "New route", somethingElse: "Something was different", findIt: "The can is marked on the map.", routeOptions: "Route",
+    tabRoute: "Route", tabSnakes: "Snakes", tabToday: "My stats", tabRank: "Ranking", tabKit: "Toolkit",
     otherNear: "Another collector is close: it's being handled", avoided: n => `${n} snake${n === 1 ? " is" : "s are"} left to others: a collector is already close, or its sponsor has a head start.`, sponsorTurn: m => `Sponsor's head start: ${m} min`,
     plan: "Plan route", replan: "Re-plan", startRoute: "Start route", routeActive: "Route in progress",
     stops: n => `${n} stop${n === 1 ? "" : "s"}`, km: "km", min: "min", cans: "cans", dkk: "DKK",
@@ -77,7 +79,7 @@ const TXT = {
     howFullNow: "How full is it now?", cansTaken: "Cans taken (optional)", save: "Save", notNow: "Not now",
     farWarn: m => `Your position is ${m} m from this snake. Save anyway?`, saved: (c) => `Saved${c ? ` · ${c} cans` : ""}`, savedOffline: n => `Saved on this phone. Will send when you're online (${n} waiting)`,
     dupe: "You just saved this snake.", error: "Couldn't save. Try again.",
-    todayVisits: "Visits", todayCans: "Cans", todayValue: "≈ value", todayKm: "Walked", week: "Last 7 days", none: "No visits yet today.",
+    todayVisits: "Visits", todayCans: "Cans & bottles", todayValue: "≈ value", todayKm: "Walked", week: "Last 7 days", none: "No visits yet today.",
     outcome: { emptied: "Emptied", partial: "Partly emptied", was_empty: "Was empty", not_emptied: "Not emptied" },
     settings: "Settings", language: "Language", arriveRadius: "Show the check-in when I'm within", endPoint: "End point",
     endNone: "No end point", endSet: "Pick on map", endPick: "Tap the map to set where the route should end (a deposit machine, say).", endClear: "Remove",
@@ -287,6 +289,14 @@ const CSS = `
 #col .cl-stepper output.bump{animation:cl-bump .28s var(--ease)}
 #col .cl-modal{animation:cl-fade .18s ease-out}
 #col .cl-dialog{animation:cl-sheet-up .32s var(--ease)}
+#col .cl-start{display:grid;gap:14px;justify-items:center;text-align:center;padding:6px 2px}
+#col .cl-startbtn{width:100%;min-height:128px;border-radius:30px;border:0;background:var(--accent);color:var(--accent-ink);font-size:2rem;font-weight:800;letter-spacing:-.015em;box-shadow:0 14px 30px color-mix(in srgb,var(--accent) 38%,transparent);transition:transform .14s var(--ease)}
+#col .cl-modal.peek{background:transparent;pointer-events:none;animation:none}
+#col .cl-modal.peek .cl-dialog{pointer-events:auto;max-height:min(58%,420px);box-shadow:0 -12px 40px rgba(0,0,0,.28);padding-top:10px;gap:8px}
+#col .cl-modal.peek .cl-stripe{display:none}
+#col .cl-modal.peek .cl-dialog h2{font-size:1.35rem}
+#col .cl-modal.peek .cl-btn.cl-ok{min-height:76px;font-size:1.45rem;margin:4px 0 0}
+#col.arriving .cl-nav,#col.arriving .cl-legend{display:none!important}
 @media (prefers-reduced-motion: reduce){#col *{transition:none!important;animation:none!important}}
 `;
 
@@ -453,7 +463,7 @@ export function mountCollector(root) {
   }
   function drawRoute() {
     map.setEnd(S.set.end);
-    if (!S.plan || (!routeStops().length && !S.geo)) return map.setRoute(null);
+    if (!S.routeOn || !S.plan || (!routeStops().length && !S.geo)) return map.setRoute(null);
     if (S.geo) {
       const legs = S.geo.legs.map(l => ({ ...l }));
       const nav = S.routeOn && navInfo();
@@ -603,11 +613,11 @@ export function mountCollector(root) {
     }, step * 1000);
   }
   map.on("drag", () => { map._userPanned = true; clearTimeout(map._upT); map._upT = setTimeout(() => map._userPanned = false, 8000); });
-  setInterval(() => { if (S.routeOn && S.me && S.gps === "on" && !map._userPanned) map.setView(S.me.lat, S.me.lng, Math.max(map.z, 15)); }, 4000);   // follow me
+  setInterval(() => { if (S.routeOn && S.me && S.gps === "on" && !map._userPanned && !S.arrivalId) map.setView(S.me.lat, S.me.lng, Math.max(map.z, 15)); }, 4000);   // follow me
 
   // ---------- shift ----------
   function startShift() { S.shift = { start: new Date().toISOString() }; store.set("shift", S.shift); wake(); renderTop(); }
-  async function endShift() { S.shift = null; store.set("shift", null); S.routeOn = false; S.done.clear(); store.set("done-today", { day: "", ids: [] }); S.skipped.clear(); S.mustInclude = []; try { await releaseClaims(); } catch {} wake(); renderTop(); renderSheet(); refresh(); }
+  async function endShift() { S.shift = null; store.set("shift", null); S.routeOn = false; S.done.clear(); store.set("done-today", { day: "", ids: [] }); S.skipped.clear(); S.mustInclude = []; try { await releaseClaims(); } catch {} wake(); drawRoute(); renderTop(); renderSheet(); refresh(); }
   let lock = null;
   async function wake() { try { if (S.shift && S.set.wake && navigator.wakeLock) lock = await navigator.wakeLock.request("screen"); else if (lock) { await lock.release(); lock = null; } } catch {} }
   document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { wake(); refresh(); } });
@@ -627,7 +637,7 @@ export function mountCollector(root) {
     top.innerHTML = "";
     const shift = S.shift ? el("span", { class: "cl-shift" }, el("i", { class: "dot" }), `${t().onShift} ${elapsed()}`) : null;
     top.append(el("div", { class: "cl-brand" }, el("i"), "Pant Snake", el("span", {}, "· " + t().app)), el("div", { class: "cl-sp" }), shift || "",
-      el("button", { class: "cl-btn small " + (S.shift ? "ghost" : "primary"), onclick: () => S.shift ? endShift() : startShift() }, S.shift ? t().endShift : t().startShift),
+      S.shift ? el("button", { class: "cl-btn small ghost", onclick: endShift }, t().stopMyShift) : "",
       cm.bell(), el("button", { class: "cl-icon", title: t().settings, "aria-label": t().settings, html: ICON.gear, onclick: openSettings }));
   }
   const elapsed = () => { const m = minutesSince(S.shift?.start) || 0; return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, "0")}`; };
@@ -651,8 +661,9 @@ export function mountCollector(root) {
 
   const pins = new Map();
   function renderMarkers() {
-    const order = new Map(routeStops().map((s, i) => [s.id, i + 1]));
-    const items = S.snakes.map(s => {
+    const order = new Map((S.routeOn ? routeStops() : []).map((s, i) => [s.id, i + 1]));
+    const shown = S.arrivalId ? S.snakes.filter(s => s.id === S.arrivalId) : S.snakes;      // at a snake: only that one stays on the map until the check-in is done
+    const items = shown.map(s => {
       let b = pins.get(s.id);
       if (!b) { b = el("button", { class: "cl-pin", onclick: (e) => { e.stopPropagation(); openSnake(s.id); } }); pins.set(s.id, b); }
       const e = eff(s), lv = levelOf(e.f), f = e.f == null ? 0 : Math.max(6, e.f / 4 * 100);
@@ -691,48 +702,34 @@ export function mountCollector(root) {
   function seg(options, value, onPick) {
     return el("span", { class: "cl-seg" }, ...options.map(([v, l]) => el("button", { "aria-pressed": String(value === v), onclick: () => onPick(v) }, l)));
   }
+  // Simple on purpose: before a shift one big button; during a shift only the next stop. Route options live in Settings, numbers in "My stats".
+  async function beginShift() {
+    startShift(); renderSheet();
+    try { await replan(); } catch (e) { console.warn(e); }
+    await startRoute();
+  }
   function paneRoute(p) {
-    const P = S.plan, stops = routeStops(), val = (P?.cans || 0) * CAN_VALUE, nav = S.routeOn ? navInfo() : null;
-    p.append(el("div", { class: "cl-summary" },
-      el("div", {}, el("b", {}, stops.length), el("span", {}, t().stops(stops.length).replace(/^\d+\s*/, ""))),
-      el("div", {}, el("b", {}, (P?.km || 0).toFixed(1)), el("span", {}, t().km)),
-      el("div", {}, el("b", {}, P?.minutes || 0), el("span", {}, t().min + " " + t().by[S.set.mode])),
-      el("div", {}, el("b", {}, `${P?.cans || 0}`), el("span", {}, `${t().cans} · ${t().value(val)}`))));
-    p.append(el("div", { class: "cl-opts" },
-      seg(Object.keys(TRANSPORT).map(k => [k, TRANSPORT[k].label[S.lang]]), S.set.mode, v => { S.set.mode = v; S.set.bag = null; saveSet(); replan(); })),
-      el("div", { class: "cl-opts" }, el("label", {}, t().timeBudget),
-      seg([[30, "30"], [60, "60"], [90, "90"], [120, "120"]], S.set.minutes, v => { S.set.minutes = v; saveSet(); replan(); }), el("label", {}, t().min + " ·"),
-      el("label", {}, t().minFill),
-      seg([[2, "½"], [3, "¾"], [4, t().levels[4]]], S.set.minFill, v => { S.set.minFill = v; saveSet(); replan(); })));
-    p.append(el("p", { class: "cl-src" + (S.planning ? " busy" : "") }, S.planning ? (S.routeOn ? t().rerouting : t().planning) : S.routeSrc ? t().via(t().srcName[S.routeSrc] || S.routeSrc) : ""));
-    const n = nextStop();
-    if (S.routeOn && n) {
-      const s = byId(n.id), d = S.me ? haversine(S.me, s) : null;
-      p.append(el("div", { class: "cl-next" }, el("div", { class: "eyebrow" }, t().next),
-        el("h3", {}, s.design_name), el("div", { class: "cl-meta" }, pill(s), el("span", {}, s.location_label || ""), nav ? el("span", {}, `${fmtM(nav.left)} · ${Math.max(1, Math.round(nav.dur / 60))} ${t().min}`) : d != null ? el("span", {}, fmtM(d)) : "", s.open_problems ? el("span", { class: "cl-pill bad" }, "! " + t().openProblems(s.open_problems)) : ""),
+    if (!S.shift) {
+      p.append(el("div", { class: "cl-start" },
+        el("button", { class: "cl-startbtn", onclick: beginShift }, t().startMyShift),
+        el("p", { class: "cl-note" }, S.planning ? t().planning : t().shiftHint)));
+      return;
+    }
+    const stops = routeStops(), left = stops.filter(s => !S.done.has(s.id)), n = nextStop();
+    if (n) {
+      const s = byId(n.id), d = S.me ? haversine(S.me, s) : null, nav = S.routeOn ? navInfo() : null;
+      p.append(el("div", { class: "cl-next" }, el("div", { class: "eyebrow" }, `${t().next} · ${t().stopsLeft(left.length)}`),
+        el("h3", {}, s.design_name),
+        el("div", { class: "cl-meta" }, s.location_label ? el("span", {}, s.location_label) : "", d != null ? el("span", {}, fmtM(nav ? nav.left : d)) : ""),
         nav?.step ? el("div", { class: "cl-turn" }, el("i", { "aria-hidden": "true" }, ARROW[nav.step.mod] || (nav.step.kind === "arrive" ? "◎" : "↑")), el("span", {}, stepText(nav.step, S.lang) + " · " + t().inM(fmtM(nav.stepIn)))) : "",
         el("div", { class: "cl-row" },
           el("button", { class: "cl-btn primary", onclick: () => openArrival(s.id, d) }, t().here),
           el("button", { class: "cl-btn ghost", onclick: () => { S.skipped.add(s.id); replan(); } }, t().skip))));
-      p.append(el("button", { class: "cl-btn", style: "width:100%;margin-top:8px", onclick: () => replan() }, "↻ " + t().replan));   // always available, also mid-route
     } else {
-      p.append(el("div", { class: "cl-row" },
-        el("button", { class: "cl-btn primary", disabled: !stops.length, onclick: startRoute }, S.routeOn ? t().routeActive : t().startRoute),
-        el("button", { class: "cl-btn", onclick: () => { S.skipped.clear(); replan(); } }, t().replan)));
+      p.append(el("div", { class: "cl-start" }, el("h3", { style: "margin:0" }, S.planning ? t().planning : stops.length ? t().allDone : t().noRoute)));
     }
-    if (!stops.length) p.append(el("p", { class: "cl-empty" }, t().noRoute));
-    const list = el("ol", { class: "cl-list" });
-    stops.forEach((st, i) => {
-      const s = byId(st.id); if (!s) return;
-      list.append(el("li", {}, el("button", { class: "cl-item" + (S.done.has(s.id) ? " done" : ""), onclick: () => { focusSnake(s.id); openSnake(s.id); } },
-        el("span", { class: "n" }, i + 1),
-        el("span", { style: "min-width:0" }, el("b", {}, s.design_name), el("small", {}, `${fmtM(st.legM)} · ${S.done.has(s.id) ? "✓" : st.arriveMin + " " + t().min} · ≈ ${st.cans} ${t().cans}`)),
-        el("span", { style: "display:grid;gap:3px;justify-items:end" }, pill(s), s.open_problems ? el("span", { class: "cl-pill bad" }, "!") : ""))));
-    });
-    if (S.set.end && S.plan?.stops.at(-1)?.id === "__end") list.append(el("li", {}, el("div", { class: "cl-item" }, el("span", { class: "n", style: "background:var(--ink)" }, "⚑"), el("span", {}, el("b", {}, t().endPointName), el("small", {}, `${fmtM(S.plan.stops.at(-1).legM)} · ${S.plan.stops.at(-1).arriveMin} ${t().min}`)), "")));
-    p.append(list);
-    if (P?.left?.length) p.append(el("p", { class: "cl-note" }, t().leftOut(P.left.length)));
-    if (S.avoided) p.append(el("p", { class: "cl-note" }, "👥 " + t().avoided(S.avoided)));
+    p.append(el("button", { class: "cl-btn", style: "width:100%", onclick: () => { S.skipped.clear(); replan(); } }, "↻ " + t().newRoute));
+    if (S.planning) p.append(el("p", { class: "cl-src busy" }, S.routeOn ? t().rerouting : t().planning));
   }
   function paneSnakes(p) {
     p.append(el("div", { class: "cl-opts" }, seg([["all", t().all], ["full", t().fullish], ["prob", t().withProblems]], S.filter, v => { S.filter = v; renderSheet(); }), el("label", {}, S.me ? t().sortDist : "")));
@@ -753,10 +750,10 @@ export function mountCollector(root) {
     const today = S.visits.filter(v => new Date(v.created_at).toDateString() === new Date().toDateString());
     const cans = today.reduce((a, v) => a + (v.cans || 0), 0);
     p.append(el("div", { class: "cl-stats" },
-      el("div", {}, el("b", {}, today.length), el("span", {}, t().todayVisits)),
       el("div", {}, el("b", {}, cans), el("span", {}, t().todayCans)),
-      el("div", {}, el("b", {}, Math.round(cans * CAN_VALUE)), el("span", {}, `${t().todayValue}, ${t().dkk}`)),
-      el("div", {}, el("b", {}, (S.walkedM.m / 1000).toFixed(1)), el("span", {}, `${t().todayKm}, ${t().km}`))));
+      el("div", {}, el("b", {}, (S.walkedM.m / 1000).toFixed(1)), el("span", {}, `${t().todayKm}, ${t().km}`)),
+      el("div", {}, el("b", {}, today.length), el("span", {}, t().todayVisits)),
+      el("div", {}, el("b", {}, Math.round(cans * CAN_VALUE)), el("span", {}, `${t().todayValue}, ${t().dkk}`))));
     if (!today.length) p.append(el("p", { class: "cl-empty" }, t().none));
     for (const v of today) {
       const s = byId(v.snake_id) || { design_name: snakeMeta(v.snake_id).name || v.snake_id };
@@ -771,11 +768,11 @@ export function mountCollector(root) {
   function focusSnake(id) { const s = byId(id); if (!s) return; S.focus = id; renderMarkers(); map.setView(s.lat, s.lng, Math.max(map.z, 15)); }
 
   // ---------- dialogs ----------
-  function modal(build, onClose) {
+  function modal(build, onClose, opts = {}) {
     modalHost.innerHTML = "";
     const dlg = el("div", { class: "cl-dialog", role: "dialog", "aria-modal": "true" });
     const close = () => { modalHost.innerHTML = ""; onClose && onClose(); };
-    const wrap = el("div", { class: "cl-modal", onclick: e => { if (e.target === wrap) close(); } }, dlg);
+    const wrap = el("div", { class: "cl-modal" + (opts.peek ? " peek" : ""), onclick: e => { if (!opts.peek && e.target === wrap) close(); } }, dlg);
     build(dlg, close); modalHost.append(wrap);
     const f = dlg.querySelector("button,input,textarea"); if (f) f.focus({ preventScroll: true });
     wrap.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
@@ -811,11 +808,13 @@ export function mountCollector(root) {
     const s = byId(id); if (!s) return;
     const expected = expectedCans(eff(s).f ?? s.fill_level ?? 0);
     // the usual case is preselected (all good, emptied): one tap on the big OK saves it; change things only when something was different
-    const st = { ok: true, problem: null, note: "", photo: null, outcome: "emptied", fillAfter: null, cans: expected, cansTouched: false };
+    const st = { more: false, ok: true, problem: null, note: "", photo: null, outcome: "emptied", fillAfter: null, cans: expected, cansTouched: false };
+    S.arrivalId = id; root.classList.add("arriving"); renderMarkers();
+    if (s.lat != null) map.setView(S.me ? (S.me.lat + s.lat) / 2 : s.lat, S.me ? (S.me.lng + s.lng) / 2 : s.lng, haversine(S.me || s, s) > 120 ? 16.5 : 17.8, false);
     modal((d, close) => {
       const render = () => {
         d.innerHTML = "";
-        d.append(stripe(id), el("div", { class: "cl-meta" }, el("span", {}, dist == null || dist <= S.set.radius * 2 ? t().arrive : t().checkIn), dist != null ? el("span", {}, t().away(Math.round(dist))) : ""), el("h2", {}, s.design_name),
+        d.append(stripe(id), el("div", { class: "cl-meta" }, el("span", {}, dist == null || dist <= S.set.radius * 2 ? t().arrive : t().checkIn), dist != null ? el("span", {}, t().away(Math.round(dist))) : ""), el("h2", {}, s.design_name), dist != null && dist > 12 ? el("p", { class: "cl-note", style: "margin:0" }, t().findIt) : "",
           el("div", { class: "cl-meta" }, pill(s), s.open_problems ? el("span", { class: "cl-pill bad" }, "! " + s.problem_types.map(p => t().problems[p] || p).join(", ")) : "", snakeLine(s)));
         const ready = st.ok !== null && st.outcome && (st.ok || st.problem) && (st.outcome !== "partial" || st.fillAfter);
         const msg = el("p", { class: "cl-note", role: "alert" });
@@ -839,7 +838,13 @@ export function mountCollector(root) {
             else { S.done.add(id); store.set("done-today", { day: new Date().toDateString(), ids: [...S.done] }); }
             cm.reset(); close(); await loadVisits(); await refresh(); renderBanner();
             if (S.routeOn) routeGeometry(); else replan();
-          } }, quick ? "✓ " + t().okBig : t().save), msg, el("p", { class: "cl-note" }, t().changeIfNot));
+          } }, quick ? "✓ " + t().okBig : t().save), msg);
+        if (!st.more) {      // the usual case stays tiny: one big button, the map stays visible above
+          d.append(el("div", { class: "cl-row" }, el("button", { class: "cl-btn", style: "flex:1", onclick: () => { st.more = true; render(); } }, t().somethingElse),
+            el("button", { class: "cl-btn ghost", onclick: () => { S.dismissed.set(id, Date.now()); close(); } }, t().notNow)));
+          return;
+        }
+        d.append(el("p", { class: "cl-note" }, t().changeIfNot));
         d.append(el("h3", {}, "1 · " + t().q1), el("div", { class: "cl-big" },
           el("button", { "aria-pressed": String(st.ok === true), onclick: () => { st.ok = true; st.problem = null; render(); } }, "✓ " + t().ok),
           el("button", { class: "badsel", "aria-pressed": String(st.ok === false), onclick: () => { st.ok = false; render(); } }, "⚠ " + t().notOk)));
@@ -863,7 +868,7 @@ export function mountCollector(root) {
           el("button", { class: "cl-btn ghost", onclick: () => { S.dismissed.set(id, Date.now()); close(); } }, t().notNow)));
       };
       render();
-    });
+    }, () => { S.arrivalId = null; root.classList.remove("arriving"); renderMarkers(); }, { peek: true });
   }
 
   function openSettings() {
@@ -872,6 +877,10 @@ export function mountCollector(root) {
       const bag = el("input", { type: "number", min: 5, max: 400, step: 5, id: "cl-bag" }); bag.value = S.set.bag || TRANSPORT[S.set.mode].bag; bag.onchange = () => { S.set.bag = Math.max(5, +bag.value || 40); saveSet(); replan(); };
       const rad = el("select", { id: "cl-rad" }, ...[20, 30, 50, 80].map(v => el("option", { value: v, selected: S.set.radius === v }, `${v} m`))); rad.onchange = () => { S.set.radius = +rad.value; saveSet(); };
       d.append(el("h2", {}, t().settings), el("div", { class: "cl-set" },
+        el("div", { class: "l" }, el("b", {}, t().routeOptions),
+          el("div", { class: "cl-opts", style: "margin-top:6px" }, seg(Object.keys(TRANSPORT).map(k => [k, TRANSPORT[k].label[S.lang]]), S.set.mode, v => { S.set.mode = v; S.set.bag = null; saveSet(); replan(); close(); openSettings(); })),
+          el("div", { class: "cl-opts", style: "margin-top:6px" }, el("label", {}, t().timeBudget), seg([[30, "30"], [60, "60"], [90, "90"], [120, "120"]], S.set.minutes, v => { S.set.minutes = v; saveSet(); replan(); close(); openSettings(); }), el("label", {}, t().min)),
+          el("div", { class: "cl-opts", style: "margin-top:6px" }, el("label", {}, t().minFill), seg([[2, "½"], [3, "¾"], [4, t().levels[4]]], S.set.minFill, v => { S.set.minFill = v; saveSet(); replan(); close(); openSettings(); }))),
         el("label", { class: "l" }, t().language, seg([["da", "Dansk"], ["en", "English"]], S.lang, v => { S.lang = v; store.set("lang", v); close(); renderAll(); openSettings(); })),
         el("label", { class: "l", for: "cl-bag" }, t().bag, bag),
         el("label", { class: "l", for: "cl-rad" }, t().arriveRadius, rad),
@@ -906,6 +915,7 @@ export function mountCollector(root) {
     if (!S.session) return showLogin();
     if (LIVE && !["collector", "operator"].includes(S.session.role)) return showProfileSetup();   // signed in, no collector profile yet
     renderAll(); await loadVisits(); await refresh(true);
+    if (S.shift && !S.routeOn) { await replan(); await startRoute(); }          // a shift that was running when the page was closed carries on
     if (S.set.end) map.setEnd(S.set.end);
     if (!LIVE) { setMe({ lat: 56.1556, lng: 10.2086, acc: 8, src: "sim" }); map.setView(56.1556, 10.2086, 13.6, false); }   // holds the place until the first real fix
     startGps();                                                                                                                // real phone GPS in every mode
