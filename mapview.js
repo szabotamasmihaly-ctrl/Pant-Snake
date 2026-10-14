@@ -247,7 +247,7 @@ export class MapView {
     try {
       const r = await fetch("https://tile.googleapis.com/v1/createSession?key=" + key, { method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mapType: "roadmap", language: g.language || "en-GB", region: g.region || "DK", ...(dark ? { styles: GOOGLE_DARK } : {}) }) });
-      if (!r.ok) throw new Error("google_session_" + r.status);
+      if (!r.ok) throw new Error("google_session_" + r.status + " " + (await r.text().catch(() => "")).slice(0, 400));
       const { session } = await r.json();
       const url = `https://tile.googleapis.com/v1/2dtiles/{z}/{x}/{y}?session=${session}&key=${key}`;
       const probe = await fetch(url.replace("{z}/{x}/{y}", "0/0/0"));            // one tile, to catch a blocked key before the map goes blank
