@@ -160,8 +160,17 @@ function fillRate(rows) {                       // average rise in fill level pe
 }
 
 /** All placed snakes with what a collector needs: fill, when, problems, claim state, filling speed. */
+/** Demo only: the home test can is full again about a minute after it was emptied, so it can be tested over and over. */
+export const TEST_CAN = "aar-30-home-test";
+function keepTestCanFull() {
+  const rows = demoAll(), last = rows.filter(r => r.snake_id === TEST_CAN && r.fill_level != null).sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
+  if (last && (last.fill_level >= 4 || Date.now() - new Date(last.created_at) < 45000)) return;
+  rows.push({ id: crypto.randomUUID(), snake_id: TEST_CAN, fill_level: 4, problem: null, message: "Test can: full again", lang: "en", source: "public", status: "open", created_at: new Date().toISOString() });
+  demoSave(rows);
+}
 export async function collectorMap() {
   if (LIVE) { const db = await client(); const { data, error } = await db.rpc("collector_map"); if (error) throw error; return data; }
+  keepTestCanFull();
   const reps = demoAll(), now = Date.now(), claims = demoGet(DEMO_CLAIMS).filter(c => new Date(c.expires_at) > now), sponsors = demoSponsors();
   demoSponsorAlerts(reps, sponsors);
   return SNAKES.filter(s => s.lat != null && s.active !== false).map(s => {

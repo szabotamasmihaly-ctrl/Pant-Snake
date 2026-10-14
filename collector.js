@@ -1,7 +1,7 @@
 // Collector app: map of every snake with its fill level, a planned collection route from where you stand,
 // and a check-in at each snake ("all OK?" + "collected?") that updates the database.
 // mountCollector(rootElement) builds the whole app inside rootElement (used by collector.html and the demo).
-import { LIVE, SNAKES, designById, collectorSession, signIn, signUp, signOut, collectorMap, claimSnakes, releaseClaims, recordVisit, myVisits, clearCollectorDemo, seedCollectorDemo } from "./data.js";
+import { LIVE, TEST_CAN, SNAKES, designById, collectorSession, signIn, signUp, signOut, collectorMap, claimSnakes, releaseClaims, recordVisit, myVisits, clearCollectorDemo, seedCollectorDemo } from "./data.js";
 import { MapView, MAPVIEW_CSS, loadDemoStreets } from "./mapview.js";
 import { planRoute, routeCandidates, expectedCans, haversine, predictFill, TRANSPORT } from "./route.js";
 import { createRouter, stepText, ARROW } from "./routing.js";
@@ -663,7 +663,6 @@ export function mountCollector(root) {
         el("h3", {}, s.design_name), el("div", { class: "cl-meta" }, pill(s), el("span", {}, s.location_label || ""), nav ? el("span", {}, `${fmtM(nav.left)} · ${Math.max(1, Math.round(nav.dur / 60))} ${t().min}`) : d != null ? el("span", {}, fmtM(d)) : "", s.open_problems ? el("span", { class: "cl-pill bad" }, "! " + t().openProblems(s.open_problems)) : ""),
         nav?.step ? el("div", { class: "cl-turn" }, el("i", { "aria-hidden": "true" }, ARROW[nav.step.mod] || (nav.step.kind === "arrive" ? "◎" : "↑")), el("span", {}, stepText(nav.step, S.lang) + " · " + t().inM(fmtM(nav.stepIn)))) : "",
         el("div", { class: "cl-row" },
-          el("a", { class: "cl-btn", href: dirLink(s), target: "_blank", rel: "noopener", style: "text-decoration:none;text-align:center" }, t().gmaps + " ↗"),
           el("button", { class: "cl-btn primary", onclick: () => openArrival(s.id, d) }, t().here),
           el("button", { class: "cl-btn ghost", onclick: () => { S.skipped.add(s.id); replan(); } }, t().skip))));
       p.append(el("button", { class: "cl-btn", style: "width:100%;margin-top:8px", onclick: () => replan() }, "↻ " + t().replan));   // always available, also mid-route
@@ -753,8 +752,7 @@ export function mountCollector(root) {
           s.sponsor_turn_until && !s.i_sponsor && new Date(s.sponsor_turn_until) > Date.now() ? el("dt", {}, "🌱") : "", s.sponsor_turn_until && !s.i_sponsor && new Date(s.sponsor_turn_until) > Date.now() ? el("dd", { style: "color:#7A5AF8;font-weight:600" }, t().sponsorTurn(Math.max(1, Math.round((new Date(s.sponsor_turn_until) - Date.now()) / 6e4)))) : ""),
         el("div", { class: "cl-row" },
           el("button", { class: "cl-btn primary", onclick: () => { close(); openArrival(id, dist); } }, t().here),
-          el("button", { class: "cl-btn", onclick: () => { if (inRoute) { S.skipped.add(id); S.mustInclude = S.mustInclude.filter(x => x !== id); } else { S.skipped.delete(id); S.mustInclude.push(id); } close(); replan(); } }, inRoute ? t().remove : t().add),
-          el("a", { class: "cl-btn", href: dirLink(s), target: "_blank", rel: "noopener", style: "text-decoration:none;text-align:center" }, t().directions + " ↗")),
+          el("button", { class: "cl-btn", onclick: () => { if (inRoute) { S.skipped.add(id); S.mustInclude = S.mustInclude.filter(x => x !== id); } else { S.skipped.delete(id); S.mustInclude.push(id); } close(); replan(); } }, inRoute ? t().remove : t().add)),
         spHost, el("button", { class: "cl-btn ghost", onclick: close }, t().done));
       cm.sponsorBlock(id, spHost);
     }, () => { S.focus = null; renderMarkers(); });
@@ -787,7 +785,8 @@ export function mountCollector(root) {
               if (!navigator.onLine || e instanceof TypeError) { S.queue.push({ ...job, photo: null }); store.set("queue", S.queue); toast(t().savedOffline(S.queue.length)); }
               else { msg.textContent = t().error; ev.target.disabled = false; return; }
             }
-            S.done.add(id); store.set("done-today", { day: new Date().toDateString(), ids: [...S.done] });
+            if (!LIVE && id === TEST_CAN) S.dismissed.set(id, Date.now());      // the home test can stays in the route; the check-in just waits 5 minutes before opening again
+            else { S.done.add(id); store.set("done-today", { day: new Date().toDateString(), ids: [...S.done] }); }
             cm.reset(); close(); await loadVisits(); await refresh(); renderBanner();
             if (S.routeOn) routeGeometry(); else replan();
           } }, quick ? "✓ " + t().okBig : t().save), msg, el("p", { class: "cl-note" }, t().changeIfNot));

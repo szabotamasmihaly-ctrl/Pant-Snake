@@ -474,6 +474,21 @@ window.SNAKES = [
   "location": "Park Allé"
  },
  {
+  "id": "aar-30-home-test",
+  "city": "aar",
+  "n": 30,
+  "name": "Home Test Can",
+  "place": "Test can · Risskov",
+  "colors": [
+   "#1D4ED8",
+   "#F5F5F5",
+   "#111827"
+  ],
+  "lat": 56.18807,
+  "lng": 10.21077,
+  "location": "Børglumvej 25, Risskov"
+ },
+ {
   "id": "cph-01-nyhavn",
   "city": "cph",
   "n": 1,
