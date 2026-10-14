@@ -241,6 +241,51 @@ const CSS = `
 }
 @media (max-width:440px){.cl-top:has(.cl-shift) .cl-brand{font-size:0;gap:0}}
 @media (max-width:420px){#col .cl-brand span{display:none}#col .cl-summary b{font-size:16px}}
+/* ---- Design layer. Wolt: warm rounded type, soft cards, one dominant action, every tap answers back, calm and oriented.
+   Apple HIG: clarity (big legible text), deference (content first, light chrome), depth (sheets, materials), 44 pt targets,
+   safe areas, system text size, light/dark, reduced motion. ---- */
+#col{--font:ui-rounded,"SF Pro Rounded","Nunito",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--mono:var(--font);--ease:cubic-bezier(.2,.8,.2,1);--r-card:18px;--r-btn:16px;
+  font-size:1.0625rem;-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+#col button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+#col .cl-top{padding:10px 16px}
+#col .cl-banner{padding:10px 16px;font-size:14px}
+#col .cl-legend,#col .cl-fabs button{background:color-mix(in srgb,var(--card) 82%,transparent);-webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);border-color:color-mix(in srgb,var(--line) 60%,transparent)}
+#col .cl-legend{border-radius:16px}
+#col .cl-fabs button{width:48px;height:48px;border-radius:14px}
+#col .cl-sheet{border-radius:24px 24px 0 0;border-top:0;box-shadow:0 -8px 30px rgba(20,30,25,.16);margin-top:-16px;position:relative;z-index:4}
+#col .cl-sheet::before{content:"";display:block;flex:none;width:38px;height:5px;border-radius:3px;background:color-mix(in srgb,var(--muted) 45%,transparent);margin:8px auto 2px}
+#col .maplibregl-ctrl-bottom-left,#col .maplibregl-ctrl-bottom-right{bottom:18px}   /* keep the map credits (Google, OpenStreetMap) clear of the rounded sheet */
+#col .cl-tabs{overflow-x:auto;scrollbar-width:none}
+#col .cl-tabs button{min-height:44px;padding:8px 14px;border-radius:14px;font-size:15px;white-space:nowrap;transition:background-color .18s var(--ease),color .18s}
+#col .cl-icon{width:44px;height:44px;border-radius:14px}
+#col .cl-summary div{border-radius:16px;padding:10px}
+#col .cl-summary b{font-weight:800}
+#col .cl-item{border-radius:var(--r-card);padding:12px 14px;border-color:color-mix(in srgb,var(--line) 70%,transparent);box-shadow:0 1px 2px rgba(20,30,25,.05),0 4px 14px rgba(20,30,25,.05);transition:transform .14s var(--ease),background-color .14s}
+#col .cl-next{border-radius:22px;padding:14px 16px}
+#col .cl-pill{padding:3px 10px}
+#col .cl-btn{min-height:48px;border-radius:var(--r-btn);padding:10px 16px;font-weight:700;transition:transform .14s var(--ease),background-color .14s,box-shadow .14s}
+#col .cl-btn.small{min-height:44px}
+#col .cl-btn.primary{min-height:54px;font-size:1.0625rem;box-shadow:0 6px 16px color-mix(in srgb,var(--accent) 30%,transparent)}
+#col .cl-btn.primary:disabled{box-shadow:none}
+#col .cl-btn.cl-ok{min-height:92px;font-size:1.65rem;border-radius:24px;letter-spacing:-.01em;white-space:normal;line-height:1.15}
+#col button:active:not(:disabled),#col .cl-item:active{transform:scale(.97)}
+#col .cl-seg{border:0;border-radius:14px;padding:3px;gap:2px;background:var(--chip)}
+#col .cl-seg button{min-height:44px;border-radius:11px;padding:6px 12px;font-size:15px;background:transparent;transition:background-color .18s var(--ease),color .18s}
+#col .cl-seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);box-shadow:0 2px 6px rgba(0,0,0,.18)}
+#col .cl-chips button{min-height:44px;font-size:15px;padding:8px 14px;transition:transform .14s var(--ease),background-color .18s}
+#col .cl-big button{min-height:60px;border-radius:var(--r-card);transition:transform .14s var(--ease),background-color .18s,border-color .18s}
+#col .cl-stepper button{width:52px;height:52px;border-radius:16px}
+#col .cl-dialog{border-radius:26px 26px 0 0}
+@media (max-width:899px){#col .cl-dialog::before{content:"";display:block;width:38px;height:5px;border-radius:3px;background:color-mix(in srgb,var(--muted) 45%,transparent);margin:0 auto 4px}}
+@media (min-width:900px){#col .cl-dialog{border-radius:26px}}
+#col .cl-dialog h2{font-size:1.6rem;font-weight:800;letter-spacing:-.02em}
+#col .cl-dialog h3{font-size:1.0625rem;font-weight:700}
+@keyframes cl-bump{0%{transform:scale(1)}35%{transform:scale(1.22)}100%{transform:scale(1)}}
+@keyframes cl-sheet-up{from{transform:translateY(32px);opacity:0}to{transform:none;opacity:1}}
+@keyframes cl-fade{from{opacity:0}to{opacity:1}}
+#col .cl-stepper output.bump{animation:cl-bump .28s var(--ease)}
+#col .cl-modal{animation:cl-fade .18s ease-out}
+#col .cl-dialog{animation:cl-sheet-up .32s var(--ease)}
 @media (prefers-reduced-motion: reduce){#col *{transition:none!important;animation:none!important}}
 `;
 
@@ -772,6 +817,7 @@ export function mountCollector(root) {
         const msg = el("p", { class: "cl-note", role: "alert" });
         const quick = st.ok === true && st.outcome === "emptied";
         d.append(el("button", { class: "cl-btn primary cl-ok", disabled: !ready, onclick: async (ev) => {
+            try { navigator.vibrate?.(25); } catch {}                                    // a light tap on phones that support it
             const far = S.me && haversine(S.me, s) > 150;
             if (far && !ev.target.dataset.confirmed) { msg.textContent = t().farWarn(Math.round(haversine(S.me, s))); ev.target.dataset.confirmed = "1"; return; }
             ev.target.disabled = true;
@@ -806,7 +852,7 @@ export function mountCollector(root) {
         if (st.outcome === "partial") d.append(el("div", { class: "cl-meta" }, t().howFullNow), el("div", { class: "cl-chips" }, ...[1, 2, 3].map(v => el("button", { "aria-pressed": String(st.fillAfter === v), onclick: () => { st.fillAfter = v; render(); } }, t().levels[v]))));
         if (st.outcome === "emptied" || st.outcome === "partial") {
           const out = el("output", {}, st.cans ?? 0);
-          const bump = n => { st.cans = Math.max(0, Math.min(300, (st.cans || 0) + n)); st.cansTouched = true; out.value = st.cans; out.textContent = st.cans; };
+          const bump = n => { st.cans = Math.max(0, Math.min(300, (st.cans || 0) + n)); st.cansTouched = true; out.value = st.cans; out.textContent = st.cans; out.classList.remove("bump"); void out.offsetWidth; out.classList.add("bump"); };
           d.append(el("div", { class: "cl-meta" }, t().cansTaken), el("div", { class: "cl-stepper" }, el("button", { "aria-label": "−5", onclick: () => bump(-5) }, "−"), out, el("button", { "aria-label": "+5", onclick: () => bump(5) }, "+"), el("span", { class: "cl-note" }, t().value((st.cans || 0) * CAN_VALUE))));
         }
         d.append(el("div", { class: "cl-row" },
