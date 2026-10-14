@@ -79,6 +79,8 @@ export function planRoute({ start, end = null, snakes, mode = "walk", bag, minut
     }
     return [best, pos];
   }
+  let noise = 0, seed = 12345;
+  const rnd = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
   function greedyFill() {
     for (;;) {
       let bestScore = -1, bestK = -1, bestPos = -1;
@@ -92,7 +94,7 @@ export function planRoute({ start, end = null, snakes, mode = "walk", bag, minut
         const extraMin = add + SERVICE_MIN;
         if (!forced && curMin + extraMin > minutes) continue;
         const gain = Math.min(c.cans, Math.max(0, cap - curLoad)) || (forced ? 1 : 0);
-        const score = (forced ? 1e9 : 0) + gain / (extraMin + 0.5);
+        const score = (forced ? 1e9 : 0) + gain / (extraMin + 0.5) * (1 + noise * (rnd() - 0.5));
         if (score > bestScore) { bestScore = score; bestK = k; bestPos = pos; }
       }
       if (bestK < 0) return;
@@ -153,6 +155,29 @@ export function planRoute({ start, end = null, snakes, mode = "walk", bag, minut
     tour = [0, ...order, ...(end ? [endIdx] : [])];
   }
   greedyFill(); twoOpt(); orOpt(); greedyFill(); twoOpt(); orOpt(); exactOrder(); greedyFill(); exactOrder();
+
+  // Improvement search (iterated local search): the greedy pass picks stops by cans per extra minute, which can leave
+  // a better set of stops on the table. Repeatedly drop 1-3 random stops, refill with noisy greedy choices, tidy the
+  // order, and keep the result only if it collects more cans in the same time (or the same cans in less time).
+  const collected = t => { let room = cap, v = 0; for (const k of t) if (k > 0 && k !== endIdx) { const take = Math.min(cand[k - 1].cans, Math.max(0, room)); room -= take; v += take; } return v; };
+  const forcedIdx = new Set(cand.map((c, i) => mustInclude.includes(c.id) ? i + 1 : -1));
+  if (cand.length > 3) {
+    let best = tour.slice(), bestV = collected(best), bestT = tourMin(best);
+    const limit = Math.max(minutes, bestT), t0 = Date.now();
+    for (let it = 0; it < 400 && Date.now() - t0 < 120; it++) {
+      const movable = best.map((k, i) => i).filter(i => i > 0 && best[i] !== endIdx && !forcedIdx.has(best[i]));
+      if (!movable.length) break;
+      const drop = new Set(); const nDrop = Math.min(movable.length, 1 + Math.floor(rnd() * 3));
+      while (drop.size < nDrop) drop.add(movable[Math.floor(rnd() * movable.length)]);
+      tour = best.filter((k, i) => !drop.has(i)); inTour.clear(); tour.forEach(k => inTour.add(k));
+      noise = 0.6; greedyFill(); noise = 0;
+      twoOpt(); orOpt(); greedyFill();
+      const v = collected(tour), tm = tourMin(tour);
+      if (tm <= limit + 1e-9 && (v > bestV || (v === bestV && tm < bestT - 1e-6))) { best = tour.slice(); bestV = v; bestT = tm; }
+    }
+    tour = best; inTour.clear(); tour.forEach(k => inTour.add(k));
+    exactOrder(); greedyFill(); exactOrder();
+  }
 
   // describe the result
   const stops = []; let t = 0, acc = 0, room = cap;

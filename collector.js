@@ -511,6 +511,8 @@ export function mountCollector(root) {
     try {
       navigator.geolocation.watchPosition(pos => {
         if (S.walking) return;
+        if (!LIVE && haversine({ lat: 56.1567, lng: 10.2108 }, { lat: pos.coords.latitude, lng: pos.coords.longitude }) > 30000) { S.gps = "off"; renderBanner(); return; }
+        if (pos.coords.accuracy > 200 && S.me?.src === "gps") return;                  // ignore a very rough fix once we have a good one
         S.gps = "on"; renderBanner();
         setMe({ lat: pos.coords.latitude, lng: pos.coords.longitude, acc: pos.coords.accuracy, src: "gps" });
         if (!startGps.centered) { startGps.centered = true; map.setView(pos.coords.latitude, pos.coords.longitude, Math.max(map.z, 14)); }
@@ -554,7 +556,7 @@ export function mountCollector(root) {
     }, step * 1000);
   }
   map.on("drag", () => { map._userPanned = true; clearTimeout(map._upT); map._upT = setTimeout(() => map._userPanned = false, 8000); });
-  setInterval(() => { if (S.routeOn && S.me && LIVE && S.gps === "on" && !map._userPanned) map.setView(S.me.lat, S.me.lng, Math.max(map.z, 15)); }, 4000);   // follow me
+  setInterval(() => { if (S.routeOn && S.me && S.gps === "on" && !map._userPanned) map.setView(S.me.lat, S.me.lng, Math.max(map.z, 15)); }, 4000);   // follow me
 
   // ---------- shift ----------
   function startShift() { S.shift = { start: new Date().toISOString() }; store.set("shift", S.shift); wake(); renderTop(); }
@@ -587,8 +589,8 @@ export function mountCollector(root) {
   function renderBanner() {
     banner.innerHTML = ""; const parts = [];
     if (S.pickingEnd) parts.push(el("span", {}, t().endPick), el("button", { class: "cl-btn small", onclick: () => { S.pickingEnd = false; renderBanner(); } }, t().notNow));
-    else if (!LIVE || S.gps !== "on") {
-      parts.push(el("span", {}, !LIVE ? t().gpsSim : S.gps === "wait" ? t().gpsWait : t().gpsOff));
+    else if (S.gps !== "on") {
+      parts.push(el("span", {}, S.gps === "wait" ? t().gpsWait : !LIVE ? t().gpsSim : t().gpsOff));
       if (S.plan && routeStops().length) parts.push(el("button", { class: "cl-btn small", onclick: toggleWalk }, S.walking ? t().stopWalk : "▶ " + t().walk));
     }
     if (S.queue.length) parts.push(el("b", {}, t().savedOffline(S.queue.length)));
@@ -852,7 +854,8 @@ export function mountCollector(root) {
     if (LIVE && !["collector", "operator"].includes(S.session.role)) return showProfileSetup();   // signed in, no collector profile yet
     renderAll(); await loadVisits(); await refresh(true);
     if (S.set.end) map.setEnd(S.set.end);
-    if (LIVE) startGps(); else { setMe({ lat: 56.1556, lng: 10.2086, acc: 8, src: "sim" }); map.setView(56.1556, 10.2086, 13.6, false); }
+    if (!LIVE) { setMe({ lat: 56.1556, lng: 10.2086, acc: 8, src: "sim" }); map.setView(56.1556, 10.2086, 13.6, false); }   // holds the place until the first real fix
+    startGps();                                                                                                                // real phone GPS in every mode
     renderBanner(); flushQueue(); wake();
     setInterval(() => refresh(), LIVE ? 60000 : 20000);
     // tell other collectors which snakes I'm close to (snake ids only, never my position); expires after 10 minutes
