@@ -30,7 +30,7 @@ const TXT = {
     src: { public: "af en forbipasserende", collector: "af en indsamler", operator: "af driften" },
     emptied: "tømt", claimedOther: "En anden indsamler er på vej", claimedMe: "Reserveret til dig",
     problems: { jam: "Noget sidder fast", door: "Lugen virker ikke", locked: "Låst / kan ikke åbnes", damage: "Ødelagt eller løs", glass: "Knust glas", litter: "Affald omkring", graffiti: "Graffiti / beskidt", blocked: "Kan ikke komme til", other: "Andet" },
-    arrive: "Du er ved", away: m => `${m} m væk`, q1: "Er alt i orden med den?", ok: "Alt i orden", notOk: "Noget er galt",
+    arrive: "Du er ved", away: m => `${m} m væk`, q1: "Er alt i orden med den?", ok: "Alt i orden", notOk: "Noget er galt", okBig: "OK – alt i orden og tømt", changeIfNot: "Er noget anderledes? Ret her:",
     which: "Hvad er galt?", note: "Kort besked (valgfri)", photo: "Tag foto", photoAgain: "Skift foto",
     q2: "Har du tømt den?", oEmptied: "Ja, tømt", oPartial: "Tog noget", oWasEmpty: "Den var tom", oNot: "Kunne ikke tømme",
     howFullNow: "Hvor fuld er den nu?", cansTaken: "Dåser taget (valgfrit)", save: "Gem", notNow: "Ikke nu",
@@ -71,7 +71,7 @@ const TXT = {
     src: { public: "by a passer-by", collector: "by a collector", operator: "by the operator" },
     emptied: "emptied", claimedOther: "Another collector is on the way", claimedMe: "Reserved for you",
     problems: { jam: "Something stuck", door: "Trapdoor not working", locked: "Locked / won't open", damage: "Broken or loose", glass: "Broken glass", litter: "Litter around it", graffiti: "Graffiti / dirty", blocked: "Can't get to it", other: "Other" },
-    arrive: "You're at", away: m => `${m} m away`, q1: "Is everything all right with it?", ok: "All OK", notOk: "Something's wrong",
+    arrive: "You're at", away: m => `${m} m away`, q1: "Is everything all right with it?", ok: "All OK", notOk: "Something's wrong", okBig: "OK – all good, emptied", changeIfNot: "Something different? Change it here:",
     which: "What's wrong?", note: "Short note (optional)", photo: "Take photo", photoAgain: "Change photo",
     q2: "Did you collect it?", oEmptied: "Yes, emptied", oPartial: "Took some", oWasEmpty: "It was empty", oNot: "Couldn't empty it",
     howFullNow: "How full is it now?", cansTaken: "Cans taken (optional)", save: "Save", notNow: "Not now",
@@ -118,6 +118,7 @@ const CSS = `
 #col .cl-btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px;min-height:40px;font-weight:600;white-space:nowrap}
 #col a.cl-btn{color:var(--ink)}
 #col .cl-btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+#col .cl-btn.cl-ok{width:100%;min-height:88px;font-size:26px;border-radius:18px;margin:10px 0 4px}
 #col .cl-btn.ghost{background:transparent}
 #col .cl-btn.small{min-height:34px;padding:5px 10px;font-size:13.5px}
 #col .cl-btn:disabled{opacity:.45;cursor:not-allowed}
@@ -665,6 +666,7 @@ export function mountCollector(root) {
           el("a", { class: "cl-btn", href: dirLink(s), target: "_blank", rel: "noopener", style: "text-decoration:none;text-align:center" }, t().gmaps + " ↗"),
           el("button", { class: "cl-btn primary", onclick: () => openArrival(s.id, d) }, t().here),
           el("button", { class: "cl-btn ghost", onclick: () => { S.skipped.add(s.id); replan(); } }, t().skip))));
+      p.append(el("button", { class: "cl-btn", style: "width:100%;margin-top:8px", onclick: () => replan() }, "↻ " + t().replan));   // always available, also mid-route
     } else {
       p.append(el("div", { class: "cl-row" },
         el("button", { class: "cl-btn primary", disabled: !stops.length, onclick: startRoute }, S.routeOn ? t().routeActive : t().startRoute),
@@ -760,13 +762,35 @@ export function mountCollector(root) {
 
   function openArrival(id, dist) {
     const s = byId(id); if (!s) return;
-    const st = { ok: null, problem: null, note: "", photo: null, outcome: null, fillAfter: null, cans: null, cansTouched: false };
     const expected = expectedCans(eff(s).f ?? s.fill_level ?? 0);
+    // the usual case is preselected (all good, emptied): one tap on the big OK saves it; change things only when something was different
+    const st = { ok: true, problem: null, note: "", photo: null, outcome: "emptied", fillAfter: null, cans: expected, cansTouched: false };
     modal((d, close) => {
       const render = () => {
         d.innerHTML = "";
         d.append(stripe(id), el("div", { class: "cl-meta" }, el("span", {}, dist == null || dist <= S.set.radius * 2 ? t().arrive : t().checkIn), dist != null ? el("span", {}, t().away(Math.round(dist))) : ""), el("h2", {}, s.design_name),
           el("div", { class: "cl-meta" }, pill(s), s.open_problems ? el("span", { class: "cl-pill bad" }, "! " + s.problem_types.map(p => t().problems[p] || p).join(", ")) : "", snakeLine(s)));
+        const ready = st.ok !== null && st.outcome && (st.ok || st.problem) && (st.outcome !== "partial" || st.fillAfter);
+        const msg = el("p", { class: "cl-note", role: "alert" });
+        const quick = st.ok === true && st.outcome === "emptied";
+        d.append(el("button", { class: "cl-btn primary cl-ok", disabled: !ready, onclick: async (ev) => {
+            const far = S.me && haversine(S.me, s) > 150;
+            if (far && !ev.target.dataset.confirmed) { msg.textContent = t().farWarn(Math.round(haversine(S.me, s))); ev.target.dataset.confirmed = "1"; return; }
+            ev.target.disabled = true;
+            const job = { snake_id: id, outcome: st.outcome, all_ok: st.ok, problem: st.ok ? null : st.problem, note: st.note.trim() || null,
+              cans: st.outcome === "emptied" || st.outcome === "partial" ? st.cans : null, fill_after: st.outcome === "partial" ? st.fillAfter : null, photo: st.photo, lang: S.lang,
+              dist_m: S.me && S.me.src !== "tap" ? haversine(S.me, s) : null };     // within 60 m = a proven visit (counts for sponsorship)
+            try { await recordVisit(job); toast(t().saved(job.cans)); }
+            catch (e) {
+              const m = String(e?.message || e);
+              if (m.includes("duplicate")) { msg.textContent = t().dupe; ev.target.disabled = false; return; }
+              if (!navigator.onLine || e instanceof TypeError) { S.queue.push({ ...job, photo: null }); store.set("queue", S.queue); toast(t().savedOffline(S.queue.length)); }
+              else { msg.textContent = t().error; ev.target.disabled = false; return; }
+            }
+            S.done.add(id); store.set("done-today", { day: new Date().toDateString(), ids: [...S.done] });
+            cm.reset(); close(); await loadVisits(); await refresh(); renderBanner();
+            if (S.routeOn) routeGeometry(); else replan();
+          } }, quick ? "✓ " + t().okBig : t().save), msg, el("p", { class: "cl-note" }, t().changeIfNot));
         d.append(el("h3", {}, "1 · " + t().q1), el("div", { class: "cl-big" },
           el("button", { "aria-pressed": String(st.ok === true), onclick: () => { st.ok = true; st.problem = null; render(); } }, "✓ " + t().ok),
           el("button", { class: "badsel", "aria-pressed": String(st.ok === false), onclick: () => { st.ok = false; render(); } }, "⚠ " + t().notOk)));
@@ -786,27 +810,7 @@ export function mountCollector(root) {
           const bump = n => { st.cans = Math.max(0, Math.min(300, (st.cans || 0) + n)); st.cansTouched = true; out.value = st.cans; out.textContent = st.cans; };
           d.append(el("div", { class: "cl-meta" }, t().cansTaken), el("div", { class: "cl-stepper" }, el("button", { "aria-label": "−5", onclick: () => bump(-5) }, "−"), out, el("button", { "aria-label": "+5", onclick: () => bump(5) }, "+"), el("span", { class: "cl-note" }, t().value((st.cans || 0) * CAN_VALUE))));
         }
-        const ready = st.ok !== null && st.outcome && (st.ok || st.problem) && (st.outcome !== "partial" || st.fillAfter);
-        const msg = el("p", { class: "cl-note", role: "alert" });
-        d.append(msg, el("div", { class: "cl-row" },
-          el("button", { class: "cl-btn primary", disabled: !ready, onclick: async (ev) => {
-            const far = S.me && haversine(S.me, s) > 150;
-            if (far && !ev.target.dataset.confirmed) { msg.textContent = t().farWarn(Math.round(haversine(S.me, s))); ev.target.dataset.confirmed = "1"; return; }
-            ev.target.disabled = true;
-            const job = { snake_id: id, outcome: st.outcome, all_ok: st.ok, problem: st.ok ? null : st.problem, note: st.note.trim() || null,
-              cans: st.outcome === "emptied" || st.outcome === "partial" ? st.cans : null, fill_after: st.outcome === "partial" ? st.fillAfter : null, photo: st.photo, lang: S.lang,
-              dist_m: S.me && S.me.src !== "tap" ? haversine(S.me, s) : null };     // within 60 m = a proven visit (counts for sponsorship)
-            try { await recordVisit(job); toast(t().saved(job.cans)); }
-            catch (e) {
-              const m = String(e?.message || e);
-              if (m.includes("duplicate")) { msg.textContent = t().dupe; ev.target.disabled = false; return; }
-              if (!navigator.onLine || e instanceof TypeError) { S.queue.push({ ...job, photo: null }); store.set("queue", S.queue); toast(t().savedOffline(S.queue.length)); }
-              else { msg.textContent = t().error; ev.target.disabled = false; return; }
-            }
-            S.done.add(id); store.set("done-today", { day: new Date().toDateString(), ids: [...S.done] });
-            cm.reset(); close(); await loadVisits(); await refresh(); renderBanner();
-            if (S.routeOn) routeGeometry(); else replan();
-          } }, t().save),
+        d.append(el("div", { class: "cl-row" },
           el("button", { class: "cl-btn ghost", onclick: () => { S.dismissed.set(id, Date.now()); close(); } }, t().notNow)));
       };
       render();
