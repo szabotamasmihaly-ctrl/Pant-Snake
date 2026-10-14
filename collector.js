@@ -109,6 +109,7 @@ const CSS = `
 #col button:focus-visible,#col input:focus-visible,#col select:focus-visible{outline:3px solid var(--route);outline-offset:2px}
 #col [hidden]{display:none!important}
 #col .cl-app{position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto;padding-top:env(safe-area-inset-top,0px)}
+#col .cl-top{grid-row:1}#col .cl-banner{grid-row:2}#col .cl-mapwrap{grid-row:3}#col .cl-sheet{grid-row:4}   /* fixed rows: a hidden banner must not shift the map and the sheet up a row */
 #col .cl-top{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--card);min-width:0}
 #col .cl-brand{display:flex;align-items:center;gap:8px;font-weight:700;white-space:nowrap;min-width:0}
 #col .cl-brand i{width:26px;height:26px;border-radius:50%;background:conic-gradient(var(--accent) 0 75%,var(--line) 0);display:grid;place-items:center;flex:none}
@@ -672,11 +673,14 @@ export function mountCollector(root) {
   }
   const snakeLine = s => [s.location_label || snakeMeta(s.id).place || "", s.fill_at ? `${eff(s).predicted ? t().predicted : t().reported} ${t().ago(minutesSince(s.fill_at))}` : t().unknown].filter(Boolean).join(" · ");
 
+  // one button for the whole session: the sheet is redrawn often (GPS, refresh), and a button replaced in the middle of a tap loses the tap on iPhones
+  const collapseBtn = el("button", { class: "cl-icon cl-collapse", "aria-label": "Collapse", html: ICON.chev, onclick: () => { sheet.classList.toggle("collapsed"); renderSheet(); requestAnimationFrame(() => map.redraw()); } });
   function renderSheet() {
     sheet.innerHTML = "";
     const tabs = el("div", { class: "cl-tabs", role: "tablist" }, ...[["route", t().tabRoute], ["snakes", t().tabSnakes], ["today", t().tabToday], ["rank", t().tabRank], ["kit", t().tabKit]].map(([k, l]) =>
       el("button", { role: "tab", "aria-selected": String(S.tab === k), onclick: () => { S.tab = k; sheet.classList.remove("collapsed"); if (k === "today") loadVisits().then(renderSheet); renderSheet(); } }, l)));
-    const col = el("button", { class: "cl-icon cl-collapse", "aria-label": "Collapse", html: ICON.chev, style: sheet.classList.contains("collapsed") ? "" : "transform:rotate(180deg)", onclick: () => { sheet.classList.toggle("collapsed"); renderSheet(); requestAnimationFrame(() => map.redraw()); } });
+    collapseBtn.style.transform = sheet.classList.contains("collapsed") ? "" : "rotate(180deg)";
+    const col = collapseBtn;
     sheet.append(el("div", { class: "cl-handle" }, tabs, col));
     const pane = el("div", { class: "cl-pane", role: "tabpanel" }); sheet.append(pane);
     if (S.tab === "route") paneRoute(pane); else if (S.tab === "snakes") paneSnakes(pane); else if (S.tab === "today") { paneToday(pane); cm.paneImpact(pane); }
