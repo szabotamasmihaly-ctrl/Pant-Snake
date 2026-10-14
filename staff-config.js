@@ -23,8 +23,8 @@ Object.assign(window.SNAKE_CONFIG, {
   // "osrm"  your own OSRM server(s), one with the foot profile and one with the bicycle profile (OSRM_FOOT / OSRM_BIKE).
   // "graph" the built-in Aarhus main-street network (no key, works offline, less precise).
   // Whatever you choose, the app falls back to "graph" and then to straight lines if the service doesn't answer.
-  ROUTING_PROVIDER: "graph",
-  ORS_KEY: "",        // paste the openrouteservice key here (it's sent from the browser, so restrict it to your site in the HeiGIT dashboard if offered)
+  ROUTING_PROVIDER: ON_CLAUDE ? "graph" : "ors",   // real street routing on the live site; falls back to the built-in network if the service fails
+  ORS_KEY: ON_CLAUDE ? "" : "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImM3OWFmZjkxYWQ1NTQyODg5NTAyODE4NmY2Y2IzNTYwIiwiaCI6Im11cm11cjY0In0=",        // paste the openrouteservice key here (it's sent from the browser, so restrict it to your site in the HeiGIT dashboard if offered)
   ORS_BASE: "https://api.heigit.org/openrouteservice",
   OSRM_FOOT: "",      // e.g. "https://osrm-foot.example.dk"
   OSRM_BIKE: "",      // e.g. "https://osrm-bike.example.dk"
