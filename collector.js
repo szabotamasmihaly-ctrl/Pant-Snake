@@ -304,7 +304,7 @@ export function mountCollector(root) {
   const MAP_LIVE = CFG.MAP_STYLE !== "" && CFG.MAP_STYLE !== null;
   let map;
   try {
-    map = new MapView(mapEl, { center: [56.1567, 10.2108], zoom: 12.6, live: MAP_LIVE, style: CFG.MAP_STYLE || undefined, styleDark: CFG.MAP_STYLE_DARK || undefined, dark: dark(), colors: mapColors(dark()), demoNote: TXT[S.lang].demoMap });
+    map = new MapView(mapEl, { center: [56.1567, 10.2108], zoom: 12.6, live: MAP_LIVE || !!CFG.GOOGLE_MAPS_KEY, google: CFG.GOOGLE_MAPS_KEY ? { key: CFG.GOOGLE_MAPS_KEY, region: "DK", language: S.lang === "da" ? "da-DK" : "en-GB" } : null, style: CFG.MAP_STYLE || undefined, styleDark: CFG.MAP_STYLE_DARK || undefined, dark: dark(), colors: mapColors(dark()), demoNote: TXT[S.lang].demoMap });
   } catch (e) {
     console.error(e); mapNote.hidden = false; mapNote.textContent = TXT[S.lang].noWebgl;
     const noop = () => {}; map = { on: noop, setMarkers: noop, setRoute: noop, setUser: noop, setEnd: noop, setDark: noop, setColors: noop, setView: noop, fit: noop, zoomAt: noop, redraw: noop, isDragging: () => false, lat: 56.1567, lng: 10.2108, z: 13 };

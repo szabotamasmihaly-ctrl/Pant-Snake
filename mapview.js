@@ -192,6 +192,11 @@ export const MAPVIEW_CSS = `
 .mv-dark .maplibregl-ctrl-attrib-button{filter:invert(1)}
 `;
 
+const BLANK_STYLE = { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": "#E5E3DF" } }] };
+const GOOGLE_DARK = [{ elementType: "geometry", stylers: [{ color: "#1d2521" }] }, { elementType: "labels.text.fill", stylers: [{ color: "#9aa7a0" }] },
+  { elementType: "labels.text.stroke", stylers: [{ color: "#141a17" }] }, { featureType: "road", elementType: "geometry", stylers: [{ color: "#33403a" }] },
+  { featureType: "water", elementType: "geometry", stylers: [{ color: "#0f1a24" }] }];
+
 export class MapView {
   /** opts: center [lat,lng], zoom, live (use the tile service), style / styleDark (URLs), dark, colors {route, routeLater, case, me, connector} */
   constructor(el, opts = {}) {
@@ -202,7 +207,7 @@ export class MapView {
     this.dark = !!this.o.dark; this.mode = this.o.live ? "live" : "demo";
     this.listeners = {}; this.markers = new Map(); this.routeFC = EMPTY; this.user = null; this.end = null;
     const [lat, lng] = this.o.center;
-    const initial = this.mode === "live" ? (this.dark ? this.o.styleDark : this.o.style) : { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": (this.dark ? DEMO_COL.dark : DEMO_COL.light).water } }] };
+    const initial = this.mode === "live" ? (this.o.google ? BLANK_STYLE : this.dark ? this.o.styleDark : this.o.style) : { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": (this.dark ? DEMO_COL.dark : DEMO_COL.light).water } }] };
     this.map = new maplibregl.Map({ container: el, style: initial, center: [lng, lat], zoom: this.o.zoom, minZoom: this.o.minZoom, maxZoom: this.o.maxZoom,
       dragRotate: false, pitchWithRotate: false, touchPitch: false, attributionControl: { compact: true }, cooperativeGestures: false, fadeDuration: 150 });
     this.map.touchZoomRotate.disableRotation(); this.map.keyboard.disableRotation?.();
@@ -217,6 +222,7 @@ export class MapView {
     if (this.mode === "live") {
       this.map.on("error", e => { if (!this.styleOK) this._fallback(e?.error); });
       this._t = setTimeout(() => { if (!this.styleOK) this._fallback(new Error("style_timeout")); }, 9000);
+      if (this.o.google) this._google();
     } else this._demo();
   }
   on(ev, fn) { (this.listeners[ev] ||= []).push(fn); }
@@ -234,6 +240,29 @@ export class MapView {
     }
     catch (e) { console.error("demo map", e); this._emit("error", e); }
   }
+  /** Google base map: Map Tiles API (2D roadmap tiles) drawn by MapLibre, so every overlay keeps working.
+   *  o.google = { key, region?, language? }. If the key is rejected the map falls back to the OpenFreeMap style. */
+  async _google() {
+    const g = this.o.google, dark = this.dark, key = encodeURIComponent(g.key);
+    try {
+      const r = await fetch("https://tile.googleapis.com/v1/createSession?key=" + key, { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mapType: "roadmap", language: g.language || "en-GB", region: g.region || "DK", ...(dark ? { styles: GOOGLE_DARK } : {}) }) });
+      if (!r.ok) throw new Error("google_session_" + r.status);
+      const { session } = await r.json();
+      const url = `https://tile.googleapis.com/v1/2dtiles/{z}/{x}/{y}?session=${session}&key=${key}`;
+      const probe = await fetch(url.replace("{z}/{x}/{y}", "0/0/0"));            // one tile, to catch a blocked key before the map goes blank
+      if (!probe.ok) throw new Error("google_tile_" + probe.status);
+      if (dark !== this.dark) return this._google();                              // the theme changed while we were loading
+      this.styleOK = false;
+      this.map.setStyle({ version: 8, sources: { google: { type: "raster", tiles: [url], tileSize: 256, maxzoom: 22,
+        attribution: '<a href="https://cloud.google.com/maps-platform/terms" target="_blank" rel="noopener">Google</a> · Map data © Google' } },
+        layers: [{ id: "google", type: "raster", source: "google" }] }, { diff: false });
+    } catch (e) {
+      console.warn("Google map failed, using the OpenFreeMap style", e);
+      this.o.google = null; this.styleOK = false;
+      this.map.setStyle(this.dark ? this.o.styleDark : this.o.style, { diff: false }); this._emit("fallback", e);
+    }
+  }
   _fallback(err) {
     if (this.mode === "demo") return;
     console.warn("map style failed, using the built-in map", err);
@@ -241,7 +270,8 @@ export class MapView {
   }
   setDark(d) {
     d = !!d; if (d === this.dark) return; this.dark = d; this.el.classList.toggle("mv-dark", d);
-    if (this.mode === "live") { this.styleOK = false; this.map.setStyle(d ? this.o.styleDark : this.o.style, { diff: false }); } else this._demo();
+    if (this.mode === "live" && this.o.google) this._google();
+    else if (this.mode === "live") { this.styleOK = false; this.map.setStyle(d ? this.o.styleDark : this.o.style, { diff: false }); } else this._demo();
   }
   /** small label shown on the built-in map only (e.g. "Built-in map: main streets only") */
   setNote(text = this.o.demoNote) { this.o.demoNote = text; this.note.textContent = text || ""; this.note.hidden = !(text && this.mode === "demo" && !this.detailed); }

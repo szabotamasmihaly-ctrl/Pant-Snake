@@ -12,8 +12,11 @@ Object.assign(window.SNAKE_CONFIG, {
   // A MapLibre style URL. Default: OpenFreeMap, free with no key and no view limit (OpenStreetMap data, every street,
   // path, building and house number). Other options: a MapTiler or Stadia Maps style URL with your key in it.
   // "" = always use the built-in Aarhus map.
-  MAP_STYLE: "",
-  MAP_STYLE_DARK: "",
+  MAP_STYLE: ON_CLAUDE ? "" : "https://tiles.openfreemap.org/styles/positron",
+  MAP_STYLE_DARK: ON_CLAUDE ? "" : "https://tiles.openfreemap.org/styles/dark",
+  // Google base map (Map Tiles API). Needs the Map Tiles API enabled and a key restricted to this site's address.
+  // If it fails, the app falls back to the OpenFreeMap style above. Empty = don't use Google.
+  GOOGLE_MAPS_KEY: ON_CLAUDE ? "" : "AIzaSyCBG49koBtKDFXMpyjQ2hV2JGXrrYjsts4",
 
   // ---- Street routing (routes that follow the streets, real walking/cycling times) ----
   // "ors"   openrouteservice by HeiGIT: free key at https://account.heigit.org (about 2,000 routes a day free). Recommended.
