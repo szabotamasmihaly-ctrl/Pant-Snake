@@ -20,8 +20,8 @@ const C = {
     becameSponsor: "Du er nu sponsor. Tak!", headStart: (n, m) => `${n} har ${m} min. forspring (sponsor)`,
     inbox: "Beskeder", noNotes: "Ingen beskeder endnu.", noteFull: n => `${n} er meldt ¾ fuld eller mere. Du hører det først som sponsor.`, noteProblem: n => `${n} har fået meldt et problem.`,
     noteSponsor: n => `Du er nu sponsor for ${n}.`, simulate: "Demo: send en melding om min sponsor-slange",
-    kit: "Udstyr", kitIntro: "Udstyr, der gør det lettere at samle. Partnere giver rabat, der låses op, jo mere du samler.", collected: n => `Du har samlet ${n} dåser og flasker`,
-    ad: "Annonce", unlock: (c, p) => `${p} % ved ${c}`, showCode: "Vis rabatkode", code: "Rabatkode", visit: "Til butikken", advertise: "Sælger du udstyr til indsamlere? Annoncér her",
+    kit: "Udstyr", kitIntro: "Det udstyr, der gør runderne lettere, og de butikker, der sælger det. Vi er ved at finde partnere: når en butik siger ja, låser du rabat op, jo mere du samler. Intet her er påkrævet.", shops: "Butikker", wanted: "Partner søges – ingen rabat endnu", collected: n => `Du har samlet ${n} dåser og flasker`,
+    ad: "Annonce", unlock: (c, p) => p >= 100 ? `Gratis ved ${c}` : `${p} % ved ${c}`, showCode: "Vis rabatkode", code: "Rabatkode", visit: "Til butikken", advertise: "Sælger du udstyr til indsamlere? Annoncér her",
     profile: "Profil", nickname: "Kaldenavn (vises på ranglister)", home: "Hjemby", showLb: "Vis mig på ranglisterne", saved: "Gemt", taken: "Kaldenavnet er taget.", short: "Mindst 2 tegn.",
     numbers: "Sådan regner vi", money: "Penge", near: "En anden indsamler er tæt på", nearLong: "En anden indsamler er tæt på denne slange, så den bliver taget. Den er lagt bagerst i din plan.",
   },
@@ -40,8 +40,8 @@ const C = {
     becameSponsor: "You're now the sponsor. Thank you!", headStart: (n, m) => `${n} has a ${m}-min head start (sponsor)`,
     inbox: "Notifications", noNotes: "No notifications yet.", noteFull: n => `${n} was reported ¾ full or more. As its sponsor you hear first.`, noteProblem: n => `${n} has a new problem report.`,
     noteSponsor: n => `You're now the sponsor of ${n}.`, simulate: "Demo: report my sponsored snake full",
-    kit: "Toolkit", kitIntro: "Gear that makes collecting easier. Partners give discounts that unlock as you collect.", collected: n => `You've collected ${n} cans and bottles`,
-    ad: "Ad", unlock: (c, p) => `${p}% at ${c}`, showCode: "Show discount code", code: "Discount code", visit: "Go to shop", advertise: "Sell gear to collectors? Advertise here",
+    kit: "Gear", kitIntro: "The gear that makes rounds easier, and the shops that sell it. We're looking for partners: once a shop signs up, you unlock its discount as you collect. Nothing here is required.", shops: "Shops", wanted: "Partner wanted – no discount yet", collected: n => `You've collected ${n} cans and bottles`,
+    ad: "Ad", unlock: (c, p) => p >= 100 ? `Free at ${c}` : `${p}% at ${c}`, showCode: "Show discount code", code: "Discount code", visit: "Go to shop", advertise: "Sell gear to collectors? Advertise here",
     profile: "Profile", nickname: "Nickname (shown on leaderboards)", home: "Home city", showLb: "Show me on the leaderboards", saved: "Saved", taken: "That nickname is taken.", short: "At least 2 characters.",
     numbers: "How we count", money: "Money", near: "Another collector is close", nearLong: "Another collector is close to this snake, so it's being handled. It's left out of your plan.",
   },
@@ -78,6 +78,8 @@ export const COMMUNITY_CSS = `
 #col .cm-offer .pt{font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center}
 #col .cm-offer .ad{font:700 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--chip);border-radius:4px;padding:1px 5px;color:var(--ink)}
 #col .cm-offer p{margin:0;font-size:14px}
+#col .cm-shops{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.8125rem;color:var(--muted);margin-top:4px}
+#col .cm-shop{font-weight:700;color:var(--ink);background:var(--chip);border-radius:999px;padding:3px 10px}
 #col .cm-tiers{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 #col .cm-tiers span{font:600 12.5px var(--mono);border-radius:999px;padding:4px 9px;border:1.5px dashed var(--line);color:var(--muted)}
 #col .cm-tiers span.on{border-style:solid;border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--card))}
@@ -166,13 +168,20 @@ export function createCommunity(ctx) {
     for (const o of offers) {
       logOfferEvent(o.id, "view");
       const unlocked = o.tiers.filter(([n]) => have >= n), best = unlocked.at(-1), next = o.tiers.find(([n]) => have < n);
+      if (o.status === "wanted") {      // no deal yet: show the gear and the likely shops, never a discount or a code
+        p.append(el("article", { class: "cm-offer" }, el("span", { class: "ic", "aria-hidden": "true" }, o.icon || "🧰"),
+          el("h4", {}, o.title), el("p", {}, o.body),
+          el("div", { class: "cm-shops" }, el("span", {}, c().shops + ":"), ...(o.shops || []).map(n => el("span", { class: "cm-shop" }, n))),
+          el("div", { class: "cm-tiers" }, el("span", {}, c().wanted))));
+        continue;
+      }
       const card = el("article", { class: "cm-offer" }, el("span", { class: "ic", "aria-hidden": "true" }, o.icon || "🧰"),
         el("h4", {}, o.title), el("div", { class: "pt" }, el("span", { class: "ad" }, c().ad), o.partner), el("p", {}, o.body),
         el("div", { class: "cm-tiers" }, ...o.tiers.map(([n, pct]) => el("span", { class: have >= n ? "on" : "" }, (have >= n ? "✓ " : "🔒 ") + c().unlock(nf(n), pct)))),
         next ? el("div", { style: "grid-column:1 / -1" }, el("div", { class: "cm-bar" }, el("i", { style: `width:${Math.min(100, have / next[0] * 100)}%` }))) : "");
       const row = el("div", { class: "cl-row" });
       if (best) row.append(el("button", { class: "cl-btn primary small", onclick: async ev => {
-        try { const code = await unlockCode(o.id, best[0]); ev.target.replaceWith(el("div", { class: "cm-code", "aria-label": c().code }, code)); } catch (e) { toast(String(e.message || e)); } } }, `${c().showCode} · ${best[1]}%`));
+        try { const code = await unlockCode(o.id, best[0]); ev.target.replaceWith(el("div", { class: "cm-code", "aria-label": c().code }, code)); } catch (e) { toast(String(e.message || e)); } } }, `${c().showCode}` + (best[1] >= 100 ? "" : ` · ${best[1]}%`)));
       if (o.url) row.append(el("a", { class: "cl-btn small", href: o.url, target: "_blank", rel: "noopener", style: "text-decoration:none", onclick: () => logOfferEvent(o.id, "click") }, c().visit + " ↗"));
       if (row.children.length) card.append(row);
       p.append(card);

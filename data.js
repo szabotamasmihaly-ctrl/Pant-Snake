@@ -250,6 +250,7 @@ export const IS_DEMO_COLLECTOR = id => id === DEMO_ME;
  *  Runs once per browser; everything it adds is marked "Example". */
 export function seedCollectorDemo() {
   if (LIVE) return;
+  seedWeekDemo();
   try { if (localStorage.getItem("snake-demo-seeded-aar")) return; localStorage.setItem("snake-demo-seeded-aar", "1"); } catch { return; }
   const placed = SNAKES.filter(s => s.lat != null), rows = demoAll(), now = Date.now();
   let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
@@ -401,13 +402,18 @@ export function simulateSponsorReport() {
 }
 
 // ---------- toolkit: gear suggestions sold as partner ad space; discounts unlock with containers collected ----------
-const DEFAULT_OFFERS = [
-  { id: "grabber", icon: "🦾", title: "Litter picker, 90 cm", partner: "GripGood (example partner)", body: "Reach cans in hedges and gutters without bending. Folds into a bag.", url: "", tiers: [[250, 5], [1000, 10], [5000, 20]], active: true },
-  { id: "gloves", icon: "🧤", title: "Cut-resistant gloves", partner: "SafeHands (example partner)", body: "Level C cut protection, touchscreen fingertips, machine washable.", url: "", tiers: [[250, 5], [1000, 15]], active: true },
-  { id: "bag", icon: "🛍️", title: "Collapsible collecting bag, 90 l", partner: "PackLoop (example partner)", body: "Fits about 200 cans. Waterproof base, folds to pocket size.", url: "", tiers: [[500, 10], [2000, 20]], active: true },
-  { id: "trailer", icon: "🚲", title: "Bike trailer", partner: "TowTwo (example partner)", body: "Carries 40 kg behind any city bike. Quick-release hitch.", url: "", tiers: [[1000, 5], [5000, 15]], active: true },
-  { id: "torch", icon: "🔦", title: "Head torch", partner: "NightOwl (example partner)", body: "For dark winter rounds: 400 lumens, USB-C, red mode.", url: "", tiers: [[250, 10]], active: true },
-  { id: "vest", icon: "🦺", title: "Reflective vest", partner: "SeeMe (example partner)", body: "Be seen by cyclists and cars at dusk. One size.", url: "", tiers: [[100, 20]], active: true },
+const DEFAULT_OFFERS = [   // the gear collectors need most, by priority (toolkit research), each with the shops most likely to partner.
+  // shops: who sells it and could give a discount; status "wanted" = no deal signed yet, so no discount or code is shown.
+  { id: "gloves", icon: "🧤", title: "Work gloves", shops: ["Abena", "Silvan", "Biltema"], body: "Protect your hands from glass, sharp cans and sticky bins. Washable, with touchscreen fingertips.", url: "", tiers: [], status: "wanted", active: true },
+  { id: "bag", icon: "🛍️", title: "Big, strong bags (100 l+)", shops: ["IKEA", "Jysk", "Biltema"], body: "More cans per trip. A strong bag holds about 200 cans and folds to pocket size.", url: "", tiers: [], status: "wanted", active: true },
+  { id: "trolley", icon: "🛒", title: "Big-wheel shopping trolley", shops: ["Andersen Shopper", "Imerco", "Bilka"], body: "Takes the weight off your back. Big wheels roll over kerbs and cobbles.", url: "", tiers: [], status: "wanted", active: true },
+  { id: "power", icon: "🔋", title: "Power bank, 10,000 mAh", shops: ["Elgiganten", "Power", "Anker"], body: "Keeps the app and the map running for a whole round, twice over.", url: "", tiers: [], status: "wanted", active: true },
+  { id: "vest", icon: "🦺", title: "Reflective vest and head torch", shops: ["Biltema", "Harald Nyborg", "Spejder Sport"], body: "Be seen by cyclists at dusk, and see into dark corners. No logos on the vest.", url: "", tiers: [], status: "wanted", active: true },
+  { id: "rain", icon: "🧥", title: "Rain jacket and trousers", shops: ["Fristads", "Helly Hansen Workwear", "Spejder Sport"], body: "Danish weather, all year. Breathable, with big pockets.", url: "", tiers: [], status: "wanted", active: true },
+  { id: "warm", icon: "🧣", title: "Thermal layers, hat and wool socks", shops: ["Sportmaster", "Friluftsland", "Jysk"], body: "For winter rounds when you're outside for hours.", url: "", tiers: [], status: "wanted", active: true },
+  { id: "clean", icon: "🧴", title: "Hand sanitiser and wet wipes", shops: ["Matas", "Normal", "Abena"], body: "There are no sinks on the route. Clean hands before you eat or drink.", url: "", tiers: [], status: "wanted", active: true },
+  { id: "bottle", icon: "🥤", title: "Insulated water bottle", shops: ["Spejder Sport", "Imerco", "Sportmaster"], body: "Water in summer, a hot drink in winter.", url: "", tiers: [], status: "wanted", active: true },
+  { id: "feet", icon: "🦶", title: "Insoles, plasters and good shoes", shops: ["Matas", "Sportmaster", "Skoringen"], body: "A round can be 10,000 steps. Look after your feet.", url: "", tiers: [], status: "wanted", active: true },
 ];
 const offerCode = (id, cans) => `${id.toUpperCase().slice(0, 5)}-${cans}-DEMO`;
 export async function listOffers({ all = false } = {}) {
@@ -444,6 +450,45 @@ export async function saveOffer(o) {                // operator
 export async function deleteOffer(id) {
   if (LIVE) { const db = await client(); const { error } = await db.from("offers").delete().eq("id", id); if (error) throw error; return; }
   demoPut(DEMO_OFFERS, demoObj(DEMO_OFFERS, DEFAULT_OFFERS).filter(o => o.id !== id));
+}
+
+// ---------- demo: rounds in the last ten days, so My stats has a week, a streak and a trend to show ----------
+function seedWeekDemo() {
+  try { if (localStorage.getItem("snake-demo-seeded-week")) return; localStorage.setItem("snake-demo-seeded-week", "1"); } catch { return; }
+  let seed = 3; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const visits = demoGet(DEMO_VISITS), ids = ["aar-15-pant-2", "aar-25-musikhuset", "aar-01-rainbow", "aar-16-dokk1", "aar-08-aaen", "aar-21-teater"];
+  for (const daysAgo of [1, 2, 3, 5, 7, 8, 9]) for (let i = 0, n = 1 + Math.floor(rnd() * 3); i < n; i++) {
+    const at = new Date(); at.setDate(at.getDate() - daysAgo); at.setHours(16 + Math.floor(rnd() * 4), Math.floor(rnd() * 60));
+    const d = Math.round(5 + rnd() * 40);
+    visits.push({ id: crypto.randomUUID(), snake_id: ids[Math.floor(rnd() * ids.length)], collector_id: DEMO_ME, created_at: at.toISOString(), outcome: "emptied", all_ok: true, problem: null,
+      cans: Math.round(10 + rnd() * 11), fill_after: null, note: null, dist_m: d, verified: d <= VERIFY_M, example: true });
+  }
+  demoPut(DEMO_VISITS, visits);
+}
+
+// ---------- weekly leagues: groups of 20 at the same level; the top 5 move up and the bottom 5 move down every Monday ----------
+export const LEAGUE = { size: 20, up: 5, down: 5 };
+const LEAGUE_NAMES = ["MetteM", "Kasper", "Sofie_K", "BirkBo", "Ahmed", "Ingrid", "Tobias", "Yasmin", "OleGrøn", "Freja", "Mads_R", "Ewa", "Luka", "Hanne", "Jonas", "Noor", "Rasmus", "Ida", "Viktor"];
+const weekStart = (d = new Date()) => { const m = new Date(d); m.setHours(0, 0, 0, 0); m.setDate(m.getDate() - ((m.getDay() + 6) % 7)); return m; };
+/** my group this week: { tier 0..6, ends_at, rows:[{rank, nickname, city, containers, me}], last:{tier, rank, moved} } (only containers proven at a snake count) */
+export async function myLeague() {
+  if (LIVE) { const db = await client(); const { data, error } = await db.rpc("my_league"); if (error) throw error; return data; }
+  const st = demoObj("snake-demo-league", { tier: 2, last: { tier: 1, rank: 3, moved: "up" } });
+  const mon = weekStart(), frac = Math.min(1, (Date.now() - mon) / (7 * 864e5)), wk = Math.floor(mon / 864e5);
+  let seed = wk * 31 + st.tier; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const me = await myProfile(), mine = demoGet(DEMO_VISITS).filter(v => new Date(v.created_at) >= mon && v.verified !== false).reduce((a, v) => a + (v.cans || 0), 0);
+  const scale = 60 + st.tier * 45;     // higher leagues collect more in a week
+  const rows = LEAGUE_NAMES.map(n => ({ nickname: n, city: "Aarhus", country: "DK", containers: Math.round(scale * (0.2 + rnd() * 2.2) * frac), me: false, example: true }));
+  rows.push({ nickname: me.nickname, city: me.city, country: me.country, containers: mine, me: true });
+  rows.sort((a, b) => b.containers - a.containers);
+  return { tier: st.tier, ends_at: new Date(mon.getTime() + 7 * 864e5).toISOString(), rows: rows.map((r, i) => ({ ...r, rank: i + 1 })), last: st.last };
+}
+/** the top league (Diamond) of one country this week: the only public ranking */
+export async function topLeague(country = "DK") {
+  if (LIVE) { const db = await client(); const { data, error } = await db.rpc("top_league", { p_country: country }); if (error) throw error; return data; }
+  const frac = Math.min(1, (Date.now() - weekStart()) / (7 * 864e5));
+  return PEOPLE.filter(p => p[2] === country).map(([nickname, city, c, all, d30]) => ({ nickname, city, country: c, containers: Math.round(d30 * 0.45 * frac + 40 * frac), example: true }))
+    .sort((a, b) => b.containers - a.containers).slice(0, 10).map((r, i) => ({ ...r, rank: i + 1 }));
 }
 
 // ---------- demo history: your own past rounds, so the Impact, Ranking and sponsorship screens have something to show ----------
