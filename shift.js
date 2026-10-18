@@ -303,5 +303,5 @@ export function createShift(ctx) {
     return el("div", { class: "sh-session" }, el("span", {}, "🔒 " + x().reserved(reservedN)), el("button", { class: "sh-link", onclick: () => explain() }, "ⓘ " + x().how));
   }
 
-  return { startDialog, confirmEnd, explain, timer, tick, toReserve, startSession, endSession, remainingMin, upNext, sessionLine, bestCard, relBadge, text: x, totalLine: (...a) => x().total(...a) };
+  return { startDialog, confirmEnd, explain, timer, tick, toReserve, startSession, endSession, remainingMin, upNext, sessionLine, bestCard, bestTimes, relBadge, text: x, totalLine: (...a) => x().total(...a) };
 }

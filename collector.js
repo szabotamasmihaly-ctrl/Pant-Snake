@@ -24,7 +24,8 @@ const MENU_TXT = {
       league: ["Liga", "Hver mandag dyster du mod 19 andre på dit niveau. De 5 bedste rykker op, de 5 nederste ned. Kun dåser, der er bevist ved en slange, tæller."],
       gear: ["Udstyr", "Det udstyr, der gør runderne lettere, og de butikker der sælger det. Rabatter kommer, når en butik bliver partner."],
       best: ["Bedste tid", "Hvornår der venter flest dåser pr. indsamler i de næste 12 timer."],
-      route: ["Ruter", "Sådan vælger og ændrer appen din rute, og hvorfor du kun ser tre slanger ad gangen."],
+      how: ["Sådan virker det", "Tre trin og svar på de spørgsmål, indsamlere oftest stiller."],
+      feedback: ["Feedback", "Fortæl os med tommel op eller ned, hvordan ruten, slangerne og appen var."],
       snakes: ["Mine slanger", "Slanger, du har tømt før. Her kan du finde problemer og blive sponsor."],
       alerts: ["Beskeder", "Besked når en slange, du sponsorerer, er fuld eller har et problem."],
       key: ["Kortforklaring", "Hvad farverne og tallene på kortet betyder."],
@@ -36,12 +37,43 @@ const MENU_TXT = {
       league: ["League", "Every Monday you race 19 others at your level. The top 5 move up, the bottom 5 move down. Only cans proven at a snake count."],
       gear: ["Gear", "The gear that makes rounds easier and the shops that sell it. Discounts come when a shop becomes a partner."],
       best: ["Best time", "When the most cans per collector are waiting in the next 12 hours."],
-      route: ["Routes", "How the app picks and changes your route, and why you see three snakes at a time."],
+      how: ["How it works", "Three steps, and answers to what collectors ask most."],
+      feedback: ["Feedback", "Tell us with a thumbs up or down how the route, the snakes and the app were."],
       snakes: ["My snakes", "Snakes you have emptied before. Find problems here and become a sponsor."],
       alerts: ["Alerts", "A message when a snake you sponsor is full or has a problem."],
       key: ["Map key", "What the colours and numbers on the map mean."],
       settings: ["Settings", "Transport, bag, end point, language and your profile."],
     } },
+};
+
+// home sheet, slider, drawer, "how it works" and end-of-shift feedback
+const UI = {
+  da: { city: "Aarhus", fullNow: "Fulde slanger", demand: ["Få", "Nogle", "Mange"], chart: "Forventet fulde slanger", now: "NU", quick: "Genveje",
+    slideStart: "Start min vagt", slideEnd: "Afslut min vagt", slideHint: "Skub for at starte", profile: "Indsamler", on: "På vagt", off: "Ikke på vagt",
+    fbTitle: "Feedback", fb: [["route", "Ruten", "Passede ruten og tiderne?"], ["snakes", "Slangerne", "Var slangerne i god stand?"], ["app", "Appen", "Var appen nem at bruge?"]],
+    fbComment: "Tilføj en kommentar", fbSend: "Send feedback", fbThanks: "Tak! Det hjælper os med at planlægge bedre.", fbSkip: "Spring over",
+    howTitle: "Sådan virker det", howSteps: [["Skub for at starte", "Vælg hvor længe du kan samle. Appen planlægger en rute, der passer."],
+      ["Følg tre slanger", "Du ser de næste tre slanger. Ruten ændrer sig selv, når slanger bliver fulde, eller en anden kommer først."],
+      ["Tjek ind ved hver", "Ét tryk på \"Alt godt\", når du har tømt den. Så dukker den næste slange op."]],
+    faqTitle: "Spørgsmål", faq: [["Hvorfor ser jeg kun tre slanger?", "Så ingen løber efter den samme slange. Du ser den næste, så snart du tjekker ind eller springer over."],
+      ["Hvorfor ændrede min rute sig?", "En slange blev fuld, en anden indsamler kom først, eller tiden er ved at løbe ud. Linjen øverst på kortet siger hvorfor."],
+      ["Bliver en slange holdt til mig?", "De tre slanger, du kan se, er reserveret til dig, mens din vagt kører. Andre ser dem som optaget."],
+      ["Hvad hvis en slange er i stykker?", "Tryk \"Noget var anderledes\", når du tjekker ind, og vælg problemet. Så sender vi nogen ud."],
+      ["Skal jeg selv stoppe min vagt?", "Skub for at afslutte i menuen. Ellers slutter den af sig selv tre timer efter det planlagte slut."]],
+    plannerMore: "Se hvordan ruten planlægges" },
+  en: { city: "Aarhus", fullNow: "Full snakes", demand: ["Few", "Some", "Many"], chart: "Expected full snakes", now: "NOW", quick: "Quick links",
+    slideStart: "Start my shift", slideEnd: "End my shift", slideHint: "Slide to start", profile: "Collector", on: "On shift", off: "Off shift",
+    fbTitle: "Feedback", fb: [["route", "Route", "Were the route and the times right?"], ["snakes", "Snakes", "Were the snakes in good shape?"], ["app", "App", "Was the app easy to use?"]],
+    fbComment: "Add a comment", fbSend: "Send feedback", fbThanks: "Thanks! That helps us plan better.", fbSkip: "Skip",
+    howTitle: "How it works", howSteps: [["Slide to start", "Pick how long you can collect. The app plans a route that fits."],
+      ["Follow three snakes", "You see the next three snakes. The route changes by itself when snakes fill up or someone else gets there first."],
+      ["Check in at each one", "One tap on \"All good\" when you have emptied it. Then the next snake appears."]],
+    faqTitle: "FAQ", faq: [["Why can I only see three snakes?", "So nobody rushes to the same snake. You see the next one as soon as you check in or skip."],
+      ["Why did my route change?", "A snake filled up, another collector got there first, or time is running out. The line at the top of the card says why."],
+      ["Is a snake kept for me?", "The three snakes you can see are reserved for you while your shift runs. Others see them as taken."],
+      ["What if a snake is broken or jammed?", "Tap \"Something was different\" when you check in and choose the problem. We send someone to fix it."],
+      ["Do I have to stop my shift?", "Slide to end it in the menu. Otherwise it ends by itself three hours after the planned end."]],
+    plannerMore: "See how routes are planned" },
 };
 
 const TXT = {
@@ -72,7 +104,7 @@ const TXT = {
     outcome: { emptied: "Tømt", partial: "Delvist tømt", was_empty: "Var tom", not_emptied: "Ikke tømt" },
     settings: "Indstillinger", language: "Sprog", arriveRadius: "Vis tjek-ind når jeg er inden for", endPoint: "Slutpunkt",
     endNone: "Intet slutpunkt", endSet: "Vælg på kortet", endPick: "Tryk på kortet for at sætte slutpunktet (fx en pantautomat).", endClear: "Fjern",
-    claimToggle: "Reservér slangerne på min rute, så andre indsamlere ser at jeg er på vej", wake: "Hold skærmen tændt på vagt", darkMap: "Mørkt kort",
+    lightMode: "Lyst tema", claimToggle: "Reservér slangerne på min rute, så andre indsamlere ser at jeg er på vej", wake: "Hold skærmen tændt på vagt", darkMap: "Mørkt kort",
     done: "Færdig", resetDemo: "Nulstil demo-data", gpsOff: "Placering er slået fra. Tryk på kortet for at vise hvor du er.",
     gpsWait: "Finder din placering…", gpsSim: "Demo: GPS er simuleret. Tryk på kortet for at flytte dig, eller lad demoen gå ruten.", walk: "Gå ruten", stopWalk: "Stop",
     replan: "Planlæg igen", menuRoutes: "Sådan planlægges ruten", newFull: (n, d) => `${n} er meldt fuld · ${d} væk`, addIt: "Tilføj", locate: "Vis min position", zoomIn: "Zoom ind", zoomOut: "Zoom ud",
@@ -118,7 +150,7 @@ const TXT = {
     outcome: { emptied: "Emptied", partial: "Partly emptied", was_empty: "Was empty", not_emptied: "Not emptied" },
     settings: "Settings", language: "Language", arriveRadius: "Show the check-in when I'm within", endPoint: "End point",
     endNone: "No end point", endSet: "Pick on map", endPick: "Tap the map to set where the route should end (a deposit machine, say).", endClear: "Remove",
-    claimToggle: "Reserve the snakes on my route so other collectors see I'm on my way", wake: "Keep the screen on during a shift", darkMap: "Dark map",
+    lightMode: "Light theme", claimToggle: "Reserve the snakes on my route so other collectors see I'm on my way", wake: "Keep the screen on during a shift", darkMap: "Dark map",
     done: "Done", resetDemo: "Reset demo data", gpsOff: "Location is off. Tap the map to show where you are.",
     gpsWait: "Finding your location…", gpsSim: "Demo: GPS is simulated. Tap the map to move, or let the demo walk the route.", walk: "Walk the route", stopWalk: "Stop",
     replan: "Re-plan now", menuRoutes: "How routes are planned", newFull: (n, d) => `${n} was reported full · ${d} away`, addIt: "Add", locate: "Show my position", zoomIn: "Zoom in", zoomOut: "Zoom out",
@@ -442,15 +474,118 @@ const CSS = `
   #col .cl-app{display:block}
   #col .cl-sheet{left:calc(env(safe-area-inset-left,0px) + 16px);right:auto;width:420px;bottom:16px;padding:0;max-height:calc(100% - 110px)}
   #col .cl-mapwrap{grid-column:auto;grid-row:auto}
-  #col .cl-fabs{bottom:24px;right:16px}
+  #col .cl-fabs{bottom:48px;right:16px}
   #col .cl-nav{left:452px;right:auto;width:min(440px,calc(100% - 540px))}
   #col .cl-menu{background:rgba(10,15,12,.2)}
   #col .cl-menupanel{width:440px;box-shadow:-12px 0 40px rgba(0,0,0,.2)}
 }
+
+/* ---- Night-shift look (Oct 2026): dark navy by default, round floating buttons, a home sheet with a slider. ---- */
+#col#col.dk{--bg:#0B0F1A;--card:#161B28;--ink:#EEF1F7;--muted:#97A0B3;--line:#283043;--accent:#3FCF8E;--accent-ink:#04170D;--route:#6EA8FF;--warn:#F2A93B;--bad:#FF6B57;--chip:#212839;--shadow:0 10px 30px rgba(0,0,0,.5);color-scheme:dark}
+#col#col.lt{--bg:#F4F2EC;--card:#FFFFFF;--ink:#15201B;--muted:#5B665F;--line:#DAD6CC;--accent:#0F5D3A;--accent-ink:#FFFFFF;--route:#1D4ED8;--warn:#B45309;--bad:#C2410C;--chip:#EEEBE3;--shadow:0 10px 30px rgba(20,30,25,.18);color-scheme:light}
+#col .cl-menubtn,#col .cl-top .cl-round{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;padding:0;background:color-mix(in srgb,var(--card) 92%,transparent);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);box-shadow:0 6px 18px rgba(0,0,0,.28);color:var(--ink);position:relative}
+#col .cl-top .cl-round svg{width:24px;height:24px}
+#col .cl-top .cl-round em{position:absolute;right:10px;top:10px;min-width:12px;height:12px;border-radius:6px;background:var(--bad);font-size:0;padding:0;border:2px solid var(--card)}
+#col .cl-top{align-items:flex-start}
+#col .cl-timerbtn{margin-top:4px}
+/* home sheet */
+#col .cl-home{background:var(--card);border-radius:28px;box-shadow:0 -10px 34px rgba(0,0,0,.32);padding:6px 16px 16px;display:grid;gap:12px}
+#col .cl-grab{width:100%;height:22px;border:0;background:transparent;padding:0;display:grid;place-items:center}
+#col .cl-grab::before{content:"";width:44px;height:5px;border-radius:3px;background:color-mix(in srgb,var(--muted) 55%,transparent)}
+#col .cl-homehead{border:0;background:transparent;text-align:left;padding:0;display:grid;gap:2px;color:var(--ink)}
+#col .cl-homehead h2{margin:0;font-size:2rem;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+#col .cl-demand{margin:0;display:flex;align-items:center;gap:8px;font-size:1.0625rem;color:var(--muted)}
+#col .cl-demand b{color:var(--ink);font-weight:700}
+#col .cl-lvl{display:inline-flex;align-items:flex-end;gap:2px;height:16px}
+#col .cl-lvl i{width:4px;border-radius:1px;background:color-mix(in srgb,var(--muted) 45%,transparent)}
+#col .cl-lvl i:nth-child(1){height:6px}#col .cl-lvl i:nth-child(2){height:11px}#col .cl-lvl i:nth-child(3){height:16px}
+#col .cl-lvl.l0 i:nth-child(1){background:var(--bad)}
+#col .cl-lvl.l1 i:nth-child(-n+2){background:var(--warn)}
+#col .cl-lvl.l2 i{background:var(--accent)}
+#col .cl-chart{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;height:150px;align-items:end;padding-top:30px;border-bottom:1px solid var(--line);position:relative}
+#col .cl-chart span{position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+#col .cl-chart i{width:100%;border-radius:6px 6px 2px 2px;background:color-mix(in srgb,var(--muted) 55%,transparent)}
+#col .cl-chart span.now i{background:var(--accent)}
+#col .cl-chart small{position:absolute;bottom:-20px;left:0;font-size:11px;color:var(--muted);white-space:nowrap}
+#col .cl-chart em{position:absolute;top:-28px;left:50%;transform:translateX(-30%);font:700 11px var(--font);font-style:normal;letter-spacing:.06em;background:var(--ink);color:var(--bg);border-radius:999px;padding:3px 8px}
+#col .cl-chartkey{margin:14px 0 0;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+#col .cl-chartkey i{width:12px;height:12px;border-radius:3px;background:color-mix(in srgb,var(--muted) 55%,transparent)}
+#col .cl-quickh{margin:6px 0 0;font-size:1.25rem;font-weight:800}
+#col .cl-quick{list-style:none;margin:0;padding:0}
+#col .cl-quick li + li{border-top:1px solid var(--line)}
+#col .cl-quick button{width:100%;display:flex;align-items:center;gap:14px;border:0;background:transparent;padding:14px 2px;min-height:56px;text-align:left;color:var(--ink)}
+#col .cl-quick b{flex:1;font-size:1.0625rem;font-weight:600}
+#col .cl-quick .ic,#col .cl-quick .chev{display:grid;color:var(--muted)}
+/* slider */
+#col .cl-slide{position:relative;width:100%;height:76px;border:0;border-radius:999px;padding:0;background:color-mix(in srgb,var(--accent) calc(55% + var(--p,0) * 45%),var(--card));color:var(--accent-ink);touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden;box-shadow:0 10px 26px color-mix(in srgb,var(--accent) 30%,transparent)}
+#col .cl-slide .lbl{position:absolute;inset:0;display:grid;place-items:center;padding-left:56px;font-size:1.35rem;font-weight:800;letter-spacing:-.01em;opacity:calc(1 - var(--p,0) * 1.4);pointer-events:none}
+#col .cl-knob{position:absolute;left:6px;top:6px;width:64px;height:64px;border-radius:50%;background:var(--bg);color:var(--accent);display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.25);transition:transform .25s var(--ease)}
+#col .cl-knob svg{width:30px;height:30px;stroke-width:2.6}
+#col .cl-slide.drag .cl-knob{transition:none}
+#col .cl-slide:active:not(:disabled){transform:none}
+@keyframes cl-nudge{0%,100%{transform:translateX(0)}40%{transform:translateX(26px)}70%{transform:translateX(8px)}}
+#col .cl-slide.hint .cl-knob{animation:cl-nudge .6s var(--ease)}
+#col .cl-slide.end{background:color-mix(in srgb,var(--bad) calc(30% + var(--p,0) * 70%),#3A0D0A);color:#FFD9D2;box-shadow:none;margin-top:6px}
+#col .cl-slide.end .cl-knob{background:#FF8A78;color:#3A0D0A}
+/* the drawer: from the left, an icon and one word per row */
+#col .cl-menu{justify-content:flex-start;background:rgba(0,0,0,.45)}
+#col .cl-menupanel{width:min(86%,380px);box-shadow:12px 0 40px rgba(0,0,0,.35);animation:cl-drawer-l .28s var(--ease);background:var(--bg)}
+@keyframes cl-drawer-l{from{transform:translateX(-40px);opacity:0}to{transform:none;opacity:1}}
+#col .cl-menulist{background:transparent;box-shadow:none;padding:0}
+#col .cl-menulist li + li{border-top:1px solid var(--line)}
+#col .cl-menugo{padding:14px 2px;min-height:60px}
+#col .cl-menugo .ic{display:grid;place-items:center;width:28px;color:var(--ink)}
+#col .cl-menugo b{font-weight:500;font-size:1.125rem}
+#col .cl-menugo .chev{display:none}
+#col .cl-menumore{margin:0 4px 14px 44px}
+#col .cl-profile{display:flex;align-items:center;gap:14px;padding:6px 2px 14px;border-bottom:1px solid var(--line)}
+#col .cl-profile .ic{display:grid;place-items:center;width:28px}
+#col .cl-profile b{display:block;font-size:1.125rem;font-weight:600}
+#col .cl-profile small{color:var(--muted);font-size:.95rem}
+#col .cl-profile small.on{color:var(--accent)}
+/* how it works */
+#col .cl-steps{list-style:none;margin:0;padding:0;display:grid;gap:22px}
+#col .cl-steps li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:start}
+#col .cl-steps .n{width:40px;height:40px;border-radius:50%;background:color-mix(in srgb,var(--accent) 18%,var(--bg));color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:1.1rem}
+#col .cl-steps b{display:block;font-size:1.125rem;font-weight:700;margin-bottom:3px}
+#col .cl-steps small{display:block;color:var(--muted);font-size:1rem;line-height:1.45}
+#col .cl-faqh{margin:12px 0 0;font-size:1.35rem;font-weight:800}
+#col .cl-faq details{border-bottom:1px solid var(--line)}
+#col .cl-faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;font-size:1.0625rem;font-weight:600;min-height:56px}
+#col .cl-faq summary::-webkit-details-marker{display:none}
+#col .cl-faq summary::after{content:"";width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translateY(-3px);flex:none;transition:transform .2s var(--ease)}
+#col .cl-faq details[open] summary::after{transform:rotate(225deg) translateY(-3px)}
+#col .cl-faq p{margin:0 0 16px;color:var(--muted);line-height:1.5}
+/* feedback */
+#col .cl-fbq + .cl-fbq{margin-top:10px}
+#col .cl-home .cl-slide{position:sticky;bottom:0;z-index:1}
+#col#col.dk .cl-nav{background:#2A57C6}
+#col .cl-fbq{display:grid;gap:6px;justify-items:center;text-align:center}
+#col .cl-fbq h3{margin:0;font-size:1.2rem}
+#col .cl-fbq p{margin:0 0 4px;color:var(--muted)}
+#col .cl-thumbs{display:grid;grid-template-columns:1fr 1fr;width:100%;border-radius:999px;overflow:hidden;background:var(--chip)}
+#col .cl-thumbs button{border:0;background:transparent;min-height:64px;display:grid;place-items:center;color:var(--ink)}
+#col .cl-thumbs button + button{border-left:1px solid var(--line)}
+#col .cl-thumbs button svg{width:28px;height:28px}
+#col .cl-thumbs button[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 28%,var(--chip));color:var(--accent)}
+#col .cl-thumbs button + button[aria-pressed="true"]{background:color-mix(in srgb,var(--bad) 25%,var(--chip));color:var(--bad)}
 @media (prefers-reduced-motion: reduce){#col *{transition:none!important;animation:none!important}}
 `;
 
 const ICON = {
+  i_stats: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M5 15l4-5 4 3 6-7"/></svg>`,
+  i_league: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 12v4M8 20h8M10 16h4v4h-4z"/></svg>`,
+  i_gear: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7zM9 8a3 3 0 0 1 6 0"/></svg>`,
+  i_best: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`,
+  i_how: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg>`,
+  i_snakes: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>`,
+  i_key: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5"/></svg>`,
+  i_settings: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>`,
+  i_feedback: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11v9H4v-9zM7 11l4-8a2 2 0 0 1 2 2v4h5.5a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.3 20H7"/></svg>`,
+  i_down: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13V4h3v9zM17 13l-4 8a2 2 0 0 1-2-2v-4H5.5a2 2 0 0 1-2-2.3l1.2-7A2 2 0 0 1 6.7 4H17"/></svg>`,
+  i_user: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`,
+  i_arrow: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>`,
+
   locate: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>`,
   plus: `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>`,
   minus: `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg>`,
@@ -516,7 +651,8 @@ export function mountCollector(root) {
   const modalHost = el("div"); const toastHost = el("div");
   root.append(app, modalHost, toastHost);
 
-  const dark = () => S.set.dark || (document.documentElement.dataset.theme === "dark") || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+  const dark = () => !S.set.light;
+  root.classList.toggle("dk", !S.set.light); root.classList.toggle("lt", !!S.set.light);
   const mapColors = d => d ? { route: "#6EA0FF", later: "#3F5F9E", case: "#0F1412", connector: "#6EA0FF", acc: "#6EA0FF" }
                               : { route: "#1D4ED8", later: "#7C9BE0", case: "#FFFFFF", connector: "#1D4ED8", acc: "#1D4ED8" };
   // the base map: a full street map from the tile service in CFG.MAP_STYLE (default OpenFreeMap), or the built-in Aarhus map
@@ -531,7 +667,7 @@ export function mountCollector(root) {
   map.on("fallback", () => { mapNote.hidden = false; mapNote.textContent = t().mapFallback; setTimeout(() => mapNote.hidden = true, 8000); });
   // street routing: openrouteservice / OSRM when configured, else the built-in Aarhus street network, else straight lines
   const router = createRouter({ provider: CFG.ROUTING_PROVIDER || (CFG.ORS_KEY ? "ors" : CFG.OSRM_FOOT ? "osrm" : "graph"), orsKey: CFG.ORS_KEY, orsBase: CFG.ORS_BASE, osrmFoot: CFG.OSRM_FOOT, osrmBike: CFG.OSRM_BIKE }, loadDemoStreets);
-  const retheme = () => { map.setColors(mapColors(dark())); map.setDark(dark()); };
+  const retheme = () => { root.classList.toggle("dk", !S.set.light); root.classList.toggle("lt", !!S.set.light); map.setColors(mapColors(dark())); map.setDark(dark()); };
   matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", retheme);
   new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   map.on("click", ll => {
@@ -843,7 +979,8 @@ export function mountCollector(root) {
 
   // ---------- shift ----------
   function startShift(minutes = S.set.minutes) { sh.startSession(minutes); wake(); renderTop(); }
-  async function endShift() { closeMenu(); S.planNote = null; S.owed = null; sh.endSession(); S.shift = null; S.reserved = []; store.set("shift", null); S.routeOn = false; S.done.clear(); store.set("done-today", { day: "", ids: [] }); S.skipped.clear(); S.mustInclude = []; try { await releaseClaims(); } catch {} wake(); drawRoute(); renderTop(); renderSheet(); refresh(); }
+  async function endShift() { closeMenu(); navEl.hidden = true; S.planNote = null; S.owed = null; sh.endSession(); S.shift = null; S.reserved = []; store.set("shift", null); S.routeOn = false; S.done.clear(); store.set("done-today", { day: "", ids: [] }); S.skipped.clear(); S.mustInclude = []; try { await releaseClaims(); } catch {} wake(); drawRoute(); renderTop(); renderSheet(); refresh(); }
+  async function finishShift() { await endShift(); openFeedback(); }
   let lock = null;
   async function wake() { try { if (S.shift && S.set.wake && navigator.wakeLock) lock = await navigator.wakeLock.request("screen"); else if (lock) { await lock.release(); lock = null; } } catch {} }
   document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { wake(); refresh(); } });
@@ -862,10 +999,9 @@ export function mountCollector(root) {
   // one persistent menu button; the notifications bell lives inside the menu and its count shows on this button
   const bellBtn = cm.bell();
   const menuBtn = el("button", { class: "cl-menubtn", "aria-label": "Menu", html: ICON.menu, onclick: () => openMenu() });
-  new MutationObserver(() => { menuBtn.querySelector("em")?.remove(); const n = bellBtn.querySelector("em")?.textContent; if (n) menuBtn.append(el("em", {}, n)); }).observe(bellBtn, { childList: true, subtree: true });
+  bellBtn.classList.add("cl-round");
   function renderTop() {
-    top.replaceChildren(S.shift ? el("button", { class: "cl-timerbtn", title: t().stopMyShift, onclick: () => sh.confirmEnd(endShift) }, sh.timer())
-      : el("span", { class: "cl-brandpill" }, el("i"), "Pant Snake"), el("div", { class: "cl-sp" }), menuBtn);
+    top.replaceChildren(menuBtn, el("div", { class: "cl-sp" }), S.shift ? el("button", { class: "cl-timerbtn", title: t().stopMyShift, onclick: () => sh.confirmEnd(finishShift) }, sh.timer()) : "", el("div", { class: "cl-sp" }), bellBtn);
   }
   setInterval(() => { if (S.shift) { sh.tick(); const old = top.querySelector(".sh-timer"); if (old) old.replaceWith(sh.timer()); } }, 15000);
 
@@ -915,7 +1051,7 @@ export function mountCollector(root) {
   const setH = () => root.style.setProperty("--sheet-h", sheet.getBoundingClientRect().height + "px");
   function renderSheet() {
     sheet.replaceChildren();
-    if (!S.shift) { sheet.append(el("button", { class: "cl-startbtn", onclick: beginShift }, t().startMyShift)); return setH(); }
+    if (!S.shift) { sheet.append(homeCard()); return setH(); }
     const ahead = visibleStops(), left = routeStops().filter(s => !S.done.has(s.id)), n = ahead[0];
     const note = S.planning ? t().replanning : S.planNote && Date.now() - S.planNote.at < 90000 ? S.planNote.text : t().plannedAgo(minutesSince(S.plannedAt && new Date(S.plannedAt).toISOString()));
     const strip = el("div", { class: "cl-planstrip" + (S.planning ? " busy" : "") + (S.fresh?.size && S.planNote && Date.now() - S.planNote.at < 4000 ? " fresh" : "") }, el("i", { "aria-hidden": "true" }), el("span", { role: "status" }, note),
@@ -944,16 +1080,87 @@ export function mountCollector(root) {
     setH();
   }
 
+  // expected full snakes for the next 12 hours: the cans still waiting after the usual collectors at that hour
+  // (the best-time model), counted as snakes of about 18 cans; "now" is the snakes that are full right now
+  function fullByHour() {
+    const fullNow = S.snakes.filter(s => (eff(s).f ?? 0) >= 3).length;
+    return sh.bestTimes(S.snakes, 3).hours.map((h, k) => ({ at: h.at, hour: h.hour, n: k === 0 ? fullNow : Math.min(S.snakes.length, Math.round(h.cans / 18)) }));
+  }
+  // the home sheet: city, how many snakes are full now, and the slider. Pull it up for the day's chart and quick links.
+  function homeCard() {
+    const U = u(), hrs = fullByHour(), total = Math.max(1, S.snakes.length), share = hrs[0].n / total;
+    const lv = share < .15 ? 0 : share < .35 ? 1 : 2, max = Math.max(1, ...hrs.map(h => h.n));
+    const toggle = () => { S.homeOpen = !S.homeOpen; renderSheet(); };
+    const card = el("div", { class: "cl-home" + (S.homeOpen ? " open" : "") },
+      el("button", { class: "cl-grab", "aria-expanded": String(!!S.homeOpen), "aria-label": U.chart, onclick: toggle }),
+      el("button", { class: "cl-homehead", onclick: toggle },
+        el("h2", {}, U.city),
+        el("p", { class: "cl-demand" }, el("span", {}, U.fullNow), el("span", { class: "cl-lvl l" + lv, "aria-hidden": "true" }, el("i"), el("i"), el("i")), el("b", {}, `${U.demand[lv]} · ${hrs[0].n}`))));
+    if (S.homeOpen) {
+      card.append(el("div", { class: "cl-chart", role: "img", "aria-label": `${U.chart}: ` + hrs.map(h => `${String(h.hour).padStart(2, "0")}:00 ${h.n}`).join(", ") },
+          ...hrs.map((h, i) => el("span", { class: i === 0 ? "now" : "" }, i === 0 ? el("em", {}, U.now) : "", el("i", { style: `height:${Math.max(6, h.n / max * 100)}%` }),
+            el("small", {}, i % 3 === 0 ? `${String(h.hour).padStart(2, "0")}:00` : "")))),
+        el("p", { class: "cl-chartkey" }, el("i"), U.chart),
+        el("h3", { class: "cl-quickh" }, U.quick),
+        el("ul", { class: "cl-quick" }, ...[["how", ICON.i_how], ["snakes", ICON.i_snakes], ["settings", ICON.i_settings]].map(([k, ic]) =>
+          el("li", {}, el("button", { onclick: () => { openMenu(); menuGo(k); } }, el("span", { class: "ic", html: ic }), el("b", {}, mt().items[k][0]), el("span", { class: "chev", html: ICON.i_arrow }))))));
+    }
+    card.append(slider(U.slideStart, beginShift));
+    return card;
+  }
+  // slide to start / end: a deliberate gesture, so a pocket tap can't start or end a shift. Enter or Space works too.
+  function slider(label, onDone, cls = "") {
+    const knob = el("span", { class: "cl-knob", "aria-hidden": "true", html: ICON.i_arrow });
+    const b = el("button", { class: "cl-slide " + cls, "aria-label": label }, knob, el("span", { class: "lbl" }, label));
+    let x0 = null, w = 0, dx = 0;
+    b.addEventListener("pointerdown", e => { x0 = e.clientX; w = b.clientWidth - knob.offsetWidth - 12; dx = 0; b.setPointerCapture?.(e.pointerId); b.classList.add("drag"); });
+    b.addEventListener("pointermove", e => { if (x0 == null) return; dx = Math.max(0, Math.min(w, e.clientX - x0)); knob.style.transform = `translateX(${dx}px)`; b.style.setProperty("--p", (dx / w).toFixed(3)); });
+    const end = () => {
+      if (x0 == null) return; const done = dx >= w * .8; x0 = null; b.classList.remove("drag"); knob.style.transform = ""; b.style.setProperty("--p", 0);
+      if (done) { try { navigator.vibrate?.(30); } catch {} onDone(); } else { b.classList.remove("hint"); void b.offsetWidth; b.classList.add("hint"); }
+    };
+    b.addEventListener("pointerup", end); b.addEventListener("pointercancel", end);
+    b.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onDone(); } });
+    return b;
+  }
+  // after a shift: three thumbs and an optional comment (kept on this phone in the demo)
+  function openFeedback() {
+    const U = u(), ans = {}; let note = "";
+    modal((d, close) => {
+      const draw = () => {
+        d.replaceChildren(el("h2", {}, U.fbTitle));
+        for (const [k, h, q] of U.fb) d.append(el("div", { class: "cl-fbq" }, el("h3", {}, h), el("p", {}, q),
+          el("div", { class: "cl-thumbs", role: "group", "aria-label": h },
+            el("button", { "aria-pressed": String(ans[k] === 1), "aria-label": "👍", html: ICON.i_feedback, onclick: () => { ans[k] = ans[k] === 1 ? undefined : 1; draw(); } }),
+            el("button", { "aria-pressed": String(ans[k] === -1), "aria-label": "👎", html: ICON.i_down, onclick: () => { ans[k] = ans[k] === -1 ? undefined : -1; draw(); } }))));
+        const ta = el("textarea", { maxlength: 500, placeholder: U.fbComment, "aria-label": U.fbComment }); ta.value = note; ta.oninput = () => note = ta.value;
+        d.append(ta, el("button", { class: "cl-btn primary", style: "width:100%", disabled: !Object.values(ans).some(v => v) && !note.trim(), onclick: () => {
+            const all = store.get("feedback", []); all.push({ at: new Date().toISOString(), ...ans, note: note.trim() || null }); store.set("feedback", all.slice(-50));
+            close(); toast(U.fbThanks);
+          } }, U.fbSend), el("button", { class: "cl-btn ghost", style: "width:100%", onclick: close }, U.fbSkip));
+        ta.addEventListener("input", () => d.querySelector(".cl-btn.primary").disabled = !Object.values(ans).some(v => v) && !note.trim());
+      };
+      draw();
+    });
+  }
+  function paneHow(p) {
+    const U = u();
+    p.append(el("ol", { class: "cl-steps" }, ...U.howSteps.map(([h, d], i) => el("li", {}, el("span", { class: "n" }, i + 1), el("span", {}, el("b", {}, h), el("small", {}, d))))),
+      el("h3", { class: "cl-faqh" }, U.faqTitle),
+      el("div", { class: "cl-faq" }, ...U.faq.map(([q, a]) => el("details", {}, el("summary", {}, q), el("p", {}, a)))),
+      el("button", { class: "cl-btn", style: "width:100%", onclick: () => sh.explain() }, U.plannerMore));
+  }
+
   // ---------- the menu (top right): keywords, each with a short "read more", opening its own view ----------
-  const MENU = [["stats", "📊"], ["league", "🏆"], ["gear", "🧤"], ["best", "☀️"], ["route", "🗺️"], ["snakes", "🐍"], ["alerts", "🔔"], ["key", "🎨"], ["settings", "⚙️"]];
+  const MENU = [["stats", ICON.i_stats], ["league", ICON.i_league], ["gear", ICON.i_gear], ["best", ICON.i_best], ["snakes", ICON.i_snakes], ["how", ICON.i_how], ["key", ICON.i_key], ["feedback", ICON.i_feedback], ["settings", ICON.i_settings]];
+  const u = () => UI[S.lang] || UI.en;
   let menuView = null;
   const mt = () => MENU_TXT[S.lang] || MENU_TXT.en;
   function openMenu(view = null) { menuView = view; menu.hidden = false; renderMenu(); menu.querySelector("button")?.focus({ preventScroll: true }); }
   function closeMenu() { menu.hidden = true; menuView = null; menu.replaceChildren(); }
   function menuGo(k) {
-    if (k === "route") return sh.explain();
-    if (k === "alerts") return bellBtn.click();
     if (k === "settings") return openSettings();
+    if (k === "feedback") { closeMenu(); return openFeedback(); }
     if (k === "snakes") myVisits(120).then(v => { S.mine = new Set(v.map(x => x.snake_id)); if (menuView === "snakes") drawSnakeList(); }).catch(() => {});
     menuView = k; renderMenu();
   }
@@ -966,26 +1173,28 @@ export function mountCollector(root) {
       el("h2", {}, menuView ? M.items[menuView][0] : M.title), el("button", { class: "cl-icon", "aria-label": M.close, onclick: closeMenu }, "✕"));
     menu.replaceChildren(el("div", { class: "cl-menupanel" }, head, body));
     if (!menuView) {
+      body.append(el("div", { class: "cl-profile" }, el("span", { class: "ic", html: ICON.i_user }), el("span", {}, el("b", {}, u().profile), el("small", { class: S.shift ? "on" : "" }, S.shift ? u().on : u().off))));
       const ul = el("ul", { class: "cl-menulist" });
       for (const [k, ic] of MENU) {
-        const [kw, more] = M.items[k], open = S.menuMore === k, badge = k === "alerts" ? bellBtn.querySelector("em")?.textContent : null;
+        const [kw, more] = M.items[k], open = S.menuMore === k, badge = null;
         ul.append(el("li", {}, el("div", { class: "cl-menurow" },
-            el("button", { class: "cl-menugo", onclick: () => menuGo(k) }, el("span", { class: "ic", "aria-hidden": "true" }, ic), el("b", {}, kw), badge ? el("em", {}, badge) : "", el("span", { class: "chev", "aria-hidden": "true" }, "›")),
+            el("button", { class: "cl-menugo", onclick: () => menuGo(k) }, el("span", { class: "ic", "aria-hidden": "true", html: ic }), el("b", {}, kw), badge ? el("em", {}, badge) : "", el("span", { class: "chev", "aria-hidden": "true" }, "›")),
             el("button", { class: "cl-mini", "aria-expanded": String(open), "aria-label": `${M.more}: ${kw}`, onclick: () => { S.menuMore = open ? null : k; renderMenu(); } }, "ⓘ")),
           open ? el("p", { class: "cl-menumore" }, more) : ""));
       }
       body.append(ul);
-      if (S.shift) body.append(el("button", { class: "cl-btn", style: "width:100%", onclick: () => sh.confirmEnd(endShift) }, t().stopMyShift));
+      if (S.shift) body.append(slider(u().slideEnd, finishShift, "end"));
       if (!LIVE) body.append(el("p", { class: "cl-note" }, M.demo));
       return;
     }
-    body.append(el("details", { class: "cl-readmore" }, el("summary", {}, M.more), el("p", {}, M.items[menuView][1])));
+    if (menuView !== "how") body.append(el("details", { class: "cl-readmore" }, el("summary", {}, M.more), el("p", {}, M.items[menuView][1])));
     if (menuView === "stats") stats.pane(body);
     else if (menuView === "league") league.pane(body);
     else if (menuView === "gear") cm.paneToolkit(body);
     else if (menuView === "best") body.append(sh.bestCard(S.snakes));
     else if (menuView === "snakes") paneSnakes(body);
     else if (menuView === "key") mapKey(body);
+    else if (menuView === "how") paneHow(body);
   }
   function mapKey(p) {
     const ul = el("ul", { class: "cl-keylist" });
@@ -1150,7 +1359,7 @@ export function mountCollector(root) {
 
   function openSettings() {
     modal((d, close) => {
-      const chk = (key, label) => { const i = el("input", { type: "checkbox", id: "cl-" + key }); i.checked = !!S.set[key]; i.onchange = () => { S.set[key] = i.checked; saveSet(); if (key === "dark") retheme(); if (key === "wake") wake(); }; return el("label", { class: "cl-check", for: "cl-" + key }, i, label); };
+      const chk = (key, label) => { const i = el("input", { type: "checkbox", id: "cl-" + key }); i.checked = !!S.set[key]; i.onchange = () => { S.set[key] = i.checked; saveSet(); if (key === "light") retheme(); if (key === "wake") wake(); }; return el("label", { class: "cl-check", for: "cl-" + key }, i, label); };
       const bag = el("input", { type: "number", min: 5, max: 400, step: 5, id: "cl-bag" }); bag.value = S.set.bag || TRANSPORT[S.set.mode].bag; bag.onchange = () => { S.set.bag = Math.max(5, +bag.value || 40); saveSet(); replan(); };
       const rad = el("select", { id: "cl-rad" }, ...[20, 30, 50, 80].map(v => el("option", { value: v, selected: S.set.radius === v }, `${v} m`))); rad.onchange = () => { S.set.radius = +rad.value; saveSet(); };
       d.append(el("h2", {}, t().settings), el("div", { class: "cl-set" },
@@ -1164,7 +1373,7 @@ export function mountCollector(root) {
         el("div", { class: "l" }, el("b", {}, t().endPoint), el("div", { class: "cl-row", style: "margin-top:6px" },
           el("button", { class: "cl-btn small", onclick: () => { S.pickingEnd = true; close(); renderBanner(); } }, t().endSet),
           S.set.end ? el("button", { class: "cl-btn small ghost", onclick: () => { S.set.end = null; saveSet(); map.setEnd(null); close(); replan(); } }, t().endClear) : el("span", { class: "cl-note" }, t().endNone))),
-        chk("claim", t().claimToggle), chk("wake", t().wake), chk("dark", t().darkMap),
+        chk("claim", t().claimToggle), chk("wake", t().wake), chk("light", t().lightMode),
         cm.profileSection(),
         LIVE ? el("button", { class: "cl-btn", onclick: async () => { await signOut(); location.reload(); } }, t().logout)
              : el("button", { class: "cl-btn ghost", onclick: () => { clearCollectorDemo(); try { const placed = new Set(SNAKES.filter(x => x.lat != null).map(x => x.id)); const rows = JSON.parse(localStorage.getItem("snake-demo-reports") || "[]").filter(r => !placed.has(r.snake_id)); localStorage.setItem("snake-demo-reports", JSON.stringify(rows)); localStorage.removeItem("snake-demo-seeded-aar"); } catch {} seedCollectorDemo(); S.done.clear(); store.set("done-today", { day: "", ids: [] }); S.walkedM.m = 0; store.set("walked", S.walkedM); close(); loadVisits().then(() => refresh()); } }, t().resetDemo)),
