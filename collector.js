@@ -94,7 +94,7 @@ const TXT = {
     src: { public: "af en forbipasserende", collector: "af en indsamler", operator: "af driften" },
     emptied: "tømt", claimedOther: "En anden indsamler er på vej", claimedMe: "Reserveret til dig",
     problems: { jam: "Noget sidder fast", door: "Lugen virker ikke", locked: "Låst / kan ikke åbnes", damage: "Ødelagt eller løs", glass: "Knust glas", litter: "Affald omkring", graffiti: "Graffiti / beskidt", blocked: "Kan ikke komme til", other: "Andet" },
-    arrive: "Du er ved", away: m => `${m} m væk`, q1: "Er alt i orden med den?", ok: "Alt i orden", notOk: "Noget er galt", okBig: "OK – alt i orden og tømt", changeIfNot: "Er noget anderledes? Ret her:",
+    allGood: "Alt godt", wrong: "Noget er galt", arrive: "Du er ved", away: m => `${m} m væk`, q1: "Er alt i orden med den?", ok: "Alt i orden", notOk: "Noget er galt", okBig: "OK – alt i orden og tømt", changeIfNot: "Er noget anderledes? Ret her:",
     which: "Hvad er galt?", note: "Kort besked (valgfri)", photo: "Tag foto", photoAgain: "Skift foto",
     q2: "Har du tømt den?", oEmptied: "Ja, tømt", oPartial: "Tog noget", oWasEmpty: "Den var tom", oNot: "Kunne ikke tømme",
     howFullNow: "Hvor fuld er den nu?", cansTaken: "Dåser taget (valgfrit)", save: "Gem", notNow: "Ikke nu",
@@ -140,7 +140,7 @@ const TXT = {
     src: { public: "by a passer-by", collector: "by a collector", operator: "by the operator" },
     emptied: "emptied", claimedOther: "Another collector is on the way", claimedMe: "Reserved for you",
     problems: { jam: "Something stuck", door: "Trapdoor not working", locked: "Locked / won't open", damage: "Broken or loose", glass: "Broken glass", litter: "Litter around it", graffiti: "Graffiti / dirty", blocked: "Can't get to it", other: "Other" },
-    arrive: "You're at", away: m => `${m} m away`, q1: "Is everything all right with it?", ok: "All OK", notOk: "Something's wrong", okBig: "OK – all good, emptied", changeIfNot: "Something different? Change it here:",
+    allGood: "All good", wrong: "Something's wrong", arrive: "You're at", away: m => `${m} m away`, q1: "Is everything all right with it?", ok: "All OK", notOk: "Something's wrong", okBig: "OK – all good, emptied", changeIfNot: "Something different? Change it here:",
     which: "What's wrong?", note: "Short note (optional)", photo: "Take photo", photoAgain: "Change photo",
     q2: "Did you collect it?", oEmptied: "Yes, emptied", oPartial: "Took some", oWasEmpty: "It was empty", oNot: "Couldn't empty it",
     howFullNow: "How full is it now?", cansTaken: "Cans taken (optional)", save: "Save", notNow: "Not now",
@@ -558,6 +558,11 @@ const CSS = `
 #col .cl-faq p{margin:0 0 16px;color:var(--muted);line-height:1.5}
 /* feedback */
 #col .cl-fbq + .cl-fbq{margin-top:10px}
+#col .cl-cardhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+#col .cl-cardhead h2{margin:0}
+#col .cl-cardsub{display:block;margin-top:2px;font-size:1.25rem;font-weight:800;color:var(--route)}
+#col .cl-x{width:40px;height:40px;flex:none;border-radius:50%;border:0;background:var(--chip);color:var(--muted);font-size:16px;display:grid;place-items:center;padding:0}
+#col .cl-btn.cl-wrong{width:100%;min-height:56px;font-size:1.0625rem}
 #col .cl-home .cl-slide{position:sticky;bottom:0;z-index:1}
 #col#col.dk .cl-nav{background:#2A57C6}
 #col .cl-fbq{display:grid;gap:6px;justify-items:center;text-align:center}
@@ -1052,7 +1057,7 @@ export function mountCollector(root) {
   function renderSheet() {
     sheet.replaceChildren();
     if (!S.shift) { sheet.append(homeCard()); return setH(); }
-    const ahead = visibleStops(), left = routeStops().filter(s => !S.done.has(s.id)), n = ahead[0];
+    const ahead = visibleStops(), n = ahead[0];
     const note = S.planning ? t().replanning : S.planNote && Date.now() - S.planNote.at < 90000 ? S.planNote.text : t().plannedAgo(minutesSince(S.plannedAt && new Date(S.plannedAt).toISOString()));
     const strip = el("div", { class: "cl-planstrip" + (S.planning ? " busy" : "") + (S.fresh?.size && S.planNote && Date.now() - S.planNote.at < 4000 ? " fresh" : "") }, el("i", { "aria-hidden": "true" }), el("span", { role: "status" }, note),
       el("button", { class: "cl-mini", "aria-label": t().menuRoutes, title: t().menuRoutes, onclick: () => sh.explain() }, "ⓘ"),
@@ -1060,10 +1065,9 @@ export function mountCollector(root) {
     if (!n) { sheet.append(el("div", { class: "cl-next" }, strip, el("h3", {}, S.planning ? t().planning : routeStops().length ? t().allDone : t().noRoute))); return setH(); }
     const s = byId(n.id), d = S.me ? haversine(S.me, s) : null, nav = S.routeOn ? navInfo() : null, mpm = TRANSPORT[S.set.mode].kmh * 1000 / 60;
     const dist = nav ? nav.left : d, mins = nav ? Math.max(1, Math.round(nav.dur / 60)) : d != null ? Math.max(1, Math.round(d * 1.3 / mpm)) : null;
-    const lv = levelOf(eff(s).f);
     sheet.append(el("div", { class: "cl-next" + (S.fresh?.has(n.id) ? " fresh" : "") }, strip,
       el("div", { class: "cl-nexthead" }, el("span", { class: "n" }, "1"),
-        el("span", { style: "min-width:0" }, el("h3", {}, s.design_name), el("div", { class: "cl-meta" }, el("span", { class: "cl-pill" }, el("i", { style: `background:${lv == null ? "#8C969C" : LEVEL_COL[lv]}` }), `≈ ${expectedCans(eff(s).f)} ${t().cans}`), s.location_label || "")),
+        el("span", { style: "min-width:0" }, el("h3", {}, s.design_name)),
         el("span", { class: "cl-dist big" }, el("b", {}, dist != null ? fmtM(dist) : "–"), el("small", {}, mins ? t().walkMin(mins) : ""))),
       nav?.step && navEl.hidden ? el("div", { class: "cl-meta" }, el("span", { class: "cl-turn" }, el("i", { "aria-hidden": "true" }, ARROW[nav.step.mod] || (nav.step.kind === "arrive" ? "◎" : "↑")), stepText(nav.step, S.lang) + " · " + t().inM(fmtM(nav.stepIn)))) : "",
       el("div", { class: "cl-row" },
@@ -1071,11 +1075,9 @@ export function mountCollector(root) {
         el("button", { class: "cl-btn ghost", onclick: () => { S.skipped.add(s.id); if (S.owed === s.id) S.owed = null; replanLive("skip"); } }, t().skip)),
       ahead.length > 1 ? el("ol", { class: "cl-ahead", start: 2 }, ...ahead.slice(1).map((st, i) => {
         const x = byId(st.id); if (!x) return "";
-        return el("li", { class: S.fresh?.has(st.id) ? "fresh" : "" }, el("span", { class: "n" }, i + 2), el("span", { style: "min-width:0" }, el("b", {}, x.design_name), el("small", {}, `+${fmtM(st.legM ?? 0)} · ${t().walkMin(Math.max(1, Math.round(st.legMin ?? (st.legM || 0) / mpm)))}`)),
-          el("span", { class: "c" }, `≈ ${expectedCans(eff(x).f)}`));
+        return el("li", { class: S.fresh?.has(st.id) ? "fresh" : "" }, el("span", { class: "n" }, i + 2), el("span", { style: "min-width:0" }, el("b", {}, x.design_name), el("small", {}, `+${fmtM(st.legM ?? 0)} · ${t().walkMin(Math.max(1, Math.round(st.legMin ?? (st.legM || 0) / mpm)))}`)));
       })) : "",
-      S.owed === n.id ? el("p", { class: "cl-note" }, "🔒 " + t().owedHint(s.design_name))
-        : left.length > ahead.length ? el("p", { class: "cl-note" }, "🔒 " + t().aheadHint(left.length - ahead.length)) : "",
+      S.owed === n.id ? el("p", { class: "cl-note" }, "🔒 " + t().owedHint(s.design_name)) : "",
       !LIVE && S.gps !== "on" ? el("button", { class: "cl-demowalk", onclick: () => { toggleWalk(); renderSheet(); } }, S.walking ? "■ " + t().stopWalk : "▶ " + t().walk + " (demo)") : ""));
     setH();
   }
@@ -1241,7 +1243,7 @@ export function mountCollector(root) {
     const ul = el("ul", { class: "cl-list" }), mpm = TRANSPORT[S.set.mode].kmh * 1000 / 60;
     for (const s of list) {
       const d = S.me ? haversine(S.me, s) : null;
-      ul.append(el("li", {}, el("button", { class: "cl-item cl-snakerow", onclick: () => { closeMenu(); focusSnake(s.id); openSnake(s.id); } },
+      ul.append(el("li", {}, el("button", { class: "cl-item cl-snakerow", onclick: () => { closeMenu(); focusSnake(s.id); openSnake(s.id, true); } },
         d != null ? el("span", { class: "cl-dist" }, el("b", {}, fmtM(d)), el("small", {}, `${Math.max(1, Math.round(d * 1.3 / mpm))} ${t().min}`)) : el("span"),
         el("span", { style: "min-width:0;display:flex;gap:10px;align-items:center" }, el("span", { class: "cl-stripe", style: "width:8px;height:34px;flex:none;flex-direction:column" }, ...(snakeMeta(s.id).colors || []).map(c => el("i", { style: `background:${c}` }))),
           el("span", { style: "min-width:0" }, el("b", {}, s.design_name), el("small", {}, snakeLine(s)))),
@@ -1265,27 +1267,20 @@ export function mountCollector(root) {
   }
   function stripe(id) { return el("div", { class: "cl-stripe" }, ...(snakeMeta(id).colors || ["#999"]).map(c => el("i", { style: `background:${c}` }))); }
 
-  function openSnake(id) {
+  function openSnake(id, full = false) {      // from the map: the essentials; from "My snakes": with sponsorship
     const s = byId(id); if (!s) return;
     S.focus = id; renderMarkers();
     const spHost = el("div");
     modal((d, close) => {
       const e = eff(s), lv = levelOf(e.f), inRoute = routeStops().some(x => x.id === id), dist = S.me ? haversine(S.me, s) : null;
-      d.append(stripe(id), el("h2", {}, s.design_name), el("div", { class: "cl-meta" }, s.location_label || "", dist != null ? fmtM(dist) : ""),
-        el("div", { class: "cl-fillbar" }, el("i", { style: `width:${(e.f ?? 0) / 4 * 100}%;background:${lv == null ? "#8C969C" : LEVEL_COL[lv]}` })),
-        el("dl", { class: "cl-kv" },
-          el("dt", {}, t().level), el("dd", {}, lv == null ? t().unknown : `${t().levelWords[lv]} · ≈ ${expectedCans(e.f)} ${t().cans}` + (e.predicted ? ` (${t().predicted})` : "")),
-          el("dt", {}, t().reported), el("dd", {}, s.fill_at ? `${t().levelWords[s.fill_level]} ${t().ago(minutesSince(s.fill_at))} ${t().src[s.fill_source] || ""}` : t().unknown),
-          el("dt", {}, t().lastEmptied), el("dd", {}, s.last_emptied_at ? t().ago(minutesSince(s.last_emptied_at)) : t().never),
-          s.open_problems ? el("dt", {}, "!") : "", s.open_problems ? el("dd", { style: "color:var(--bad);font-weight:600" }, s.problem_types.map(p => t().problems[p] || p).join(", ")) : "",
-          s.claimed_by_other || s.claimed_by_me ? el("dt", {}, "🔒") : "", s.claimed_by_other ? el("dd", {}, t().claimedOther) : s.claimed_by_me ? el("dd", {}, t().claimedMe) : "",
-          s.other_nearby && !s.claimed_by_me ? el("dt", {}, "👥") : "", s.other_nearby && !s.claimed_by_me ? el("dd", { style: "color:#2E9E62;font-weight:600" }, t().otherNear) : "",
-          s.sponsor_turn_until && !s.i_sponsor && new Date(s.sponsor_turn_until) > Date.now() ? el("dt", {}, "🌱") : "", s.sponsor_turn_until && !s.i_sponsor && new Date(s.sponsor_turn_until) > Date.now() ? el("dd", { style: "color:#7A5AF8;font-weight:600" }, t().sponsorTurn(Math.max(1, Math.round((new Date(s.sponsor_turn_until) - Date.now()) / 6e4)))) : ""),
+      d.append(el("div", { class: "cl-cardhead" }, el("span", {}, el("h2", {}, s.design_name), el("span", { class: "cl-cardsub" }, [dist != null ? fmtM(dist) : "", lv == null ? "" : `≈ ${expectedCans(e.f)} ${t().cans}`].filter(Boolean).join(" · "))),
+          el("button", { class: "cl-x", "aria-label": mt().close, onclick: close }, "✕")),
+        s.open_problems ? el("p", { class: "cl-note", style: "color:var(--bad);font-weight:600;margin:0" }, "! " + s.problem_types.map(p => t().problems[p] || p).join(", ")) : "",
         el("div", { class: "cl-row" },
           el("button", { class: "cl-btn primary", onclick: () => { close(); openArrival(id, dist); } }, t().here),
           el("button", { class: "cl-btn", onclick: () => { if (inRoute) { S.skipped.add(id); S.mustInclude = S.mustInclude.filter(x => x !== id); } else { S.skipped.delete(id); S.mustInclude.push(id); } close(); S.routeOn ? replanLive("manual") : replan(); } }, inRoute ? t().remove : t().add)),
-        spHost, el("button", { class: "cl-btn ghost", onclick: close }, t().done));
-      cm.sponsorBlock(id, spHost);
+        spHost);
+      if (full) cm.sponsorBlock(id, spHost);
     }, () => { S.focus = null; renderMarkers(); });
   }
 
@@ -1299,12 +1294,13 @@ export function mountCollector(root) {
     modal((d, close) => {
       const render = () => {
         d.innerHTML = "";
-        d.append(stripe(id), el("div", { class: "cl-meta" }, el("span", {}, dist == null || dist <= S.set.radius * 2 ? t().arrive : t().checkIn), dist != null ? el("span", {}, t().away(Math.round(dist))) : ""), el("h2", {}, s.design_name), dist != null && dist > 12 ? el("p", { class: "cl-note", style: "margin:0" }, t().findIt) : "",
-          el("div", { class: "cl-meta" }, pill(s), s.open_problems ? el("span", { class: "cl-pill bad" }, "! " + s.problem_types.map(p => t().problems[p] || p).join(", ")) : "", snakeLine(s)));
+        // only the essentials: which snake, how far, all good or not
+        d.append(el("div", { class: "cl-cardhead" }, el("span", {}, el("h2", {}, s.design_name), dist != null ? el("span", { class: "cl-cardsub" }, fmtM(dist)) : ""),
+          el("button", { class: "cl-x", "aria-label": mt().close, onclick: leave }, "✕")));
         const ready = st.ok !== null && st.outcome && (st.ok || st.problem) && (st.outcome !== "partial" || st.fillAfter);
         const msg = el("p", { class: "cl-note", role: "alert" });
         const quick = st.ok === true && st.outcome === "emptied";
-        d.append(el("button", { class: "cl-btn primary cl-ok", disabled: !ready, onclick: async (ev) => {
+        const okBtn = el("button", { class: "cl-btn primary cl-ok", disabled: !ready, onclick: async (ev) => {
             try { navigator.vibrate?.(25); } catch {}                                    // a light tap on phones that support it
             const far = S.me && haversine(S.me, s) > 150;
             if (far && !ev.target.dataset.confirmed) { msg.textContent = t().farWarn(Math.round(haversine(S.me, s))); ev.target.dataset.confirmed = "1"; return; }
@@ -1324,24 +1320,20 @@ export function mountCollector(root) {
             if (S.owed === id) S.owed = null;
             cm.reset(); close(); await loadVisits(); await refresh(false, true); renderBanner();
             if (S.routeOn) replanLive("visit", prevAhead.filter(x => x !== id)); else replan();
-          } }, quick ? "✓ " + t().okBig : t().save), msg);
+          } }, quick ? "✓ " + t().allGood : t().save);
         if (!st.more) {      // the usual case stays tiny: one big button, the map stays visible above
-          d.append(el("div", { class: "cl-row" }, el("button", { class: "cl-btn", style: "flex:1", onclick: () => { st.more = true; render(); } }, t().somethingElse),
-            el("button", { class: "cl-btn ghost", onclick: () => { S.dismissed.set(id, Date.now()); if (S.routeOn && routeStops().find(x => !S.done.has(x.id))?.id === id) { S.owed = id; routeGeometry(); } close(); } }, t().notNow)));
+          d.append(okBtn, msg, el("button", { class: "cl-btn cl-wrong", onclick: () => { st.more = true; st.ok = false; render(); } }, t().wrong));
           return;
         }
-        d.append(el("p", { class: "cl-note" }, t().changeIfNot));
-        d.append(el("h3", {}, "1 · " + t().q1), el("div", { class: "cl-big" },
-          el("button", { "aria-pressed": String(st.ok === true), onclick: () => { st.ok = true; st.problem = null; render(); } }, "✓ " + t().ok),
-          el("button", { class: "badsel", "aria-pressed": String(st.ok === false), onclick: () => { st.ok = false; render(); } }, "⚠ " + t().notOk)));
-        if (st.ok === false) {
+        {                    // "something's wrong": what, then whether it was emptied, then save
+          d.append(el("h3", {}, t().which));
           d.append(el("div", { class: "cl-chips", role: "group", "aria-label": t().which }, ...PROBLEMS.map(p => el("button", { "aria-pressed": String(st.problem === p), onclick: () => { st.problem = p; if (p === "locked" || p === "blocked") st.outcome ??= "not_emptied"; render(); } }, t().problems[p]))));
           const ta = el("textarea", { maxlength: 500, placeholder: t().note, "aria-label": t().note }); ta.value = st.note; ta.oninput = () => st.note = ta.value;
           const file = el("input", { type: "file", accept: "image/*", capture: "environment", class: "cl-sr", id: "cl-photo" });
           file.onchange = () => { st.photo = file.files[0] || null; render(); };
           d.append(ta, el("label", { class: "cl-btn", for: "cl-photo", style: "text-align:center;display:block" }, st.photo ? `${t().photoAgain} ✓` : `📷 ${t().photo}`), file);
         }
-        d.append(el("h3", {}, "2 · " + t().q2), el("div", { class: "cl-big" },
+        d.append(el("h3", {}, t().q2), el("div", { class: "cl-big" },
           ...[["emptied", t().oEmptied], ["partial", t().oPartial], ["was_empty", t().oWasEmpty], ["not_emptied", t().oNot]].map(([k, l]) =>
             el("button", { "aria-pressed": String(st.outcome === k), class: k === "not_emptied" ? "badsel" : "", onclick: () => { st.outcome = k; if (!st.cansTouched) st.cans = k === "emptied" ? expected : k === "partial" ? Math.round(expected / 2) : 0; render(); } }, l))));
         if (st.outcome === "partial") d.append(el("div", { class: "cl-meta" }, t().howFullNow), el("div", { class: "cl-chips" }, ...[1, 2, 3].map(v => el("button", { "aria-pressed": String(st.fillAfter === v), onclick: () => { st.fillAfter = v; render(); } }, t().levels[v]))));
@@ -1350,9 +1342,10 @@ export function mountCollector(root) {
           const bump = n => { st.cans = Math.max(0, Math.min(300, (st.cans || 0) + n)); st.cansTouched = true; out.value = st.cans; out.textContent = st.cans; out.classList.remove("bump"); void out.offsetWidth; out.classList.add("bump"); };
           d.append(el("div", { class: "cl-meta" }, t().cansTaken), el("div", { class: "cl-stepper" }, el("button", { "aria-label": "−5", onclick: () => bump(-5) }, "−"), out, el("button", { "aria-label": "+5", onclick: () => bump(5) }, "+"), el("span", { class: "cl-note" }, t().value((st.cans || 0) * CAN_VALUE))));
         }
-        d.append(el("div", { class: "cl-row" },
-          el("button", { class: "cl-btn ghost", onclick: () => { S.dismissed.set(id, Date.now()); if (S.routeOn && routeStops().find(x => !S.done.has(x.id))?.id === id) { S.owed = id; routeGeometry(); } close(); } }, t().notNow)));
+        d.append(okBtn, msg);
       };
+      // closing without an answer: it won't pop up again for 5 minutes, and the snakes after it stay hidden
+      const leave = () => { S.dismissed.set(id, Date.now()); if (S.routeOn && routeStops().find(x => !S.done.has(x.id))?.id === id) { S.owed = id; routeGeometry(); } close(); };
       render();
     }, () => { S.arrivalId = null; root.classList.remove("arriving"); renderMarkers(); if (S.routeOn) { renderSheet(); fitAhead(); } }, { peek: true });
   }
