@@ -16,6 +16,34 @@ const CAN_VALUE = 1.1;                 // DKK per container on average (pant A =
 const LEVEL_COL = ["#8C969C", "#7FB77E", "#3E9B5F", "#E3A21A", "#D2452F"];
 const PROBLEMS = ["jam", "door", "locked", "damage", "glass", "litter", "graffiti", "blocked", "other"];
 
+const AHEAD = 3;            // a collector sees only this many planned snakes; checking in at one reveals the next
+const MENU_TXT = {
+  da: { title: "Menu", back: "Tilbage", close: "Luk", more: "Læs mere", demo: "Demo: data gemmes kun i denne browser, og eksempler er markeret.",
+    items: {
+      stats: ["Statistik", "Dine ringe for i dag, ugen som søjler, din stime og hvad dine dåser har sparet af CO₂."],
+      league: ["Liga", "Hver mandag dyster du mod 19 andre på dit niveau. De 5 bedste rykker op, de 5 nederste ned. Kun dåser, der er bevist ved en slange, tæller."],
+      gear: ["Udstyr", "Det udstyr, der gør runderne lettere, og de butikker der sælger det. Rabatter kommer, når en butik bliver partner."],
+      best: ["Bedste tid", "Hvornår der venter flest dåser pr. indsamler i de næste 12 timer."],
+      route: ["Ruter", "Sådan vælger og ændrer appen din rute, og hvorfor du kun ser tre slanger ad gangen."],
+      snakes: ["Mine slanger", "Slanger, du har tømt før. Her kan du finde problemer og blive sponsor."],
+      alerts: ["Beskeder", "Besked når en slange, du sponsorerer, er fuld eller har et problem."],
+      key: ["Kortforklaring", "Hvad farverne og tallene på kortet betyder."],
+      settings: ["Indstillinger", "Transport, taske, slutpunkt, sprog og din profil."],
+    } },
+  en: { title: "Menu", back: "Back", close: "Close", more: "Read more", demo: "Demo: data stays in this browser, and examples are marked.",
+    items: {
+      stats: ["Stats", "Your rings for today, the week as bars, your streak, and the CO₂ your cans have saved."],
+      league: ["League", "Every Monday you race 19 others at your level. The top 5 move up, the bottom 5 move down. Only cans proven at a snake count."],
+      gear: ["Gear", "The gear that makes rounds easier and the shops that sell it. Discounts come when a shop becomes a partner."],
+      best: ["Best time", "When the most cans per collector are waiting in the next 12 hours."],
+      route: ["Routes", "How the app picks and changes your route, and why you see three snakes at a time."],
+      snakes: ["My snakes", "Snakes you have emptied before. Find problems here and become a sponsor."],
+      alerts: ["Alerts", "A message when a snake you sponsor is full or has a problem."],
+      key: ["Map key", "What the colours and numbers on the map mean."],
+      settings: ["Settings", "Transport, bag, end point, language and your profile."],
+    } },
+};
+
 const TXT = {
   da: {
     app: "Indsamler", startShift: "Start vagt", endShift: "Afslut vagt", onShift: "På vagt",
@@ -47,7 +75,7 @@ const TXT = {
     claimToggle: "Reservér slangerne på min rute, så andre indsamlere ser at jeg er på vej", wake: "Hold skærmen tændt på vagt", darkMap: "Mørkt kort",
     done: "Færdig", resetDemo: "Nulstil demo-data", gpsOff: "Placering er slået fra. Tryk på kortet for at vise hvor du er.",
     gpsWait: "Finder din placering…", gpsSim: "Demo: GPS er simuleret. Tryk på kortet for at flytte dig, eller lad demoen gå ruten.", walk: "Gå ruten", stopWalk: "Stop",
-    newFull: (n, d) => `${n} er meldt fuld · ${d} væk`, addIt: "Tilføj", locate: "Vis min position", zoomIn: "Zoom ind", zoomOut: "Zoom ud",
+    replan: "Planlæg igen", menuRoutes: "Sådan planlægges ruten", newFull: (n, d) => `${n} er meldt fuld · ${d} væk`, addIt: "Tilføj", locate: "Vis min position", zoomIn: "Zoom ind", zoomOut: "Zoom ud",
     all: "Alle", fullish: "¾ +", withProblems: "Problemer", sortDist: "nærmest først",
     signupTitle: "Bliv indsamler", signupText: "Gratis. Du vælger selv et kaldenavn bagefter; vi viser aldrig din e-mail eller hvor du er.", signup: "Opret konto", toSignup: "Ny her? Opret en indsamlerkonto", toLogin: "Har du en konto? Log ind",
     checkMail: "Tjek din e-mail og bekræft adressen. Log så ind her.", welcome: "Velkommen!", welcomeText: "Vælg et kaldenavn og din hjemby. Kaldenavnet vises på ranglisterne (kan slås fra).",
@@ -57,8 +85,11 @@ const TXT = {
     demoMap: "Demokort: kun hovedgader", planning: "Planlægger ad gaderne…", rerouting: "Finder ny rute…", via: n => `Tider og afstande ad gaderne · ${n}`, inM: d => `om ${d}`, toSnake: "til slangen", then: "Derefter",
     srcName: { ors: "openrouteservice", osrm: "OSRM", graph: "indbygget gadenet (hovedgader)", straight: "luftlinje: ingen gade-router svarede" },
     mapFallback: "Kortet kunne ikke hentes. Viser det indbyggede kort over Aarhus.", noWebgl: "Kortet kræver WebGL, som er slået fra i denne browser.", gmaps: "Google Maps",
+    replanning: "Planlægger ruten igen med de nyeste meldinger…", plannedAgo: m => m == null || m < 1 ? "Ruten er planlagt lige nu · opdateres løbende" : `Ruten er planlagt for ${m} min. siden · opdateres løbende`,
+    whyTaken: n => `${n} bliver taget af en anden indsamler – ruten er ændret`, whyFull: n => `${n} er lige blevet fuld – lagt ind i din rute`, whyTime: "Ruten er tilpasset den tid, du har tilbage", whyData: "Ruten er opdateret med de nyeste fyldniveauer",
+    revealed: n => `Næste slange: ${n}`, aheadHint: n => `${n} slange${n === 1 ? "" : "r"} mere er planlagt. Du ser den næste, når du tjekker ind.`, walkMin: m => `${m} min`, noMine: "Du har ikke tømt nogen slanger endnu. De dukker op her efter dit første besøg.",
     snakesWhat: "Hvad er listen til?", gotIt: "Forstået", searchPh: "Søg efter slange eller sted", noMatch: q => `Ingen slange matcher “${q}”.`,
-    snakesUses: [["🧭", "Vælg selv", "Alle slanger i byen, nærmest først. Tryk på en for at se den på kortet og føje den til din rute."], ["⚠️", "Find problemer", "Vælg Problemer for at se slanger, der sidder fast eller er i stykker, så du kan melde dem ordnet."], ["🌱", "Bliv sponsor", "Åbn en slange, du tømmer tit, for at se om du kan blive dens sponsor."]], emptyHint: "Tryk på en slange for detaljer.", value: v => `≈ ${Math.round(v)} kr`, level: "Niveau", checkIn: "Tjek ind", legendNum: "tal = ≈ dåser", legendHint: "Stiplet ring: ingen ny melding, niveauet er beregnet ud fra hvor hurtigt slangen plejer at fyldes",
+    snakesUses: [["🧭", "Dine slanger", "Slanger, du har tømt før, nærmest først. Nye kommer på listen efter dit første besøg."], ["⚠️", "Find problemer", "Vælg Problemer for at se slanger, der sidder fast eller er i stykker, så du kan melde dem ordnet."], ["🌱", "Bliv sponsor", "Åbn en slange, du tømmer tit, for at se om du kan blive dens sponsor."]], emptyHint: "Tryk på en slange for detaljer.", value: v => `≈ ${Math.round(v)} kr`, level: "Niveau", checkIn: "Tjek ind", legendNum: "tal = ≈ dåser", legendHint: "Stiplet ring: ingen ny melding, niveauet er beregnet ud fra hvor hurtigt slangen plejer at fyldes",
   },
   en: {
     app: "Collector", startShift: "Start shift", endShift: "End shift", onShift: "On shift",
@@ -90,7 +121,7 @@ const TXT = {
     claimToggle: "Reserve the snakes on my route so other collectors see I'm on my way", wake: "Keep the screen on during a shift", darkMap: "Dark map",
     done: "Done", resetDemo: "Reset demo data", gpsOff: "Location is off. Tap the map to show where you are.",
     gpsWait: "Finding your location…", gpsSim: "Demo: GPS is simulated. Tap the map to move, or let the demo walk the route.", walk: "Walk the route", stopWalk: "Stop",
-    newFull: (n, d) => `${n} was reported full · ${d} away`, addIt: "Add", locate: "Show my position", zoomIn: "Zoom in", zoomOut: "Zoom out",
+    replan: "Re-plan now", menuRoutes: "How routes are planned", newFull: (n, d) => `${n} was reported full · ${d} away`, addIt: "Add", locate: "Show my position", zoomIn: "Zoom in", zoomOut: "Zoom out",
     all: "All", fullish: "¾ +", withProblems: "Problems", sortDist: "nearest first",
     signupTitle: "Become a collector", signupText: "Free. You pick a nickname next; we never show your email or where you are.", signup: "Create account", toSignup: "New here? Create a collector account", toLogin: "Have an account? Sign in",
     checkMail: "Check your email and confirm the address, then sign in here.", welcome: "Welcome!", welcomeText: "Pick a nickname and your home city. The nickname shows on the leaderboards (you can turn that off).",
@@ -100,8 +131,11 @@ const TXT = {
     demoMap: "Demo map: main streets only", planning: "Planning along the streets…", rerouting: "Finding a new route…", via: n => `Times and distances along the streets · ${n}`, inM: d => `in ${d}`, toSnake: "to the snake", then: "Then",
     srcName: { ors: "openrouteservice", osrm: "OSRM", graph: "built-in street network (main streets)", straight: "straight lines: no street router answered" },
     mapFallback: "Couldn't load the map. Showing the built-in map of Aarhus.", noWebgl: "The map needs WebGL, which is turned off in this browser.", gmaps: "Google Maps",
+    replanning: "Re-planning with the latest reports…", plannedAgo: m => m == null || m < 1 ? "Route planned just now · updates live" : `Route planned ${m} min ago · updates live`,
+    whyTaken: n => `${n} is being collected by someone else, so your route changed`, whyFull: n => `${n} just filled up and was added to your route`, whyTime: "Route fitted to the time you have left", whyData: "Route updated with the latest fill levels",
+    revealed: n => `Next snake: ${n}`, aheadHint: n => `${n} more snake${n === 1 ? " is" : "s are"} planned. You'll see the next one when you check in.`, walkMin: m => `${m} min`, noMine: "You haven't emptied any snakes yet. They appear here after your first visit.",
     snakesWhat: "What is this list for?", gotIt: "Got it", searchPh: "Search for a snake or a place", noMatch: q => `No snake matches “${q}”.`,
-    snakesUses: [["🧭", "Pick one yourself", "Every snake in the city, nearest first. Tap one to see it on the map and add it to your route."], ["⚠️", "Find problems", "Choose Problems to see snakes that are jammed or broken, so you can report them fixed."], ["🌱", "Become a sponsor", "Open a snake you empty often to see whether you can become its sponsor."]], emptyHint: "Tap a snake for details.", value: v => `≈ DKK ${Math.round(v)}`, level: "Level", checkIn: "Check in", legendNum: "number = ≈ cans", legendHint: "Dashed ring: no recent report, level estimated from how fast this snake usually fills",
+    snakesUses: [["🧭", "Your snakes", "Snakes you have emptied before, nearest first. New ones join the list after your first visit."], ["⚠️", "Find problems", "Choose Problems to see snakes that are jammed or broken, so you can report them fixed."], ["🌱", "Become a sponsor", "Open a snake you empty often to see whether you can become its sponsor."]], emptyHint: "Tap a snake for details.", value: v => `≈ DKK ${Math.round(v)}`, level: "Level", checkIn: "Check in", legendNum: "number = ≈ cans", legendHint: "Dashed ring: no recent report, level estimated from how fast this snake usually fills",
   },
 };
 
@@ -318,6 +352,102 @@ const CSS = `
 #col .cl-modal.peek .cl-dialog h2{font-size:1.35rem}
 #col .cl-modal.peek .cl-btn.cl-ok{min-height:76px;font-size:1.45rem;margin:4px 0 0}
 #col.arriving .cl-nav,#col.arriving .cl-legend{display:none!important}
+/* ---- Map first (Oct 2026): the map fills the whole phone, everything else floats on it. ---- */
+#col .cl-app{display:block;padding-top:0}
+#col .cl-mapwrap{position:absolute;inset:0}
+#col .cl-legend{display:none!important}
+#col .cl-top{position:absolute;z-index:6;left:0;right:0;top:0;border:0;background:transparent;pointer-events:none;padding:calc(env(safe-area-inset-top,0px) + 12px) calc(env(safe-area-inset-right,0px) + 12px) 0 calc(env(safe-area-inset-left,0px) + 12px)}
+#col .cl-top > *{pointer-events:auto}
+#col .cl-brandpill,#col .cl-timerbtn,#col .cl-menubtn{background:color-mix(in srgb,var(--card) 88%,transparent);-webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);border:1px solid color-mix(in srgb,var(--line) 60%,transparent);box-shadow:0 4px 16px rgba(20,30,25,.16)}
+#col .cl-brandpill{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 16px 0 10px;border-radius:999px;font-weight:800;letter-spacing:-.01em}
+#col .cl-brandpill i{width:24px;height:24px;border-radius:50%;background:conic-gradient(var(--accent) 0 75%,var(--line) 0);display:grid;place-items:center}
+#col .cl-brandpill i::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--card)}
+#col .cl-timerbtn{min-height:48px;border-radius:999px;padding:0 16px;display:inline-flex;align-items:center;font-weight:700}
+#col .cl-menubtn{position:relative;width:52px;height:52px;border-radius:16px;display:grid;place-items:center;padding:0}
+#col .cl-menubtn svg{width:24px;height:24px}
+#col .cl-menubtn em{position:absolute;right:-4px;top:-4px;min-width:20px;height:20px;border-radius:10px;background:var(--bad);color:#fff;font:700 12px/20px var(--font);font-style:normal;padding:0 5px;text-align:center}
+#col .cl-banner{position:absolute;z-index:5;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 72px);width:max-content;max-width:calc(100% - 24px);border:0;border-radius:999px;padding:6px 8px 6px 14px;box-shadow:0 4px 16px rgba(20,30,25,.16);background:color-mix(in srgb,var(--card) 92%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+#col .cl-fabs{top:auto;bottom:calc(var(--sheet-h,160px) + 12px);right:calc(env(safe-area-inset-right,0px) + 12px)}
+#col .cl-nav{top:calc(env(safe-area-inset-top,0px) + 74px);left:12px;right:12px}
+#col .cl-app:has(.cl-nav:not([hidden])) .cl-banner{top:auto;bottom:calc(var(--sheet-h,160px) + 12px)}
+#col .cl-sheet{position:absolute;z-index:4;left:0;right:0;bottom:0;margin:0;max-height:62vh;overflow-y:auto;padding:4px 12px calc(env(safe-area-inset-bottom,0px) + 12px);background:transparent;box-shadow:none;border-radius:0;pointer-events:none}
+#col .cl-sheet::before{display:none}
+#col .cl-sheet > *{pointer-events:auto}
+#col .cl-sheet .cl-startbtn{min-height:84px;font-size:1.65rem;border-radius:26px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 14px 34px color-mix(in srgb,var(--accent) 40%,transparent),0 2px 0 rgba(255,255,255,.15) inset}
+#col .cl-sheet .cl-next{min-width:0;grid-template-columns:minmax(0,1fr);background:var(--card);border:0;border-radius:26px;box-shadow:0 -6px 30px rgba(20,30,25,.2);padding:12px 14px 14px;gap:10px}
+#col .cl-planstrip{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);min-height:32px}
+#col .cl-planstrip > i{width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+#col .cl-planstrip.busy > i{background:transparent;border:2px solid var(--route);border-right-color:transparent;box-shadow:none;animation:clspin .8s linear infinite}
+#col .cl-planstrip span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#col .cl-mini{width:36px;height:36px;min-width:36px;border-radius:12px;border:0;background:var(--chip);display:grid;place-items:center;font-size:17px;font-weight:700;padding:0}
+#col .cl-mini:disabled{opacity:.4}
+#col .cl-nexthead{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center}
+#col .cl-nexthead .n,#col .cl-ahead .n{width:30px;height:30px;border-radius:50%;background:var(--route);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+#col .cl-nexthead h3{margin:0;font-size:1.25rem;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#col .cl-nexthead .cl-meta{align-items:center;margin-top:3px;flex-wrap:nowrap;overflow:hidden;white-space:nowrap}
+#col .cl-dist.big{border:0;padding:0;justify-items:end}
+#col .cl-dist.big b{font-size:1.75rem;line-height:1}
+#col .cl-ahead{list-style:none;margin:0;padding:8px 0 0;border-top:1px solid var(--line);display:grid;gap:6px}
+#col .cl-ahead li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:4px 2px;border-radius:12px}
+#col .cl-ahead .n{width:24px;height:24px;font-size:12px;background:color-mix(in srgb,var(--route) 55%,var(--card))}
+#col .cl-ahead b{display:block;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#col .cl-ahead small{color:var(--muted);font-size:13px}
+#col .cl-ahead .c{font-weight:700;color:var(--muted);font-size:14px}
+#col .cl-demowalk{border:0;background:transparent;color:var(--route);font-weight:700;font-size:14px;min-height:36px;padding:0}
+#col .cl-next > .cl-note{text-align:center;font-size:12.5px}
+@keyframes cl-fresh{0%{background:color-mix(in srgb,var(--accent) 28%,transparent)}100%{background:transparent}}
+@keyframes cl-pinpop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.2);opacity:1}100%{transform:scale(1)}}
+#col .cl-planstrip.fresh{animation:cl-fresh 2.4s var(--ease);border-radius:10px;color:var(--ink)}
+#col .cl-ahead li.fresh{animation:cl-fresh 2.4s var(--ease)}
+#col .cl-next.fresh .cl-nexthead{animation:cl-fresh 2.4s var(--ease);border-radius:14px}
+#col .cl-pin.fresh{animation:cl-pinpop .6s var(--ease)}
+#col.arriving .cl-sheet{display:none}
+#col .cl-toast{bottom:calc(var(--sheet-h,160px) + 12px)}
+/* the menu: full screen on a phone, a drawer from the right on a big screen */
+#col .cl-menu{position:absolute;inset:0;z-index:15;background:rgba(10,15,12,.35);display:flex;justify-content:flex-end;animation:cl-fade .18s ease-out}
+#col .cl-menupanel{background:var(--bg);width:100%;height:100%;overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px calc(env(safe-area-inset-bottom,0px) + 20px);display:grid;gap:14px;align-content:start;animation:cl-drawer .28s var(--ease)}
+@keyframes cl-drawer{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+#col .cl-menuhead{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;position:sticky;top:calc(-10px - env(safe-area-inset-top,0px));background:var(--bg);z-index:1;padding:4px 0}
+#col .cl-menuhead h2{margin:0;text-align:center;font-size:1.25rem;font-weight:800;letter-spacing:-.01em}
+#col .cl-menuhead .cl-icon{font-size:22px;background:var(--card)}
+#col .cl-menubody{display:grid;gap:12px;align-content:start;min-width:0}
+#col .cl-menulist{list-style:none;margin:0;padding:6px;display:grid;gap:2px;background:var(--card);border-radius:22px;box-shadow:0 1px 2px rgba(20,30,25,.05),0 4px 14px rgba(20,30,25,.05)}
+#col .cl-menulist li + li{border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+#col .cl-menurow{display:flex;align-items:center;gap:6px}
+#col .cl-menugo{flex:1;min-width:0;display:flex;align-items:center;gap:12px;border:0;background:transparent;text-align:left;padding:12px 8px;min-height:56px;border-radius:14px}
+#col .cl-menugo .ic{font-size:22px;width:30px;text-align:center}
+#col .cl-menugo b{flex:1;font-size:1.0625rem;font-weight:700}
+#col .cl-menugo em{min-width:22px;height:22px;border-radius:11px;background:var(--bad);color:#fff;font:700 12px/22px var(--font);font-style:normal;text-align:center;padding:0 6px}
+#col .cl-menugo .chev{color:var(--muted);font-size:22px}
+#col .cl-menurow .cl-mini{background:transparent;color:var(--muted)}
+#col .cl-menurow .cl-mini[aria-expanded="true"]{background:var(--chip);color:var(--route)}
+#col .cl-menumore{margin:0 8px 12px 50px;font-size:14px;color:var(--muted);line-height:1.45}
+#col .cl-readmore{background:var(--card);border-radius:16px;padding:10px 14px;font-size:14px}
+#col .cl-readmore summary{cursor:pointer;font-weight:700;color:var(--route);list-style:none;min-height:28px;display:flex;align-items:center;gap:6px}
+#col .cl-readmore summary::-webkit-details-marker{display:none}
+#col .cl-readmore summary::before{content:"ⓘ"}
+#col .cl-readmore p{margin:8px 0 2px;color:var(--muted);line-height:1.45}
+#col .cl-keylist{list-style:none;margin:0;padding:12px 14px;display:grid;gap:10px;background:var(--card);border-radius:18px}
+#col .cl-keylist li{display:flex;gap:10px;align-items:center;font-size:15px}
+#col .cl-keylist i{width:16px;height:16px;border-radius:50%;flex:none}
+@media (max-height:700px){
+  #col .cl-sheet .cl-next{gap:7px;padding:10px 12px 10px}
+  #col .cl-next > .cl-note{display:none}
+  #col .cl-sheet .cl-btn.primary,#col .cl-sheet .cl-btn.ghost{min-height:48px}
+  #col .cl-ahead{gap:2px;padding-top:6px}
+  #col .cl-ahead li{padding:2px}
+  #col .cl-fabs button:not(:first-child){display:none}   /* pinch to zoom; keep only "show me" */
+}
+@media (min-width:900px){
+  #col .cl-app{display:block}
+  #col .cl-sheet{left:calc(env(safe-area-inset-left,0px) + 16px);right:auto;width:420px;bottom:16px;padding:0;max-height:calc(100% - 110px)}
+  #col .cl-mapwrap{grid-column:auto;grid-row:auto}
+  #col .cl-fabs{bottom:24px;right:16px}
+  #col .cl-toast{bottom:24px}
+  #col .cl-nav{left:452px;right:auto;width:min(440px,calc(100% - 540px))}
+  #col .cl-menu{background:rgba(10,15,12,.2)}
+  #col .cl-menupanel{width:440px;box-shadow:-12px 0 40px rgba(0,0,0,.2)}
+}
 @media (prefers-reduced-motion: reduce){#col *{transition:none!important;animation:none!important}}
 `;
 
@@ -326,6 +456,7 @@ const ICON = {
   plus: `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>`,
   minus: `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg>`,
   gear: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>`,
+  menu: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>`,
   chev: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 15l6-6 6 6"/></svg>`,
 };
 
@@ -356,11 +487,11 @@ export function mountCollector(root) {
   };
   if (S.walkedM.day !== new Date().toDateString()) S.walkedM = { day: new Date().toDateString(), m: 0 };
   const t = () => TXT[S.lang];
-  const cm = createCommunity({ el, S, modal: (...a) => modal(...a), toast: (...a) => toast(...a), byId: id => byId(id), seg: (...a) => seg(...a), renderSheet: () => renderSheet(), refresh: () => refresh(), focusSnake: id => focusSnake(id), openSnake: id => openSnake(id) });
+  const cm = createCommunity({ el, S, modal: (...a) => modal(...a), toast: (...a) => toast(...a), byId: id => byId(id), seg: (...a) => seg(...a), renderSheet: () => renderMenu(), refresh: () => refresh(), focusSnake: id => focusSnake(id), openSnake: id => openSnake(id) });
   const saveSet = () => store.set("settings", S.set);
   const sh = createShift({ el, S, store, modal: (...a) => modal(...a), toast: (...a) => toast(...a), seg: (...a) => seg(...a), saveSet, preview: m => previewPlan(m) });
   const stats = createStats({ el, S, store, cm, byId: id => byId(id), snakeMeta: id => snakeMeta(id), t: () => t(), shiftText: () => sh.text() });
-  const league = createLeague({ el, S, seg: (...a) => seg(...a), renderSheet: () => renderSheet() });
+  const league = createLeague({ el, S, seg: (...a) => seg(...a), renderSheet: () => renderMenu() });
 
   // ---------- frame ----------
   const app = el("div", { class: "cl-app" });
@@ -373,8 +504,11 @@ export function mountCollector(root) {
   const navEl = el("div", { class: "cl-nav", role: "status", "aria-live": "polite", hidden: true });
   const mapNote = el("div", { class: "cl-maperr", role: "status", hidden: true });
   mapWrap.append(mapEl, fabs, legend, navEl, mapNote);
-  const sheet = el("section", { class: "cl-sheet" });
-  app.append(top, banner, mapWrap, sheet);
+  const sheet = el("section", { class: "cl-sheet" });          // the dock: one Start button, or the three snakes ahead
+  const menu = el("div", { class: "cl-menu", hidden: true, role: "dialog", "aria-modal": "true" });
+  menu.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+  menu.addEventListener("click", e => { if (e.target === menu) closeMenu(); });
+  app.append(mapWrap, top, banner, sheet, menu);
   const modalHost = el("div"); const toastHost = el("div");
   root.append(app, modalHost, toastHost);
 
@@ -411,7 +545,7 @@ export function mountCollector(root) {
   const snakeMeta = id => SNAKES.find(x => x.id === id) || designById(S.snakes.find(x => x.id === id)?.design) || {};
   const byId = id => S.snakes.find(s => s.id === id);
 
-  async function refresh(first = false) {
+  async function refresh(first = false, quiet = false) {
     try { S.snakes = await collectorMap(); } catch (e) { console.error(e); toast(t().error); return; }
     // alert: snakes that just became ¾+ and are close
     if (!first && S.me) for (const s of S.snakes) {
@@ -421,8 +555,8 @@ export function mountCollector(root) {
       }
     }
     S.lastFull = new Set(S.snakes.filter(s => levelOf(s.fill_level) >= 3).map(s => s.id));
-    if (first) map.fit(S.snakes, 50, 14);
-    renderMarkers(); if (!S.plan || first) replan(); else renderSheet();
+    renderMarkers();
+    if (!S.plan || first) replan(); else if (S.routeOn && !quiet && planSig() !== lastSig) replanLive("data"); else renderSheet();
   }
   async function loadVisits() { try { S.visits = await myVisits(7); } catch { S.visits = []; } }
 
@@ -467,7 +601,9 @@ export function mountCollector(root) {
   // the line on the map: from where you are, through the remaining stops (and the end point)
   async function routeGeometry(seq = ++planSeq) {
     const start = S.me || { lat: map.lat, lng: map.lng };
-    const rest = (S.plan?.stops || []).filter(s => !S.done.has(s.id)).map(s => s.id === "__end" ? S.set.end : byId(s.id)).filter(Boolean);
+    const all = (S.plan?.stops || []).filter(s => !S.done.has(s.id));
+    S.geoStops = all.filter(s => s.id !== "__end").length <= AHEAD ? all : all.filter(s => s.id !== "__end").slice(0, AHEAD);
+    const rest = S.geoStops.map(s => s.id === "__end" ? S.set.end : byId(s.id)).filter(Boolean);
     if (!rest.length) { S.geo = null; S.planning = false; drawRoute(); renderSheet(); renderNav(); return; }
     S.planning = true;
     try {
@@ -481,7 +617,7 @@ export function mountCollector(root) {
   // replace the planner's estimates by the router's own distances and times for each leg
   function applyGeo() {
     if (!S.geo || !S.plan) return;
-    const rest = S.plan.stops.filter(s => !S.done.has(s.id));
+    const rest = S.geoStops || [];
     if (rest.length !== S.geo.legs.length) return;
     let t = 0, m = 0;
     for (const st of S.plan.stops) {
@@ -505,7 +641,7 @@ export function mountCollector(root) {
       return map.setRoute({ legs, active: S.routeOn ? 0 : -1 });
     }
     const start = S.me || { lat: map.lat, lng: map.lng };
-    const pts = [start, ...S.plan.stops.filter(s => !S.done.has(s.id)).map(s => s.id === "__end" ? S.set.end : byId(s.id)).filter(Boolean)];
+    const pts = [start, ...(S.geoStops || []).map(s => s.id === "__end" ? S.set.end : byId(s.id)).filter(Boolean)];
     map.setRoute({ legs: pts.slice(1).map((p, i) => ({ coords: [[pts[i].lng, pts[i].lat], [p.lng, p.lat]], straight: true })), active: S.routeOn ? 0 : -1 });
   }
 
@@ -565,6 +701,41 @@ export function mountCollector(root) {
   }
   const routeStops = () => (S.plan?.stops || []).filter(s => s.id !== "__end");
   const nextStop = () => routeStops().find(s => !S.done.has(s.id));
+  const visibleStops = () => routeStops().filter(s => !S.done.has(s.id)).slice(0, AHEAD);
+  // what the plan depends on: fill levels, claims, other collectors close by, sponsors' head starts
+  const planSig = () => S.snakes.map(s => `${s.id}:${levelOf(eff(s).f)}:${s.claimed_by_other ? 1 : 0}:${s.other_nearby && !s.claimed_by_me ? 1 : 0}:${s.sponsor_turn_until && !s.i_sponsor ? 1 : 0}`).join("|");
+  let lastSig = "";
+  // re-plan during a shift and say why the stops ahead changed
+  async function replanLive(cause, prev) {
+    if (!S.routeOn || S.planning || S.arrivalId) return;
+    const before = prev || visibleStops().map(s => s.id);
+    try { await replan(); } catch (e) { console.warn(e); }
+    lastSig = planSig(); S.plannedAt = Date.now();
+    const after = visibleStops().map(s => s.id), gone = before.filter(id => !after.includes(id)), added = after.filter(id => !before.includes(id));
+    S.fresh = new Set(added);
+    if (gone.length || added.length || cause === "manual") {
+      const g = byId(gone[0]), a = byId(added[0]);
+      const why = (cause === "visit" || cause === "skip") && a ? t().revealed(a.design_name)
+        : g && (g.claimed_by_other || (g.other_nearby && !g.claimed_by_me)) ? t().whyTaken(g.design_name)
+        : a && cause === "data" && levelOf(eff(a).f) >= 3 ? t().whyFull(a.design_name) : cause === "time" ? t().whyTime : t().whyData;
+      S.planNote = { text: why, at: Date.now() };
+      reclaim(); fitAhead();
+    }
+    renderMarkers(); renderSheet();
+    setTimeout(() => { S.fresh = new Set(); renderSheet(); }, 4000);
+  }
+  async function reclaim() {
+    if (!S.set.claim) return;
+    try { S.reserved = sh.toReserve(visibleStops(), sh.remainingMin()).map(s => s.id); await claimSnakes(S.reserved, Math.min(240, Math.max(20, sh.remainingMin() + 15))); } catch (e) { console.error(e); }
+  }
+  // show you and the snakes ahead, clear of the dock and the top bar
+  function fitAhead() {
+    const pts = [S.me, ...visibleStops().map(s => byId(s.id))].filter(Boolean);
+    const wide = innerWidth >= 900, dock = Math.min(sheet.getBoundingClientRect().height, innerHeight * .6);
+    if (pts.length > 1) map.fit(pts, { top: wide || navEl.hidden ? 90 : navEl.getBoundingClientRect().bottom + 30, bottom: wide ? 60 : dock + 30, left: wide ? 460 : 50, right: 70 }, 15.5, true);
+    else if (S.me) map.setView(S.me.lat, S.me.lng, 14.5);
+  }
+  setInterval(() => { if (S.routeOn) replanLive("time"); }, 180000);
   // time a planned route saves against visiting the same snakes fullest-first (what you'd do without a plan)
   function countSavedMinutes() {
     const stops = routeStops().map(x => byId(x.id)).filter(Boolean); if (stops.length < 2 || !S.me) return;
@@ -576,10 +747,9 @@ export function mountCollector(root) {
   async function startRoute() {
     S.routeOn = true; countSavedMinutes();
     if (!S.shift) startShift();
-    routeGeometry();
-    if (S.me) map.setView(S.me.lat, S.me.lng, Math.max(map.z, 15));
-    if (S.set.claim) { try { S.reserved = sh.toReserve(routeStops().filter(s => !S.done.has(s.id)), sh.remainingMin()).map(s => s.id); await claimSnakes(S.reserved, Math.min(240, Math.max(20, sh.remainingMin() + 15))); } catch (e) { console.error(e); } }
-    renderSheet(); refresh();
+    await routeGeometry(); S.plannedAt = Date.now(); lastSig = planSig();
+    fitAhead(); await reclaim();
+    renderMarkers(); renderSheet(); refresh(false, true);
   }
 
   // ---------- position ----------
@@ -603,7 +773,7 @@ export function mountCollector(root) {
         if (pos.coords.accuracy > 200 && S.me?.src === "gps") return;                  // ignore a very rough fix once we have a good one
         S.gps = "on"; renderBanner();
         setMe({ lat: pos.coords.latitude, lng: pos.coords.longitude, acc: pos.coords.accuracy, src: "gps" });
-        if (!startGps.centered) { startGps.centered = true; map.setView(pos.coords.latitude, pos.coords.longitude, Math.max(map.z, 14)); }
+        if (!startGps.centered) { startGps.centered = true; map.setView(pos.coords.latitude, pos.coords.longitude, Math.max(map.z, 13.5)); }
       }, () => { S.gps = "off"; renderBanner(); if (!S.me) setMe({ lat: 56.1567, lng: 10.2085, acc: 10, src: "tap" }); },
       { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 });
     } catch { S.gps = "off"; renderBanner(); }
@@ -640,15 +810,15 @@ export function mountCollector(root) {
       const total = project(leg.coords, target).total;
       if (S.walkAlong >= total - 4) { setMe({ lat: target.lat - 0.00003, lng: target.lng, acc: 6, src: "sim" }); return; }
       setMe({ ...pointAt(leg.coords, S.walkAlong), acc: 6, src: "sim" });
-      if (!map._userPanned) map.setView(S.me.lat, S.me.lng, Math.max(map.z, 15.5), false);
+      if (!map._userPanned) map.setView(S.me.lat, S.me.lng, map.z, false);
     }, step * 1000);
   }
   map.on("drag", () => { map._userPanned = true; clearTimeout(map._upT); map._upT = setTimeout(() => map._userPanned = false, 8000); });
-  setInterval(() => { if (S.routeOn && S.me && S.gps === "on" && !map._userPanned && !S.arrivalId) map.setView(S.me.lat, S.me.lng, Math.max(map.z, 15)); }, 4000);   // follow me
+  setInterval(() => { if (S.routeOn && S.me && S.gps === "on" && !map._userPanned && !S.arrivalId) map.setView(S.me.lat, S.me.lng, map.z); }, 4000);   // follow me, at the zoom the collector chose
 
   // ---------- shift ----------
   function startShift(minutes = S.set.minutes) { sh.startSession(minutes); wake(); renderTop(); }
-  async function endShift() { sh.endSession(); S.shift = null; S.reserved = []; store.set("shift", null); S.routeOn = false; S.done.clear(); store.set("done-today", { day: "", ids: [] }); S.skipped.clear(); S.mustInclude = []; try { await releaseClaims(); } catch {} wake(); drawRoute(); renderTop(); renderSheet(); refresh(); }
+  async function endShift() { closeMenu(); S.planNote = null; sh.endSession(); S.shift = null; S.reserved = []; store.set("shift", null); S.routeOn = false; S.done.clear(); store.set("done-today", { day: "", ids: [] }); S.skipped.clear(); S.mustInclude = []; try { await releaseClaims(); } catch {} wake(); drawRoute(); renderTop(); renderSheet(); refresh(); }
   let lock = null;
   async function wake() { try { if (S.shift && S.set.wake && navigator.wakeLock) lock = await navigator.wakeLock.request("screen"); else if (lock) { await lock.release(); lock = null; } } catch {} }
   document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { wake(); refresh(); } });
@@ -664,21 +834,21 @@ export function mountCollector(root) {
   addEventListener("online", flushQueue); setInterval(flushQueue, 30000);
 
   // ---------- rendering ----------
+  // one persistent menu button; the notifications bell lives inside the menu and its count shows on this button
+  const bellBtn = cm.bell();
+  const menuBtn = el("button", { class: "cl-menubtn", "aria-label": "Menu", html: ICON.menu, onclick: () => openMenu() });
+  new MutationObserver(() => { menuBtn.querySelector("em")?.remove(); const n = bellBtn.querySelector("em")?.textContent; if (n) menuBtn.append(el("em", {}, n)); }).observe(bellBtn, { childList: true, subtree: true });
   function renderTop() {
-    top.innerHTML = "";
-    const shift = sh.timer();
-    top.append(el("div", { class: "cl-brand" }, el("i"), "Pant Snake", el("span", {}, "· " + t().app)), el("div", { class: "cl-sp" }), shift || "",
-      S.shift ? el("button", { class: "cl-btn small ghost", onclick: () => sh.confirmEnd(endShift) }, t().stopMyShift) : "",
-      cm.bell(), el("button", { class: "cl-icon", title: t().settings, "aria-label": t().settings, html: ICON.gear, onclick: openSettings }));
+    top.replaceChildren(S.shift ? el("button", { class: "cl-timerbtn", title: t().stopMyShift, onclick: () => sh.confirmEnd(endShift) }, sh.timer())
+      : el("span", { class: "cl-brandpill" }, el("i"), "Pant Snake"), el("div", { class: "cl-sp" }), menuBtn);
   }
   setInterval(() => { if (S.shift) { sh.tick(); const old = top.querySelector(".sh-timer"); if (old) old.replaceWith(sh.timer()); } }, 15000);
 
   function renderBanner() {
     banner.innerHTML = ""; const parts = [];
     if (S.pickingEnd) parts.push(el("span", {}, t().endPick), el("button", { class: "cl-btn small", onclick: () => { S.pickingEnd = false; renderBanner(); } }, t().notNow));
-    else if (S.gps !== "on") {
-      parts.push(el("span", {}, S.gps === "wait" ? t().gpsWait : !LIVE ? t().gpsSim : t().gpsOff));
-      if (S.plan && routeStops().length) parts.push(el("button", { class: "cl-btn small", onclick: toggleWalk }, S.walking ? t().stopWalk : "▶ " + t().walk));
+    else if (S.gps !== "on" && (LIVE || S.routeOn)) {      // the demo's GPS note only matters once the shift has started
+      if (LIVE) parts.push(el("span", {}, S.gps === "wait" ? t().gpsWait : t().gpsOff));
     }
     if (S.queue.length) parts.push(el("b", {}, t().savedOffline(S.queue.length)));
     banner.hidden = !parts.length; banner.append(...parts);
@@ -691,8 +861,9 @@ export function mountCollector(root) {
 
   const pins = new Map();
   function renderMarkers() {
-    const order = new Map((S.routeOn ? routeStops() : []).map((s, i) => [s.id, i + 1]));
-    const shown = S.arrivalId ? S.snakes.filter(s => s.id === S.arrivalId) : S.snakes;      // at a snake: only that one stays on the map until the check-in is done
+    const order = new Map((S.routeOn ? visibleStops() : []).map((s, i) => [s.id, i + 1]));
+    // before a shift no snake is shown; during it only the planned snakes ahead (and one you opened yourself); at a snake only that one
+    const shown = S.arrivalId ? S.snakes.filter(s => s.id === S.arrivalId) : S.snakes.filter(s => order.has(s.id) || s.id === S.focus);
     const items = shown.map(s => {
       let b = pins.get(s.id);
       if (!b) { b = el("button", { class: "cl-pin", onclick: (e) => { e.stopPropagation(); openSnake(s.id); } }); pins.set(s.id, b); }
@@ -703,7 +874,8 @@ export function mountCollector(root) {
       b.innerHTML = `<span>${lv == null ? "?" : expectedCans(e.f)}</span>` + (order.has(s.id) && !S.done.has(s.id) ? `<em>${order.get(s.id)}</em>` : "") + (s.open_problems ? `<em class="warn">!</em>` : "")
         + (s.other_nearby && !s.claimed_by_me && !s.open_problems ? `<em class="near" title="${t().otherNear}">👥</em>` : "") + (turn || s.i_sponsor ? `<em class="sp">🌱</em>` : "");
       b.setAttribute("aria-label", `${s.design_name}: ${lv == null ? t().unknown : t().levelWords[lv]}${s.open_problems ? ", " + t().openProblems(s.open_problems) : ""}`);
-      return { id: s.id, lat: s.lat, lng: s.lng, el: b, z: order.has(s.id) ? 3 : 1 };
+      if (S.fresh?.has(s.id)) b.classList.add("fresh");
+      return { id: s.id, lat: s.lat, lng: s.lng, el: b, z: order.has(s.id) ? 4 - order.get(s.id) : 1 };
     });
     map.setMarkers(items);
   }
@@ -714,20 +886,86 @@ export function mountCollector(root) {
   }
   const snakeLine = s => [s.location_label || snakeMeta(s.id).place || "", s.fill_at ? `${eff(s).predicted ? t().predicted : t().reported} ${t().ago(minutesSince(s.fill_at))}` : t().unknown].filter(Boolean).join(" · ");
 
-  // one button for the whole session: the sheet is redrawn often (GPS, refresh), and a button replaced in the middle of a tap loses the tap on iPhones
-  const collapseBtn = el("button", { class: "cl-icon cl-collapse", "aria-label": "Collapse", html: ICON.chev, onclick: () => { sheet.classList.toggle("collapsed"); renderSheet(); requestAnimationFrame(() => map.redraw()); } });
+  // the dock: before a shift one Start button; during it the next snake big, the two after it small, and the planner's status
+  const setH = () => root.style.setProperty("--sheet-h", sheet.getBoundingClientRect().height + "px");
   function renderSheet() {
-    if (S.tab === "snakes" && document.activeElement === snakeSearch) { drawSnakeList(); return; }
-    sheet.innerHTML = "";
-    const tabs = el("div", { class: "cl-tabs", role: "tablist" }, ...[["route", t().tabRoute], ["snakes", t().tabSnakes], ["today", t().tabToday], ["rank", t().tabRank], ["kit", t().tabKit]].map(([k, l]) =>
-      el("button", { role: "tab", "aria-selected": String(S.tab === k), onclick: () => { S.tab = k; sheet.classList.remove("collapsed"); renderSheet(); } }, l)));
-    collapseBtn.style.transform = sheet.classList.contains("collapsed") ? "" : "rotate(180deg)";
-    const col = collapseBtn;
-    sheet.append(el("div", { class: "cl-handle" }, tabs, col));
-    const pane = el("div", { class: "cl-pane", role: "tabpanel" }); sheet.append(pane);
-    if (S.tab === "route") paneRoute(pane); else if (S.tab === "snakes") paneSnakes(pane); else if (S.tab === "today") stats.pane(pane);
-    else if (S.tab === "rank") league.pane(pane); else cm.paneToolkit(pane);
-    root.style.setProperty("--sheet-h", sheet.getBoundingClientRect().height + "px");
+    sheet.replaceChildren();
+    if (!S.shift) { sheet.append(el("button", { class: "cl-startbtn", onclick: beginShift }, t().startMyShift)); return setH(); }
+    const ahead = visibleStops(), left = routeStops().filter(s => !S.done.has(s.id)), n = ahead[0];
+    const note = S.planning ? t().replanning : S.planNote && Date.now() - S.planNote.at < 90000 ? S.planNote.text : t().plannedAgo(minutesSince(S.plannedAt && new Date(S.plannedAt).toISOString()));
+    const strip = el("div", { class: "cl-planstrip" + (S.planning ? " busy" : "") + (S.fresh?.size && S.planNote && Date.now() - S.planNote.at < 4000 ? " fresh" : "") }, el("i", { "aria-hidden": "true" }), el("span", { role: "status" }, note),
+      el("button", { class: "cl-mini", "aria-label": t().menuRoutes, title: t().menuRoutes, onclick: () => sh.explain() }, "ⓘ"),
+      el("button", { class: "cl-mini", "aria-label": t().replan, title: t().replan, disabled: S.planning, onclick: () => replanLive("manual") }, "↻"));
+    if (!n) { sheet.append(el("div", { class: "cl-next" }, strip, el("h3", {}, S.planning ? t().planning : routeStops().length ? t().allDone : t().noRoute))); return setH(); }
+    const s = byId(n.id), d = S.me ? haversine(S.me, s) : null, nav = S.routeOn ? navInfo() : null, mpm = TRANSPORT[S.set.mode].kmh * 1000 / 60;
+    const dist = nav ? nav.left : d, mins = nav ? Math.max(1, Math.round(nav.dur / 60)) : d != null ? Math.max(1, Math.round(d * 1.3 / mpm)) : null;
+    const lv = levelOf(eff(s).f);
+    sheet.append(el("div", { class: "cl-next" + (S.fresh?.has(n.id) ? " fresh" : "") }, strip,
+      el("div", { class: "cl-nexthead" }, el("span", { class: "n" }, "1"),
+        el("span", { style: "min-width:0" }, el("h3", {}, s.design_name), el("div", { class: "cl-meta" }, el("span", { class: "cl-pill" }, el("i", { style: `background:${lv == null ? "#8C969C" : LEVEL_COL[lv]}` }), `≈ ${expectedCans(eff(s).f)} ${t().cans}`), s.location_label || "")),
+        el("span", { class: "cl-dist big" }, el("b", {}, dist != null ? fmtM(dist) : "–"), el("small", {}, mins ? t().walkMin(mins) : ""))),
+      nav?.step && navEl.hidden ? el("div", { class: "cl-meta" }, el("span", { class: "cl-turn" }, el("i", { "aria-hidden": "true" }, ARROW[nav.step.mod] || (nav.step.kind === "arrive" ? "◎" : "↑")), stepText(nav.step, S.lang) + " · " + t().inM(fmtM(nav.stepIn)))) : "",
+      el("div", { class: "cl-row" },
+        el("button", { class: "cl-btn primary", onclick: () => openArrival(s.id, d) }, t().here),
+        el("button", { class: "cl-btn ghost", onclick: () => { S.skipped.add(s.id); replanLive("skip"); } }, t().skip)),
+      ahead.length > 1 ? el("ol", { class: "cl-ahead", start: 2 }, ...ahead.slice(1).map((st, i) => {
+        const x = byId(st.id); if (!x) return "";
+        return el("li", { class: S.fresh?.has(st.id) ? "fresh" : "" }, el("span", { class: "n" }, i + 2), el("span", { style: "min-width:0" }, el("b", {}, x.design_name), el("small", {}, `+${fmtM(st.legM ?? 0)} · ${t().walkMin(Math.max(1, Math.round(st.legMin ?? (st.legM || 0) / mpm)))}`)),
+          el("span", { class: "c" }, `≈ ${expectedCans(eff(x).f)}`));
+      })) : "",
+      left.length > ahead.length ? el("p", { class: "cl-note" }, "🔒 " + t().aheadHint(left.length - ahead.length)) : "",
+      !LIVE && S.gps !== "on" ? el("button", { class: "cl-demowalk", onclick: () => { toggleWalk(); renderSheet(); } }, S.walking ? "■ " + t().stopWalk : "▶ " + t().walk + " (demo)") : ""));
+    setH();
+  }
+
+  // ---------- the menu (top right): keywords, each with a short "read more", opening its own view ----------
+  const MENU = [["stats", "📊"], ["league", "🏆"], ["gear", "🧤"], ["best", "☀️"], ["route", "🗺️"], ["snakes", "🐍"], ["alerts", "🔔"], ["key", "🎨"], ["settings", "⚙️"]];
+  let menuView = null;
+  const mt = () => MENU_TXT[S.lang] || MENU_TXT.en;
+  function openMenu(view = null) { menuView = view; menu.hidden = false; renderMenu(); menu.querySelector("button")?.focus({ preventScroll: true }); }
+  function closeMenu() { menu.hidden = true; menuView = null; menu.replaceChildren(); }
+  function menuGo(k) {
+    if (k === "route") return sh.explain();
+    if (k === "alerts") return bellBtn.click();
+    if (k === "settings") return openSettings();
+    if (k === "snakes") myVisits(120).then(v => { S.mine = new Set(v.map(x => x.snake_id)); if (menuView === "snakes") drawSnakeList(); }).catch(() => {});
+    menuView = k; renderMenu();
+  }
+  function renderMenu() {
+    if (menu.hidden) return;
+    if (menuView === "snakes" && document.activeElement === snakeSearch) { drawSnakeList(); return; }
+    const M = mt(), body = el("div", { class: "cl-menubody" });
+    const head = el("div", { class: "cl-menuhead" },
+      menuView ? el("button", { class: "cl-icon", "aria-label": M.back, onclick: () => { menuView = null; renderMenu(); } }, "‹") : el("span", { class: "cl-icon", style: "visibility:hidden" }),
+      el("h2", {}, menuView ? M.items[menuView][0] : M.title), el("button", { class: "cl-icon", "aria-label": M.close, onclick: closeMenu }, "✕"));
+    menu.replaceChildren(el("div", { class: "cl-menupanel" }, head, body));
+    if (!menuView) {
+      const ul = el("ul", { class: "cl-menulist" });
+      for (const [k, ic] of MENU) {
+        const [kw, more] = M.items[k], open = S.menuMore === k, badge = k === "alerts" ? bellBtn.querySelector("em")?.textContent : null;
+        ul.append(el("li", {}, el("div", { class: "cl-menurow" },
+            el("button", { class: "cl-menugo", onclick: () => menuGo(k) }, el("span", { class: "ic", "aria-hidden": "true" }, ic), el("b", {}, kw), badge ? el("em", {}, badge) : "", el("span", { class: "chev", "aria-hidden": "true" }, "›")),
+            el("button", { class: "cl-mini", "aria-expanded": String(open), "aria-label": `${M.more}: ${kw}`, onclick: () => { S.menuMore = open ? null : k; renderMenu(); } }, "ⓘ")),
+          open ? el("p", { class: "cl-menumore" }, more) : ""));
+      }
+      body.append(ul);
+      if (S.shift) body.append(el("button", { class: "cl-btn", style: "width:100%", onclick: () => sh.confirmEnd(endShift) }, t().stopMyShift));
+      if (!LIVE) body.append(el("p", { class: "cl-note" }, M.demo));
+      return;
+    }
+    body.append(el("details", { class: "cl-readmore" }, el("summary", {}, M.more), el("p", {}, M.items[menuView][1])));
+    if (menuView === "stats") stats.pane(body);
+    else if (menuView === "league") league.pane(body);
+    else if (menuView === "gear") cm.paneToolkit(body);
+    else if (menuView === "best") body.append(sh.bestCard(S.snakes));
+    else if (menuView === "snakes") paneSnakes(body);
+    else if (menuView === "key") mapKey(body);
+  }
+  function mapKey(p) {
+    const ul = el("ul", { class: "cl-keylist" });
+    t().levels.forEach((l, i) => ul.append(el("li", {}, el("i", { style: `background:${LEVEL_COL[i]}` }), `${l} · ≈ ${[0, 5, 10, 16, 21][i]} ${t().cans}`)));
+    ul.append(el("li", {}, el("i", { style: "border:2px dashed var(--muted);background:transparent" }), t().legendHint), el("li", {}, el("i", { style: "background:var(--route)" }), t().legendNum));
+    p.append(ul);
   }
 
   function seg(options, value, onPick) {
@@ -740,34 +978,6 @@ export function mountCollector(root) {
     try { await replan(); } catch (e) { console.warn(e); }
     await startRoute();
   }
-  function paneRoute(p) {
-    if (!S.shift) {
-      p.append(el("div", { class: "cl-start" },
-        el("button", { class: "cl-startbtn", onclick: beginShift }, t().startMyShift),
-        el("p", { class: "cl-note" }, S.planning ? t().planning : t().shiftHint)),
-        sh.bestCard(S.snakes), el("button", { class: "sh-link", onclick: () => sh.explain() }, "ⓘ " + sh.text().how));
-      return;
-    }
-    const stops = routeStops(), left = stops.filter(s => !S.done.has(s.id)), n = nextStop();
-    if (n) {
-      const s = byId(n.id), d = S.me ? haversine(S.me, s) : null, nav = S.routeOn ? navInfo() : null;
-      p.append(el("div", { class: "cl-next" }, el("div", { class: "eyebrow" }, `${t().next} · ${t().stopsLeft(left.length)}`),
-        el("h3", {}, s.design_name),
-        el("div", { class: "cl-meta" }, s.location_label ? el("span", {}, s.location_label) : "", d != null ? el("span", {}, fmtM(nav ? nav.left : d)) : ""),
-        nav?.step ? el("div", { class: "cl-turn" }, el("i", { "aria-hidden": "true" }, ARROW[nav.step.mod] || (nav.step.kind === "arrive" ? "◎" : "↑")), el("span", {}, stepText(nav.step, S.lang) + " · " + t().inM(fmtM(nav.stepIn)))) : "",
-        el("div", { class: "cl-row" },
-          el("button", { class: "cl-btn primary", onclick: () => openArrival(s.id, d) }, t().here),
-          el("button", { class: "cl-btn ghost", onclick: () => { S.skipped.add(s.id); replan(); } }, t().skip))));
-      const after = left.slice(1).map((x, i) => ({ ...x, num: i + 2 }));
-      p.append(sh.upNext(after, byId, eff, LEVEL_COL, id => { focusSnake(id); openSnake(id); }));
-      const cans = left.reduce((a, x) => a + (x.cans || 0), 0), km = left.reduce((a, x) => a + (x.legM || 0), 0) / 1000;
-      p.append(el("p", { class: "sh-total" }, sh.totalLine(left.length, km.toFixed(1), cans, Math.round(cans * CAN_VALUE))), sh.sessionLine((S.reserved || []).filter(id => !S.done.has(id)).length));
-    } else {
-      p.append(el("div", { class: "cl-start" }, el("h3", { style: "margin:0" }, S.planning ? t().planning : stops.length ? t().allDone : t().noRoute)));
-    }
-    p.append(el("button", { class: "cl-btn", style: "width:100%", onclick: () => { S.skipped.clear(); replan(); } }, "↻ " + t().newRoute));
-    if (S.planning) p.append(el("p", { class: "cl-src busy" }, S.routeOn ? t().rerouting : t().planning));
-  }
   // Snakes: every snake in the city, nearest first, with a search. The search box lives for the whole session so typing
   // survives the sheet being redrawn (GPS, refresh); while it has focus only the list is redrawn.
   const snakeSearch = el("input", { type: "search", id: "cl-snake-search", class: "cl-search", autocomplete: "off", enterkeyhint: "search" });
@@ -777,18 +987,18 @@ export function mountCollector(root) {
     if (!store.get("snakes-help-hidden", false)) {
       p.append(el("div", { class: "cl-help" }, el("b", {}, t().snakesWhat),
         el("ul", {}, ...t().snakesUses.map(([ic, h, d]) => el("li", {}, el("span", { class: "ic", "aria-hidden": "true" }, ic), el("span", {}, el("b", {}, h), el("small", {}, d))))),
-        el("button", { class: "cl-btn small", onclick: () => { store.set("snakes-help-hidden", true); renderSheet(); } }, t().gotIt)));
-    } else p.append(el("button", { class: "sh-link", style: "justify-self:start;padding:0;min-height:32px", onclick: () => { store.set("snakes-help-hidden", false); renderSheet(); } }, "ⓘ " + t().snakesWhat));
+        el("button", { class: "cl-btn small", onclick: () => { store.set("snakes-help-hidden", true); renderMenu(); } }, t().gotIt)));
+    }
     snakeSearch.placeholder = t().searchPh; snakeSearch.setAttribute("aria-label", t().searchPh); snakeSearch.value = S.q || "";
     p.append(el("label", { class: "cl-searchwrap", for: "cl-snake-search" }, el("span", { "aria-hidden": "true" }, "⌕"), snakeSearch),
-      el("div", { class: "cl-opts" }, seg([["all", t().all], ["full", t().fullish], ["prob", t().withProblems]], S.filter, v => { S.filter = v; renderSheet(); }), el("label", {}, S.me ? t().sortDist : "")));
+      el("div", { class: "cl-opts" }, seg([["all", t().all], ["full", t().fullish], ["prob", t().withProblems]], S.filter, v => { S.filter = v; renderMenu(); }), el("label", {}, S.me ? t().sortDist : "")));
     snakeListEl = el("div", { style: "display:grid;gap:6px" }); p.append(snakeListEl);
     drawSnakeList();
   }
   const norm = v => String(v || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   function drawSnakeList() {
     if (!snakeListEl) return;
-    let list = S.snakes.slice();
+    let list = S.snakes.filter(s => S.mine?.has(s.id));      // only snakes you have emptied before: locations are earned, not browsed
     if (S.filter === "full") list = list.filter(s => (eff(s).f ?? 0) >= 3); if (S.filter === "prob") list = list.filter(s => s.open_problems);
     const q = norm(S.q).trim();
     if (q) list = list.filter(s => [s.design_name, s.location_label, snakeMeta(s.id).place, s.id].some(v => norm(v).includes(q)));
@@ -796,13 +1006,13 @@ export function mountCollector(root) {
     const ul = el("ul", { class: "cl-list" }), mpm = TRANSPORT[S.set.mode].kmh * 1000 / 60;
     for (const s of list) {
       const d = S.me ? haversine(S.me, s) : null;
-      ul.append(el("li", {}, el("button", { class: "cl-item cl-snakerow", onclick: () => { focusSnake(s.id); openSnake(s.id); } },
+      ul.append(el("li", {}, el("button", { class: "cl-item cl-snakerow", onclick: () => { closeMenu(); focusSnake(s.id); openSnake(s.id); } },
         d != null ? el("span", { class: "cl-dist" }, el("b", {}, fmtM(d)), el("small", {}, `${Math.max(1, Math.round(d * 1.3 / mpm))} ${t().min}`)) : el("span"),
         el("span", { style: "min-width:0;display:flex;gap:10px;align-items:center" }, el("span", { class: "cl-stripe", style: "width:8px;height:34px;flex:none;flex-direction:column" }, ...(snakeMeta(s.id).colors || []).map(c => el("i", { style: `background:${c}` }))),
           el("span", { style: "min-width:0" }, el("b", {}, s.design_name), el("small", {}, snakeLine(s)))),
         el("span", { style: "display:grid;gap:3px;justify-items:end" }, pill(s), s.open_problems ? el("span", { class: "cl-pill bad" }, "! " + s.open_problems) : "", s.claimed_by_other ? el("small", {}, "🔒") : ""))));
     }
-    snakeListEl.replaceChildren(list.length ? ul : el("p", { class: "cl-empty" }, q ? t().noMatch(S.q.trim()) : "—"));
+    snakeListEl.replaceChildren(list.length ? ul : el("p", { class: "cl-empty" }, q ? t().noMatch(S.q.trim()) : S.mine ? t().noMine : "…"));
   }
   function dirLink(s) { const m = { walk: "walking", bike: "bicycling", cargo: "bicycling" }[S.set.mode]; return `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=${m}`; }
   function focusSnake(id) { const s = byId(id); if (!s) return; S.focus = id; renderMarkers(); map.setView(s.lat, s.lng, Math.max(map.z, 15)); }
@@ -838,7 +1048,7 @@ export function mountCollector(root) {
           s.sponsor_turn_until && !s.i_sponsor && new Date(s.sponsor_turn_until) > Date.now() ? el("dt", {}, "🌱") : "", s.sponsor_turn_until && !s.i_sponsor && new Date(s.sponsor_turn_until) > Date.now() ? el("dd", { style: "color:#7A5AF8;font-weight:600" }, t().sponsorTurn(Math.max(1, Math.round((new Date(s.sponsor_turn_until) - Date.now()) / 6e4)))) : ""),
         el("div", { class: "cl-row" },
           el("button", { class: "cl-btn primary", onclick: () => { close(); openArrival(id, dist); } }, t().here),
-          el("button", { class: "cl-btn", onclick: () => { if (inRoute) { S.skipped.add(id); S.mustInclude = S.mustInclude.filter(x => x !== id); } else { S.skipped.delete(id); S.mustInclude.push(id); } close(); replan(); } }, inRoute ? t().remove : t().add)),
+          el("button", { class: "cl-btn", onclick: () => { if (inRoute) { S.skipped.add(id); S.mustInclude = S.mustInclude.filter(x => x !== id); } else { S.skipped.delete(id); S.mustInclude.push(id); } close(); S.routeOn ? replanLive("manual") : replan(); } }, inRoute ? t().remove : t().add)),
         spHost, el("button", { class: "cl-btn ghost", onclick: close }, t().done));
       cm.sponsorBlock(id, spHost);
     }, () => { S.focus = null; renderMarkers(); });
@@ -874,10 +1084,11 @@ export function mountCollector(root) {
               if (!navigator.onLine || e instanceof TypeError) { S.queue.push({ ...job, photo: null }); store.set("queue", S.queue); toast(t().savedOffline(S.queue.length)); }
               else { msg.textContent = t().error; ev.target.disabled = false; return; }
             }
+            const prevAhead = visibleStops().map(s => s.id);                    // what the collector could see before this check-in
             if (!LIVE && id === TEST_CAN) S.dismissed.set(id, Date.now());      // the home test can stays in the route; the check-in just waits 5 minutes before opening again
             else { S.done.add(id); store.set("done-today", { day: new Date().toDateString(), ids: [...S.done] }); }
-            cm.reset(); close(); await loadVisits(); await refresh(); renderBanner();
-            if (S.routeOn) routeGeometry(); else replan();
+            cm.reset(); close(); await loadVisits(); await refresh(false, true); renderBanner();
+            if (S.routeOn) replanLive("visit", prevAhead.filter(x => x !== id)); else replan();
           } }, quick ? "✓ " + t().okBig : t().save), msg);
         if (!st.more) {      // the usual case stays tiny: one big button, the map stays visible above
           d.append(el("div", { class: "cl-row" }, el("button", { class: "cl-btn", style: "flex:1", onclick: () => { st.more = true; render(); } }, t().somethingElse),
@@ -944,7 +1155,7 @@ export function mountCollector(root) {
 
   // ---------- fabs, sign-in, start ----------
   fabs.append(
-    el("button", { "aria-label": t().locate, title: t().locate, html: ICON.locate, onclick: () => { map._userPanned = false; if (S.me) map.setView(S.me.lat, S.me.lng, Math.max(map.z, 15)); } }),
+    el("button", { "aria-label": t().locate, title: t().locate, html: ICON.locate, onclick: () => { map._userPanned = false; if (S.routeOn) fitAhead(); else if (S.me) map.setView(S.me.lat, S.me.lng, Math.max(map.z, 13.5)); } }),
     el("button", { "aria-label": t().zoomIn, html: ICON.plus, onclick: () => map.zoomAt(1) }),
     el("button", { "aria-label": t().zoomOut, html: ICON.minus, onclick: () => map.zoomAt(-1) }));
   function renderAll() { map.setNote?.(t().demoMap); renderTop(); renderBanner(); renderLegend(); renderSheet(); renderMarkers(); }
@@ -957,7 +1168,7 @@ export function mountCollector(root) {
     renderAll(); await loadVisits(); await refresh(true);
     if (S.shift && !S.routeOn) { await replan(); await startRoute(); }          // a shift that was running when the page was closed carries on
     if (S.set.end) map.setEnd(S.set.end);
-    if (!LIVE) { setMe({ lat: 56.1556, lng: 10.2086, acc: 8, src: "sim" }); map.setView(56.1556, 10.2086, 13.6, false); }   // holds the place until the first real fix
+    if (!LIVE) { setMe({ lat: 56.1556, lng: 10.2086, acc: 8, src: "sim" }); map.setView(56.1556, 10.2086, 13.4, false); }   // holds the place until the first real fix
     startGps();                                                                                                                // real phone GPS in every mode
     renderBanner(); flushQueue(); wake();
     setInterval(() => refresh(), LIVE ? 60000 : 20000);

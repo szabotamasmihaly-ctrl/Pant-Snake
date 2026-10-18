@@ -246,7 +246,7 @@ export function createShift(ctx) {
       go.onclick = () => { S.set.minutes = minutes; ctx.saveSet(); close(); onStart(minutes); };
       d.append(el("h2", {}, x().howLong), el("p", { class: "cl-note", style: "margin-top:-6px" }, x().howLongHint), chips,
         el("div", { class: "cl-opts" }, ctx.seg(Object.keys(TRANSPORT).map(k => [k, TRANSPORT[k].label[S.lang]]), S.set.mode, v => { S.set.mode = v; S.set.bag = null; ctx.saveSet(); d.querySelector(".cl-seg").replaceWith(ctx.seg(Object.keys(TRANSPORT).map(k => [k, TRANSPORT[k].label[S.lang]]), v, () => {})); update(); })),
-        sum, go, bestCard(S.snakes), relBadge(), el("button", { class: "sh-link", onclick: () => explain() }, "ⓘ " + x().how));
+        sum, go, el("button", { class: "sh-link", onclick: () => explain() }, "ⓘ " + x().how));
       update();
     });
   }
