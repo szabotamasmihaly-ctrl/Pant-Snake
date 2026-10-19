@@ -1,6 +1,6 @@
 // One entry per design = one QR code. id is what the QR code carries (?s=<id>).
 // To place a second snake with the same design later, add a row with a new id, e.g. 'bud-04-vizkopo-rez-b'.
-// lat/lng/location: where the snake stands. The Aarhus ones are EXAMPLE placements for the collector demo; replace them with the real spots.
+// lat/lng/location: where the snake stands. Aarhus: 30 planned sites (Oct 2026), chosen for footfall first and the livery's landmark second.
 window.SNAKES = [
  {
   "id": "aar-01-rainbow",
@@ -13,9 +13,9 @@ window.SNAKES = [
    "#2E3236",
    "#D6EBE9"
   ],
-  "lat": 56.1559,
-  "lng": 10.204,
-  "location": "Åboulevarden by Musikhuset"
+  "lat": 56.1542,
+  "lng": 10.1998,
+  "location": "ARoS forecourt, Aros Allé by Vester Allé"
  },
  {
   "id": "aar-02-gamleby",
@@ -28,9 +28,9 @@ window.SNAKES = [
    "#8C2F25",
    "#2A211C"
   ],
-  "lat": 56.1575,
-  "lng": 10.2072,
-  "location": "Latin Quarter, Studsgade area"
+  "lat": 56.1577,
+  "lng": 10.1945,
+  "location": "Den Gamle By entrance, Viborgvej at Vesterbrogade"
  },
  {
   "id": "aar-03-runes",
@@ -43,9 +43,9 @@ window.SNAKES = [
    "#7E1B14",
    "#1C1A18"
   ],
-  "lat": 56.1582,
-  "lng": 10.1995,
-  "location": "Vesterbro Torv"
+  "lat": 56.1508,
+  "lng": 10.2038,
+  "location": "Aarhus H, Banegårdspladsen"
  },
  {
   "id": "aar-04-mollestien",
@@ -58,9 +58,9 @@ window.SNAKES = [
    "#A63F2E",
    "#5E5B57"
   ],
-  "lat": 56.1594,
-  "lng": 10.2066,
-  "location": "Latin Quarter, Møllestien / Mejlgade"
+  "lat": 56.1598,
+  "lng": 10.2055,
+  "location": "Klosterport by Nørre Allé"
  },
  {
   "id": "aar-05-bay",
@@ -73,9 +73,9 @@ window.SNAKES = [
    "#F5F8F9",
    "#0B2742"
   ],
-  "lat": 56.1665,
-  "lng": 10.226,
-  "location": "Aarhus Ø, harbour front"
+  "lat": 56.1647,
+  "lng": 10.2221,
+  "location": "Aarhus Ø, Dagmar Petersens Gade by Isbjerget"
  },
  {
   "id": "aar-06-radhus",
@@ -89,8 +89,8 @@ window.SNAKES = [
    "#2C3135"
   ],
   "lat": 56.1532,
-  "lng": 10.2032,
-  "location": "Rådhuspladsen"
+  "lng": 10.204,
+  "location": "Rådhuspladsen, Park Allé bus stops"
  },
  {
   "id": "aar-07-domkirke",
@@ -115,9 +115,9 @@ window.SNAKES = [
    "#A2472A",
    "#3C5A3A"
   ],
-  "lat": 56.1567,
-  "lng": 10.2097,
-  "location": "Store Torv"
+  "lat": 56.1568,
+  "lng": 10.2103,
+  "location": "Store Torv by Domkirken"
  },
  {
   "id": "aar-08-aaen",
@@ -131,8 +131,8 @@ window.SNAKES = [
    "#3A3F44"
   ],
   "lat": 56.1561,
-  "lng": 10.2068,
-  "location": "Åboulevarden, middle of the bar strip"
+  "lng": 10.2066,
+  "location": "Åboulevarden at Immervad"
  },
  {
   "id": "aar-09-dyrehave",
@@ -157,9 +157,9 @@ window.SNAKES = [
    "#3A2414",
    "#EFE6D6"
   ],
-  "lat": 56.1546,
-  "lng": 10.1975,
-  "location": "Vester Allé, Thorvaldsensgade"
+  "lat": 56.1449,
+  "lng": 10.199,
+  "location": "Ingerslevs Plads, food market"
  },
  {
   "id": "aar-10-bro",
@@ -172,9 +172,9 @@ window.SNAKES = [
    "#4A3A2C",
    "#1E5674"
   ],
-  "lat": 56.1489,
-  "lng": 10.1975,
-  "location": "Frederiks Allé"
+  "lat": 56.142,
+  "lng": 10.2105,
+  "location": "Tangkrogen, Strandvejen"
  },
  {
   "id": "aar-11-havn",
@@ -187,9 +187,9 @@ window.SNAKES = [
    "#B23A2E",
    "#2E3236"
   ],
-  "lat": 56.1562,
-  "lng": 10.2018,
-  "location": "Åboulevarden, Nørre Allé bridge"
+  "lat": 56.1635,
+  "lng": 10.2155,
+  "location": "Østbanetorvet light rail stop"
  },
  {
   "id": "aar-12-au",
@@ -202,9 +202,9 @@ window.SNAKES = [
    "#B98A3E",
    "#4F6B34"
   ],
-  "lat": 56.1613,
-  "lng": 10.2103,
-  "location": "Latin Quarter, Nørregade"
+  "lat": 56.1712,
+  "lng": 10.2043,
+  "location": "Universitetet light rail stop, Nørrebrogade by Nordre Ringgade"
  },
  {
   "id": "aar-13-godsbanen",
@@ -217,9 +217,9 @@ window.SNAKES = [
    "#D6337F",
    "#2BA7CF"
   ],
-  "lat": 56.1556,
-  "lng": 10.1997,
-  "location": "Åboulevarden west"
+  "lat": 56.1547,
+  "lng": 10.1953,
+  "location": "Godsbanen, Skovgaardsgade"
  },
  {
   "id": "aar-14-festuge",
@@ -232,9 +232,9 @@ window.SNAKES = [
    "#C8102E",
    "#22324A"
   ],
-  "lat": 56.1523,
-  "lng": 10.2091,
-  "location": "Sønder Allé"
+  "lat": 56.1538,
+  "lng": 10.2063,
+  "location": "Søndergade, Strøget"
  },
  {
   "id": "aar-15-pant",
@@ -246,7 +246,10 @@ window.SNAKES = [
    "#1E5B3A",
    "#B8BEC4",
    "#F2C230"
-  ]
+  ],
+  "lat": 56.1482,
+  "lng": 10.2047,
+  "location": "Jægergårdsgade at M.P. Bruuns Gade"
  },
  {
   "id": "aar-15-pant-2",
@@ -259,9 +262,9 @@ window.SNAKES = [
    "#0A2A1E",
    "#0A2A1E"
   ],
-  "lat": 56.154,
-  "lng": 10.206,
-  "location": "Søndergade"
+  "lat": 56.1562,
+  "lng": 10.2008,
+  "location": "Mølleparken"
  },
  {
   "id": "aar-16-dokk1",
@@ -274,9 +277,9 @@ window.SNAKES = [
    "#2C3A44",
    "#A4793B"
   ],
-  "lat": 56.1545,
-  "lng": 10.2132,
-  "location": "Havnegade by Dokk1"
+  "lat": 56.1535,
+  "lng": 10.213,
+  "location": "Dokk1 light rail stop, Hack Kampmanns Plads"
  },
  {
   "id": "aar-17-lighthouse",
@@ -289,9 +292,9 @@ window.SNAKES = [
    "#2E4356",
    "#F2F2EE"
   ],
-  "lat": 56.16292,
-  "lng": 10.22249,
-  "location": "Aarhus Ø, Lighthouse"
+  "lat": 56.1601,
+  "lng": 10.2143,
+  "location": "Kystvejen at Nørreport"
  },
  {
   "id": "aar-18-vikingship",
@@ -304,9 +307,9 @@ window.SNAKES = [
    "#2B1E14",
    "#A8281E"
   ],
-  "lat": 56.1556,
-  "lng": 10.2113,
-  "location": "Sankt Clemens Torv"
+  "lat": 56.1557,
+  "lng": 10.2108,
+  "location": "Sankt Clemens Torv by Viking Museum"
  },
  {
   "id": "aar-19-friheden",
@@ -319,9 +322,9 @@ window.SNAKES = [
    "#D23B3B",
    "#B8BEC4"
   ],
-  "lat": 56.1447,
-  "lng": 10.1959,
-  "location": "Ingerslevs Boulevard"
+  "lat": 56.1366,
+  "lng": 10.2001,
+  "location": "Tivoli Friheden entrance, Skovbrynet"
  },
  {
   "id": "aar-20-tropehus",
@@ -334,9 +337,9 @@ window.SNAKES = [
    "#3F7F45",
    "#C9CFC8"
   ],
-  "lat": 56.1604,
-  "lng": 10.2088,
-  "location": "Latin Quarter, Mejlgade north"
+  "lat": 56.1582,
+  "lng": 10.1993,
+  "location": "Vesterbro Torv"
  },
  {
   "id": "aar-21-teater",
@@ -349,9 +352,9 @@ window.SNAKES = [
    "#D9C7A0",
    "#5E8C73"
   ],
-  "lat": 56.1572,
+  "lat": 56.1567,
   "lng": 10.212,
-  "location": "Bispetorv"
+  "location": "Bispetorv by Aarhus Teater"
  },
  {
   "id": "aar-22-vandmand",
@@ -364,9 +367,9 @@ window.SNAKES = [
    "#123A5C",
    "#2B5070"
   ],
-  "lat": 56.1506,
+  "lat": 56.1505,
   "lng": 10.2102,
-  "location": "Spanien"
+  "location": "Spanien bus terminal"
  },
  {
   "id": "aar-23-jul",
@@ -379,7 +382,7 @@ window.SNAKES = [
    "#8C2F25",
    "#F2F2EE"
   ],
-  "lat": 56.1584,
+  "lat": 56.1585,
   "lng": 10.2088,
   "location": "Latin Quarter, Pustervig"
  },
@@ -394,9 +397,9 @@ window.SNAKES = [
    "#C08A3E",
    "#7A5626"
   ],
-  "lat": 56.1599,
-  "lng": 10.2143,
-  "location": "Kystvejen harbour front"
+  "lat": 56.17,
+  "lng": 10.2115,
+  "location": "Trøjborg, Trøjborgvej at Tordenskjoldsgade"
  },
  {
   "id": "aar-25-musikhuset",
@@ -409,9 +412,9 @@ window.SNAKES = [
    "#B8743A",
    "#B8743A"
   ],
-  "lat": 56.1563,
-  "lng": 10.2082,
-  "location": "Åboulevarden, Frederiksgade end"
+  "lat": 56.1533,
+  "lng": 10.1985,
+  "location": "Musikhuset, Thomas Jensens Allé"
  },
  {
   "id": "aar-26-letbane",
@@ -424,9 +427,9 @@ window.SNAKES = [
    "#E9ECEC",
    "#5C6166"
   ],
-  "lat": 56.1572,
-  "lng": 10.2056,
-  "location": "Latin Quarter, Skolegyde area"
+  "lat": 56.1613,
+  "lng": 10.2113,
+  "location": "Nørreport light rail stop"
  },
  {
   "id": "aar-27-smil",
@@ -439,9 +442,9 @@ window.SNAKES = [
    "#24427A",
    "#F7F5EF"
   ],
-  "lat": 56.158,
-  "lng": 10.2108,
-  "location": "Domkirkepladsen"
+  "lat": 56.1578,
+  "lng": 10.2072,
+  "location": "Lille Torv, Guldsmedgade"
  },
  {
   "id": "aar-28-riisskov",
@@ -454,9 +457,9 @@ window.SNAKES = [
    "#8E8C84",
    "#2F4A26"
   ],
-  "lat": 56.1515,
-  "lng": 10.2078,
-  "location": "Ny Banegårdsgade"
+  "lat": 56.1695,
+  "lng": 10.2224,
+  "location": "Den Permanente beach by Riis Skov"
  },
  {
   "id": "aar-29-havnebad",
@@ -469,9 +472,9 @@ window.SNAKES = [
    "#2B7FA6",
    "#3B3029"
   ],
-  "lat": 56.152,
-  "lng": 10.201,
-  "location": "Park Allé"
+  "lat": 56.16055,
+  "lng": 10.21984,
+  "location": "Aarhus Ø harbour bath, Bassin 7"
  },
  {
   "id": "aar-30-home-test",
