@@ -73,9 +73,9 @@ window.SNAKES = [
    "#F5F8F9",
    "#0B2742"
   ],
-  "lat": 56.1647,
-  "lng": 10.2221,
-  "location": "Aarhus Ø, Dagmar Petersens Gade by Isbjerget"
+  "lat": 56.16144,
+  "lng": 10.19652,
+  "location": "Langelandsgade in Øgaderne"
  },
  {
   "id": "aar-06-radhus",
@@ -172,9 +172,9 @@ window.SNAKES = [
    "#4A3A2C",
    "#1E5674"
   ],
-  "lat": 56.142,
-  "lng": 10.2105,
-  "location": "Tangkrogen, Strandvejen"
+  "lat": 56.14358,
+  "lng": 10.20904,
+  "location": "Strandvejen, south end of Frederiksbjerg"
  },
  {
   "id": "aar-11-havn",
@@ -322,9 +322,9 @@ window.SNAKES = [
    "#D23B3B",
    "#B8BEC4"
   ],
-  "lat": 56.1366,
-  "lng": 10.2001,
-  "location": "Tivoli Friheden entrance, Skovbrynet"
+  "lat": 56.14841,
+  "lng": 10.20931,
+  "location": "Spanien at Strandvejen"
  },
  {
   "id": "aar-20-tropehus",
@@ -457,9 +457,9 @@ window.SNAKES = [
    "#8E8C84",
    "#2F4A26"
   ],
-  "lat": 56.1695,
-  "lng": 10.2224,
-  "location": "Den Permanente beach by Riis Skov"
+  "lat": 56.16559,
+  "lng": 10.20894,
+  "location": "Nørrebrogade at Nørre Boulevard"
  },
  {
   "id": "aar-29-havnebad",
@@ -472,9 +472,9 @@ window.SNAKES = [
    "#2B7FA6",
    "#3B3029"
   ],
-  "lat": 56.16055,
-  "lng": 10.21984,
-  "location": "Aarhus Ø harbour bath, Bassin 7"
+  "lat": 56.16487,
+  "lng": 10.19986,
+  "location": "Langelandsgade, north end of Øgaderne"
  },
  {
   "id": "aar-30-home-test",
