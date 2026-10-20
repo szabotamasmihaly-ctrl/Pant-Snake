@@ -28,15 +28,27 @@ export function createFilm({ root, scenes, studio, total: wantTotal }) {
     if (e.key === ' ' && document.activeElement === document.body) { e.preventDefault(); setPlay(!playing); }
   });
 
-  // labels anchored to 3D points
+  // labels: the box stays put on screen (placed where its point is when it appears), a dot follows the 3D point
+  // and a thin line joins them, so the text never shakes while the snake turns
   const labLayer = document.createElement('div'); labLayer.style.cssText = 'position:absolute;inset:0'; box.appendChild(labLayer);
+  const NS = 'http://www.w3.org/2000/svg', leadSvg = document.createElementNS(NS, 'svg');
+  leadSvg.setAttribute('class', 'leads'); leadSvg.setAttribute('viewBox', '0 0 1600 900'); labLayer.appendChild(leadSvg);
   const labs = {};
-  function label(id, p, title, sub, show, cls = '') {
+  function label(id, p, title, sub, show, cls = '', off = null) {
     let el = labs[id];
-    if (!el) { el = labs[id] = document.createElement('div'); el.className = 'lab ' + cls; el.innerHTML = `<i></i><div><b></b><span></span></div>`; labLayer.appendChild(el); }
+    if (!el) {
+      el = labs[id] = document.createElement('div'); el.className = 'lab ' + cls; el.innerHTML = '<div><b></b><span></span></div>'; labLayer.appendChild(el);
+      el._dot = document.createElement('i'); el._dot.className = 'ldot ' + cls; labLayer.appendChild(el._dot);
+      el._line = document.createElementNS(NS, 'line'); el._line.setAttribute('class', 'lead ' + cls); leadSvg.appendChild(el._line);
+    }
     el.querySelector('b').textContent = title; el.querySelector('span').textContent = sub || ''; el.querySelector('span').style.display = sub ? '' : 'none';
-    const q = studio.project(p, 1600, 900);
-    el.style.left = q.x + 'px'; el.style.top = q.y + 'px'; el.style.opacity = show * (q.vis ? 1 : 0); el._used = true;
+    const q = studio.project(p, 1600, 900), inside = q.vis && q.x > 0 && q.x < 1600 && q.y > 0 && q.y < 900, o = show * (inside ? 1 : 0), left = cls.includes('left');
+    if (!el._fix || o <= .001) el._fix = { x: Math.round(left ? Math.max(330, q.x - (off ? -off[0] : 64)) : Math.min(1270, q.x + (off ? off[0] : 64))), y: Math.round(Math.min(840, Math.max(60, q.y + (off ? off[1] : -34)))) };
+    const f = el._fix;
+    el.style.left = f.x + 'px'; el.style.top = f.y + 'px'; el.style.opacity = o;
+    el._dot.style.transform = `translate(${q.x.toFixed(1)}px, ${q.y.toFixed(1)}px)`; el._dot.style.opacity = o;
+    const l = el._line; l.setAttribute('x1', q.x.toFixed(1)); l.setAttribute('y1', q.y.toFixed(1)); l.setAttribute('x2', f.x); l.setAttribute('y2', f.y); l.style.opacity = o * .7;
+    el._used = true;
   }
 
   function setCap(c) {
@@ -67,7 +79,7 @@ export function createFilm({ root, scenes, studio, total: wantTotal }) {
     }
     for (const k in labs) labs[k]._used = false;
     s.run(t, F, dt);
-    for (const k in labs) if (!labs[k]._used) labs[k].style.opacity = 0;
+    for (const k in labs) if (!labs[k]._used) { const l = labs[k]; l.style.opacity = l._dot.style.opacity = l._line.style.opacity = 0; l._fix = null; }
     // fades at cuts
     const fin = s.cut === false ? 0 : Math.max(0, 1 - t / .45), fout = (scenes[i + 1] && scenes[i + 1].cut !== false) ? Math.max(0, 1 - (s.d - t) / .45) : 0;
     fade.style.opacity = Math.max(fin, fout);

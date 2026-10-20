@@ -8,29 +8,29 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Nunito:wght@600;700;800&display=swap">
-<link rel="stylesheet" href="../assets/css/film.css">
+<link rel="stylesheet" href="../assets/css/film-v4.css">
 <style>
 .counter { right: 64px; top: 110px; text-align: right; }
 .counter b { display: block; font: 800 120px/0.9 var(--display); letter-spacing: -.04em; }
 .counter span { font: 500 16px/1.3 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .mapwrap { left: 0; top: 0; width: 1600px; height: 900px; background: #0a1118; }
-.mapwrap svg { position: absolute; left: 540px; top: 0; height: 900px; width: auto; }
+.mapwrap svg { position: absolute; left: 720px; top: 0; height: 900px; width: auto; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 150px); mask-image: linear-gradient(90deg, transparent 0, #000 150px); }
 .mapstats { left: 64px; top: 120px; width: 420px; display: grid; gap: 18px; }
 .legend { display: flex; gap: 18px; font: 500 14px var(--mono); color: var(--muted); }
 .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
 .eu { left: 0; top: 0; width: 1600px; height: 900px; background: #0a1118; }
-.eu svg.map { position: absolute; left: -40px; top: -40px; width: 1100px; height: 980px; }
-.bars { position: absolute; left: 1010px; top: 330px; width: 540px; display: grid; gap: 12px; }
-.bars .r { display: grid; grid-template-columns: 170px 1fr; gap: 12px; align-items: center; font-size: 18px; }
+.eu svg.map { position: absolute; left: -60px; top: -40px; width: 1040px; height: 980px; -webkit-mask-image: linear-gradient(270deg, transparent 0, #000 140px); mask-image: linear-gradient(270deg, transparent 0, #000 140px); }
+.bars { position: absolute; left: 1050px; top: 330px; width: 490px; display: grid; gap: 12px; }
+.bars .r { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center; font-size: 18px; }
 .bars .tr { position: relative; height: 26px; background: #18212b; border-radius: 6px; }
 .bars .fl { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 6px; }
 .bars .v { position: absolute; top: 0; white-space: nowrap; font: 500 16px/26px var(--mono); color: var(--fg); }
 .bars .goal { position: absolute; top: -10px; bottom: -10px; width: 2px; background: var(--glow); }
-.srcs { position: absolute; left: 1010px; bottom: 30px; width: 550px; font-size: 12.5px; line-height: 1.45; color: var(--dim); }
+.srcs { position: absolute; left: 1050px; bottom: 30px; width: 490px; font-size: 12.5px; line-height: 1.45; color: var(--dim); }
 .slogan { left: 0; top: 0; width: 1600px; height: 900px; background: #07090c; }
 .slogan div { position: absolute; left: 120px; width: 1360px; font: 800 86px/1.05 var(--display); letter-spacing: -.03em; }
 .costw { left: 0; top: 0; width: 1600px; height: 900px; background: var(--studio); }
-.costt { position: absolute; left: 740px; top: 60px; width: 800px; }
+.costt { position: absolute; left: 790px; top: 60px; width: 760px; }
 .costt .crow { display: grid; grid-template-columns: 1fr 120px 130px; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 21px; align-items: baseline; }
 .costt .crow small { display: block; color: var(--muted); font-size: 15px; }
 .costt .crow b, .costt .crow em { font: 500 20px var(--mono); text-align: right; font-style: normal; }
@@ -209,8 +209,8 @@
 })();
 </script>
 <script type="module">
-import { createStudio, G, COILS, PATH, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar, fallback } from '../assets/js/snake3d-v3.js';
-import { createFilm } from '../assets/js/film.js';
+import { createStudio, G, COILS, PATH, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar, fallback } from '../assets/js/snake3d-v4.js';
+import { createFilm } from '../assets/js/film-v4.js';
 const root = document.getElementById('film'), $ = s => root.querySelector(s);
 const POSTER = '../assets/posters/story.webp';
 let S;
@@ -242,6 +242,20 @@ const tip = pathAt(0).p.clone(), tipDir = pathAt(0).p.clone().sub(pathAt(60).p).
 const tailP = pathAt(0).p;
 const bag = new THREE.Mesh(new THREE.LatheGeometry([[0, 0], [.13, .01], [.16, .12], [.15, .34], [.17, .36]].map(([r, y]) => new THREE.Vector2(r, y)), 40), new THREE.MeshStandardMaterial({ color: '#222a33', roughness: .7, side: THREE.DoubleSide, transparent: true, opacity: .92 }));
 bag.position.set(tailP.x * 1.4, 0, tailP.z * 1.4); bag.visible = false; S.scene.add(bag);
+/* the grey-water tank: stands under the tail tip during cleaning, a hose from the drain fills it */
+const tank = new THREE.Group(); tank.visible = false; S.scene.add(tank);
+const tankAt = new THREE.Vector3(tailP.x, 0, tailP.z).normalize().multiplyScalar(.46);
+tank.position.copy(tankAt);
+const tankBody = new THREE.Mesh(new THREE.CylinderGeometry(.15, .15, .22, 48, 1, true), new THREE.MeshPhysicalMaterial({ color: '#9aa6b2', roughness: .35, transparent: true, opacity: .35, side: THREE.DoubleSide, depthWrite: false }));
+tankBody.position.y = .11; tank.add(tankBody);
+const tankRim = new THREE.Mesh(new THREE.TorusGeometry(.15, .008, 8, 48), new THREE.MeshStandardMaterial({ color: '#5d6873', metalness: .5, roughness: .4 })); tankRim.rotation.x = Math.PI / 2; tankRim.position.y = .22; tank.add(tankRim);
+const tankBase = new THREE.Mesh(new THREE.CylinderGeometry(.155, .155, .02, 48), tankRim.material); tankBase.position.y = .01; tank.add(tankBase);
+const tankWater = new THREE.Mesh(new THREE.CylinderGeometry(.142, .142, 1, 48), new THREE.MeshStandardMaterial({ color: '#7fe6ff', emissive: '#22b8f0', emissiveIntensity: 1.2, transparent: true, opacity: .8, depthWrite: false }));
+tank.add(tankWater);
+const hoseEnd = tankAt.clone().setY(.24), hoseMid = tip.clone().lerp(hoseEnd, .5).setY(Math.min(tip.y, .24) - .04);
+const hose = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([tip.clone(), hoseMid, hoseEnd]), 40, .012, 10), new THREE.MeshStandardMaterial({ color: '#2b3138', roughness: .6 }));
+S.scene.add(hose); hose.visible = false;
+const setTank = (show, fill) => { tank.visible = hose.visible = show; const h = Math.max(.001, .2 * fill); tankWater.scale.y = h; tankWater.position.y = .02 + h / 2; tankWater.visible = fill > .002; };
 
 /* QR code drawing for the phone (decorative) */
 (() => { const q = $('#qrSvg'); let r = 7; const rnd = () => (r = (r * 9301 + 49297) % 233280) / 233280;
@@ -250,7 +264,7 @@ bag.position.set(tailP.x * 1.4, 0, tailP.z * 1.4); bag.visible = false; S.scene.
   finder(0, 0); finder(18, 0); finder(0, 18); })();
 
 /* Aarhus map */
-const svg = $('#aarSvg'); svg.setAttribute('viewBox', '96 60 897 760'); svg.style.width = '1060px'; svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+const svg = $('#aarSvg'); svg.setAttribute('viewBox', '96 60 897 760'); svg.style.width = '880px'; svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
 el('rect', { x: 0, y: 0, width: AAR.w, height: AAR.h, fill: '#0b1720' }, svg);
 el('path', { d: AAR.land, fill: '#121820' }, svg);
 el('path', { d: AAR.green, fill: '#14211b' }, svg);
@@ -301,7 +315,7 @@ const chs = $('#chpSvg'); const chEls = CH.map((c, i) => { const g = el('g', { t
   const v = el('text', { x: 0, y: 75, fill: '#EEF2F4', 'font-size': 26, 'font-family': 'IBM Plex Mono' }, g); return { g, r, v, c }; });
 
 const FILL24 = Array(24).fill('can');
-const resetAll = () => { S.isolate(null); S.headlight.intensity = 0; S.setItems([]); COILS.forEach((_, i) => S.setCoil(i, 0)); S.setXray(0); S.setRadio(0, 0); S.pod.set({}); S.setNight(0); S.setGlow(0); setWater(0); bag.visible = false; };
+const resetAll = () => { S.isolate(null); S.headlight.intensity = 0; S.setItems([]); COILS.forEach((_, i) => S.setCoil(i, 0)); S.setXray(0); S.setRadio(0, 0); S.pod.set({}); S.setNight(0); S.setGlow(0); setWater(0); setTank(false, 0); bag.visible = false; };
 const fullItems = () => fillAt(999, FILL24).items;
 const QR = polar(G.qrAz, G.qrZ, 199);
 
@@ -372,10 +386,10 @@ const scenes = [
    enter: resetAll,
    run(t) {
      S.setXray(.9); show('#Lspa', seg(t, .4, 1));
-     const f = smooth(seg(t, 1.6, 6.5)) * (1 - smooth(seg(t, 8, 9.6)));
-     setWater(f);
+     const drain = smooth(seg(t, 8, 9.6)), f = smooth(seg(t, 1.6, 6.5)) * (1 - drain);
+     setWater(f); setTank(t > .3, drain);
      [...$('#Lspa').querySelectorAll('.stepx')].forEach((s, i) => s.classList.toggle('on', t > [1, 1.8, 6.5, 8][i]));
-     cam(t, [[0, -150, 4, 2.7, 1.0, 32, .3], [10, -120, 4, 2.7, 1.0, 32, .3]]);
+     cam(t, [[0, -150, 6, 3.0, .86, 32, .3], [10, -120, 6, 3.0, .86, 32, .3]]);
    } },
  { name: 'Night', d: 8, caps: [[0, '09 · Night', 'After dark, it glows', 'The green lines are glow-in-the-dark plastic. Easy to find, easy to scan, and very easy to photograph.']],
    enter: resetAll,
