@@ -193,3 +193,20 @@ footer.foot { color: var(--dim); font-size: 14px; border-top: 1px solid var(--li
 .fallback b { font-size: 18px; }
 .fallback span { color: var(--muted); font-size: 15px; line-height: 1.45; }
 .fallback button { font: 500 13px var(--mono); padding: 10px 16px; border-radius: 999px; border: 0; background: var(--glow); color: var(--on-glow); cursor: pointer; }
+
+/* presentation mode: the film fills the screen; wide screens keep the 16:9 stage whole (bars in the page colour),
+   tall screens use the phone layout with the caption under the picture; controls float and hide when idle */
+.fsbtn { margin-left: 0; }
+html.presenting, html.presenting body { overflow: hidden; }
+.film.present { position: fixed; inset: 0; z-index: 100; display: grid; grid-template-rows: minmax(0, 1fr) auto; align-items: center; justify-items: center; gap: 0;
+  background: var(--studio); padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+.film.present .screen { width: min(100%, calc(100dvh * 16 / 9)); max-height: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 0; }
+.film.present .capOut { width: 100%; border-radius: 0; border-width: 1px 0 0; }
+.film.present .controls { position: absolute; left: 50%; bottom: max(14px, env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(1100px, calc(100% - 28px));
+  padding: 10px 12px; background: var(--panel); border: 1px solid var(--line-2); border-radius: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.35); transition: opacity .35s, transform .35s; z-index: 2; }
+.film.present.idle .controls { opacity: 0; transform: translate(-50%, 10px); pointer-events: none; }
+.film.present.idle, .film.present.idle .screen { cursor: none; }
+@media (orientation: portrait) {
+  .film.present .screen { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; }
+}

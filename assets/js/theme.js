@@ -2,7 +2,7 @@
 // Loaded in <head> before the styles paint, so the page never flashes the wrong colours.
 (function () {
   var KEY = 'ps-theme', root = document.documentElement, mq = matchMedia('(prefers-color-scheme: light)');
-  function stored() { try { var s = localStorage.getItem(KEY); return s === 'light' || s === 'dark' ? s : null; } catch (e) { return null; } }
+  function stored() { try { var s = localStorage.getItem(KEY); return s === 'light' || s === 'day' ? 'light' : s === 'dark' || s === 'night' ? 'dark' : null; } catch (e) { return null; } }   // the deck says day/night
   function label(b, t) { var next = t === 'light' ? 'dark' : 'light'; b.setAttribute('aria-label', 'Switch to ' + next + ' mode'); b.title = 'Switch to ' + next + ' mode'; }
   function apply() {
     var t = stored() || (mq.matches ? 'light' : 'dark');
