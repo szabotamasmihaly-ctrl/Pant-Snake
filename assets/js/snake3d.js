@@ -1,7 +1,7 @@
 // Shared 3D studio for the Pant Snake films: the painted 9-segment sensor snake on a street-light pole,
 // the cans inside it, the 12 belly coils, the cable, the pod and its key.
 // Units: metres in the scene. Geometry from the light-pole snake v2 and the sensor snake (19 Oct 2026).
-import * as THREE from 'three';
+import * as THREE from '../three/three.module.min.js';
 
 export const G = {
   R: 141.22, c: 65.145, dth: 1.505346, J0: 671.75, AZ0: 26.18 * Math.PI / 180,

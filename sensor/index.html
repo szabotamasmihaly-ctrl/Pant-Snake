@@ -137,7 +137,15 @@
   <footer class="foot">Pant Snake · Aarhus · 2026</footer>
 </div>
 
-<script type="importmap">{"imports":{"three":"../assets/three/three.module.min.js"}}</script>
+<script>
+// if a script or file fails, say so on the loading screen instead of waiting forever
+(function () {
+  function fail(msg) { var l = document.getElementById('loading'); if (l) l.querySelector('div').firstChild.textContent = 'Could not load the snake: ' + msg; }
+  addEventListener('error', function (e) { fail(e.message || ('file ' + (e.target && (e.target.src || e.target.href)))); }, true);
+  addEventListener('unhandledrejection', function (e) { fail(String(e.reason && e.reason.message || e.reason)); });
+  setTimeout(function () { var l = document.getElementById('loading'); if (l && l.isConnected && !document.getElementById('loadbar').style.width) fail('timed out, please reload'); }, 45000);
+})();
+</script>
 <script type="module">
 import { createStudio, G, COILS, CHIPS, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar } from '../assets/js/snake3d.js';
 import { createFilm } from '../assets/js/film.js';
