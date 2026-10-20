@@ -118,7 +118,7 @@ function glowMask(img) {
 }
 
 /* ---------- the studio ---------- */
-export async function createStudio({ canvas, base = 'assets/snake/', onProgress = () => {} }) {
+export async function createStudio({ canvas, base = 'assets/snake-v3/', onProgress = () => {} }) {
   // ask for the lightest context that still looks good; fall back step by step on weaker or busy machines
   let renderer = null, lastErr;
   for (const o of [{ antialias: true }, { antialias: false }, { antialias: false, powerPreference: 'low-power' }]) {
