@@ -164,7 +164,7 @@ export async function createStudio({ canvas, base = 'assets/snake/', onProgress 
   const poleMat = new THREE.MeshStandardMaterial({ color: '#7d868f', metalness: .75, roughness: .38 });
   const pole = new THREE.Group(); scene.add(pole);
   const shaft = new THREE.Mesh(new THREE.CylinderGeometry(.054, .064, 6, 64), poleMat); shaft.position.y = 3; shaft.castShadow = true; shaft.receiveShadow = true; pole.add(shaft);
-  const foot = new THREE.Mesh(new THREE.CylinderGeometry(.085, .09, .26, 48), poleMat); foot.position.y = .13; pole.add(foot);
+  const foot = new THREE.Mesh(new THREE.CylinderGeometry(.085, .09, .16, 48), poleMat); foot.position.y = .08; pole.add(foot);
   const arm = new THREE.Mesh(new THREE.CylinderGeometry(.03, .035, 1.1, 24), poleMat); arm.rotation.z = Math.PI / 2 - .12; arm.position.set(.5, 5.95, 0); pole.add(arm);
   const lampHead = new THREE.Mesh(new THREE.BoxGeometry(.5, .07, .2), new THREE.MeshStandardMaterial({ color: '#3a4149', metalness: .6, roughness: .4 })); lampHead.position.set(1.0, 6.0, 0); pole.add(lampHead);
   const lampLens = new THREE.Mesh(new THREE.PlaneGeometry(.44, .16), new THREE.MeshBasicMaterial({ color: '#2a2f35' })); lampLens.rotation.x = Math.PI / 2; lampLens.position.set(1.0, 5.963, 0); pole.add(lampLens);
@@ -313,10 +313,10 @@ export async function createStudio({ canvas, base = 'assets/snake/', onProgress 
     const arrow = new THREE.Mesh(new THREE.ShapeGeometry(new THREE.Shape([[-14, -5], [6, -5], [6, -11], [20, 0], [6, 11], [6, 5], [-14, 5]].map(([x, z]) => new THREE.Vector2(mm(x), mm(z))))), new THREE.MeshBasicMaterial({ color: '#0B2A5B', side: THREE.DoubleSide }));
     arrow.rotation.x = -Math.PI / 2; arrow.position.y = mm(22.2); key.add(arrow);
     key.visible = false;
-    // the lid, re-parented to a pivot at its top hook, eased 14 mm out to the belly surface (docking left it sunk)
+    // the lid, re-parented to a pivot at its top hook
     let lid = null; const pivot = new THREE.Group(); scene.add(pivot); place(pivot, 88, 4);
     const pivotHome = { p: pivot.position.clone(), q: pivot.quaternion.clone() }, f88 = spine(88);
-    if (parts.podlid) { const m = parts.podlid.mesh; m.parent.updateMatrixWorld(true); pivot.updateMatrixWorld(true); pivot.attach(m); m.position.y += .014; lid = m; }
+    if (parts.podlid) { const m = parts.podlid.mesh; m.parent.updateMatrixWorld(true); pivot.updateMatrixWorld(true); pivot.attach(m); lid = m; }
     const keyHome = spine(-52);
     function set({ inside: showIn = false, key: k = 0, bolts: bo = 0, tip = 0, slide = 0, out = 0, antenna = 0 } = {}) {
       inside.visible = showIn;
