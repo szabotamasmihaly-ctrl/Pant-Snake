@@ -1,11 +1,12 @@
-// Film player: a timeline of scenes over a 3D studio and a 1600 x 900 overlay box.
-// scene = { name, d (seconds), caps: [[t, eyebrow, title, text], ...], run(t, F), enter(F), cut: true }
+// Film player: a timeline of scenes over a 3D studio and an overlay box (1600 x 900, or 560 wide on a phone's tall stage).
+// scene = { name, d (seconds), caps: [[t, eyebrow, title, text], ...], run(t, F), enter(F), cut: true, dark: true }
 export function createFilm({ root, scenes, studio, total: wantTotal }) {
   const $ = s => root.querySelector(s);
   const screen = $('.screen'), box = $('.box'), fade = $('.fade');
   const cap = $('.cap'), capOut = root.querySelector('.capOut');
   let acc = 0; scenes.forEach(s => { s.t0 = acc; acc += s.d; }); const TOTAL = acc;
   let T = 0, playing = true, last = performance.now(), curIdx = -1, curCap = null, W = 0, H = 0;
+  let BW = 1600, BH = 900, portrait = false;
 
   // chapter chips + scrubber
   const chips = $('.chips'), bar = $('.bar'), fill = bar.querySelector('i'), time = $('.time');
@@ -14,6 +15,9 @@ export function createFilm({ root, scenes, studio, total: wantTotal }) {
     b.onclick = () => { seek(s.t0 + .01); }; chips.appendChild(b); s.chip = b;
     if (i) { const u = document.createElement('u'); u.style.left = (s.t0 / TOTAL * 100) + '%'; bar.appendChild(u); }
   });
+  // keep the current chip in view by scrolling the chip row only, never the page
+  const showChip = b => { const r = b.getBoundingClientRect(), c = chips.getBoundingClientRect();
+    if (r.left < c.left || r.right > c.right) chips.scrollTo({ left: chips.scrollLeft + r.left - c.left - (c.width - r.width) / 2, behavior: 'smooth' }); };
   const fmt = x => `${Math.floor(x / 60)}:${String(Math.floor(x % 60)).padStart(2, '0')}`;
   bar.setAttribute('aria-valuemax', Math.round(TOTAL));
   const barSeek = e => { const r = bar.getBoundingClientRect(); seek(Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * TOTAL); };
@@ -34,16 +38,26 @@ export function createFilm({ root, scenes, studio, total: wantTotal }) {
   const NS = 'http://www.w3.org/2000/svg', leadSvg = document.createElementNS(NS, 'svg');
   leadSvg.setAttribute('class', 'leads'); leadSvg.setAttribute('viewBox', '0 0 1600 900'); labLayer.appendChild(leadSvg);
   const labs = {};
-  function label(id, p, title, sub, show, cls = '', off = null) {
+  function label(id, p, title, sub, show, cls = '', off = null, pos = null) {   // pos: where the box goes on the phone stage
     let el = labs[id];
     if (!el) {
       el = labs[id] = document.createElement('div'); el.className = 'lab ' + cls; el.innerHTML = '<div><b></b><span></span></div>'; labLayer.appendChild(el);
       el._dot = document.createElement('i'); el._dot.className = 'ldot ' + cls; labLayer.appendChild(el._dot);
       el._line = document.createElementNS(NS, 'line'); el._line.setAttribute('class', 'lead ' + cls); leadSvg.appendChild(el._line);
     }
-    el.querySelector('b').textContent = title; el.querySelector('span').textContent = sub || ''; el.querySelector('span').style.display = sub ? '' : 'none';
-    const q = studio.project(p, 1600, 900), inside = q.vis && q.x > 0 && q.x < 1600 && q.y > 0 && q.y < 900, o = show * (inside ? 1 : 0), left = cls.includes('left');
-    if (!el._fix || o <= .001) el._fix = { x: Math.round(left ? Math.max(330, q.x - (off ? -off[0] : 64)) : Math.min(1270, q.x + (off ? off[0] : 64))), y: Math.round(Math.min(840, Math.max(60, q.y + (off ? off[1] : -34)))) };
+    if (el._title !== title || el._sub !== sub) {
+      el.querySelector('b').textContent = title; el.querySelector('span').textContent = sub || ''; el.querySelector('span').style.display = sub ? '' : 'none';
+      el._title = title; el._sub = sub; el._fix = null;
+    }
+    const q = studio.project(p, BW, BH), inside = q.vis && q.x > 0 && q.x < BW && q.y > 0 && q.y < BH, o = show * (inside ? 1 : 0), left = cls.includes('left');
+    if (!el._fix || o <= .001) {
+      // place the box once, beside its point, kept whole inside the frame
+      const k = portrait ? .5 : 1, ox = (off ? off[0] : (left ? -64 : 64)) * k, oy = (off ? off[1] : -34) * k;
+      const w = el.offsetWidth || 240, h = el.offsetHeight || 60, m = portrait ? 12 : 24;
+      const x = left ? Math.min(BW - m, Math.max(w + m, q.x + ox)) : Math.max(m, Math.min(BW - w - m, q.x + ox));
+      const px = pos && portrait ? (left ? Math.max(w + m, pos[0]) : Math.min(BW - w - m, pos[0])) : x;
+      el._fix = { x: Math.round(px), y: Math.round(Math.min(BH - h / 2 - m, Math.max(h / 2 + m, pos && portrait ? pos[1] : q.y + oy))) };
+    }
     const f = el._fix;
     el.style.left = f.x + 'px'; el.style.top = f.y + 'px'; el.style.opacity = o;
     el._dot.style.transform = `translate(${q.x.toFixed(1)}px, ${q.y.toFixed(1)}px)`; el._dot.style.opacity = o;
@@ -63,7 +77,7 @@ export function createFilm({ root, scenes, studio, total: wantTotal }) {
     if (capOut) apply(capOut);
   }
 
-  const F = { studio, box, label, total: TOTAL, get W() { return W; }, get H() { return H; }, $: s => root.querySelector(s) };
+  const F = { studio, box, label, total: TOTAL, get W() { return W; }, get H() { return H; }, get BW() { return BW; }, get BH() { return BH; }, get portrait() { return portrait; }, $: s => root.querySelector(s) };
   function seek(t) { T = Math.max(0, Math.min(TOTAL, t)); frame(0); }
   function frame(dt) {
     let i = scenes.findIndex(s => T < s.t0 + s.d); if (i < 0) i = scenes.length - 1;
@@ -72,9 +86,10 @@ export function createFilm({ root, scenes, studio, total: wantTotal }) {
       if (curIdx >= 0 && scenes[curIdx].leave) scenes[curIdx].leave(F);
       box.querySelectorAll('.layer').forEach(l => l.style.opacity = 0);
       cap.classList.remove('top', 'tr'); if (s.capClass) cap.classList.add(s.capClass);
+      screen.classList.toggle('dk', !!s.dark);
       if (s.enter) s.enter(F);
       scenes.forEach((x, j) => x.chip.classList.toggle('on', j === i));
-      s.chip.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+      showChip(s.chip);
       curIdx = i;
     }
     for (const k in labs) labs[k]._used = false;
@@ -98,12 +113,20 @@ export function createFilm({ root, scenes, studio, total: wantTotal }) {
   let resized = true;
   function fit() {
     const r = screen.getBoundingClientRect(); W = r.width; H = r.height;
-    box.style.transform = `scale(${W / 1600})`;
+    if (!W || !H) return;
+    const was = portrait; portrait = W / H < 1.2;
+    BW = portrait ? 560 : 1600; BH = portrait ? Math.round(560 * H / W) : 900;
+    box.style.width = BW + 'px'; box.style.height = BH + 'px'; box.style.transform = `scale(${W / BW})`;
+    leadSvg.setAttribute('viewBox', `0 0 ${BW} ${BH}`);
     studio.resize(Math.round(W), Math.round(H));
-    root.classList.toggle('narrow', W < 720);
+    root.classList.toggle('narrow', W < 720); root.classList.toggle('portrait', portrait);
+    if (was !== portrait) { for (const k in labs) labs[k]._fix = null; const s = scenes[curIdx]; if (s && s.enter) s.enter(F); }
     resized = true;
   }
   new ResizeObserver(fit).observe(screen); fit();
+  // light or dark studio, following the page
+  const theme = () => { studio.setTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark'); resized = true; };
+  addEventListener('themechange', theme); theme();
   // pause when the film is off screen, resume when it comes back if it was playing
   let wasPlaying = true;
   new IntersectionObserver(([e]) => { if (!e.isIntersecting) { wasPlaying = playing; setPlay(false); } else if (wasPlaying) setPlay(true); }, { threshold: .15 }).observe(screen);

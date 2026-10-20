@@ -133,7 +133,7 @@ export async function createStudio({ canvas, base = 'assets/snake-v3/', onProgre
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.45;
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   const scene = new THREE.Scene();
-  const BG = new THREE.Color('#13171D'), NIGHT = new THREE.Color('#06080C');
+  const BG = new THREE.Color('#13171D'), BG_DARK = BG.clone(), BG_LIGHT = new THREE.Color('#E3E8ED'), NIGHT = new THREE.Color('#06080C');
   scene.background = BG.clone(); scene.fog = new THREE.Fog(BG.clone(), 7, 26);
   const camera = new THREE.PerspectiveCamera(30, 16 / 9, 0.02, 80);
   const headlight = new THREE.PointLight('#ffffff', 0, 0, 0); headlight.position.set(.3, .4, 0); camera.add(headlight); scene.add(camera);
@@ -154,11 +154,12 @@ export async function createStudio({ canvas, base = 'assets/snake-v3/', onProgre
   const lamp = new THREE.SpotLight('#ffd9a0', 0, 9, .55, .6, 1.2); lamp.position.set(.95, 5.6, 0); lamp.target.position.set(.4, 0, 0); scene.add(lamp, lamp.target);
 
   // pavement and pole
-  const pave = canvasTex(1024, 1024, (g, w, h) => {
-    g.fillStyle = '#171c22'; g.fillRect(0, 0, w, h);
-    for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) { const s = 20 + Math.random() * 4; g.fillStyle = `rgb(${s},${s + 4},${s + 9})`; g.fillRect(x * 128 + 2, y * 128 + 2, 124, 124); }
-  });
-  pave.wrapS = pave.wrapT = THREE.RepeatWrapping; pave.repeat.set(30, 30);
+  // pavement slabs, dark for the night studio and pale for the light one
+  const paving = (base, joint) => { const t = canvasTex(1024, 1024, (g, w, h) => {
+    g.fillStyle = joint; g.fillRect(0, 0, w, h);
+    for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) { const s = base + Math.random() * 4; g.fillStyle = `rgb(${s},${s + 4},${s + 9})`; g.fillRect(x * 128 + 2, y * 128 + 2, 124, 124); }
+  }); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(30, 30); return t; };
+  const pave = paving(20, '#171c22'), paveLight = paving(150, '#7d858d');
   const ground = new THREE.Mesh(new THREE.CircleGeometry(30, 96), new THREE.MeshStandardMaterial({ map: pave, roughness: .92, metalness: 0 }));
   ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
   const poleMat = new THREE.MeshStandardMaterial({ color: '#7d868f', metalness: .75, roughness: .38 });
@@ -355,19 +356,36 @@ export async function createStudio({ canvas, base = 'assets/snake-v3/', onProgre
     state.night = f;
     scene.background.copy(BG).lerp(NIGHT, f); scene.fog.color.copy(scene.background);
     key.intensity = 3.4 * (1 - .92 * f); rim.intensity = 1.6 * (1 - .6 * f); hemi.intensity = 1.1 * (1 - .8 * f);
-    renderer.toneMappingExposure = 1.45 - .35 * f;
+    renderer.toneMappingExposure = expo - (expo - 1.1) * f;
     lamp.intensity = 14 * f; lampLens.material.color.set(f > .3 ? '#ffe6b5' : '#2a2f35');
   }
   function setGlow(f) { state.glow = f; for (const m of mats) m.emissiveIntensity = 1.4 * f; }
 
-  function orbit(az, el, d, ty, fov = 30, shift = 0) {       // az in pole frame (radians), el radians; shift > 0 puts the pole right of centre
-    camera.fov = fov; camera.updateProjectionMatrix();
+  // light or dark studio: background, fog, pavement and exposure
+  let expo = 1.45;
+  function setTheme(t) {
+    const light = t === 'light';
+    BG.copy(light ? BG_LIGHT : BG_DARK); expo = light ? 1.3 : 1.45;
+    ground.material.map = light ? paveLight : pave; ground.material.needsUpdate = true;
+    hemi.groundColor.set(light ? '#9aa4ae' : '#1a1f26');
+    setNight(state.night || 0);
+  }
+  // a tall phone stage sees less from side to side, so widen the lens, bring off-centre shots nearer the middle
+  // and drop the picture a little so the panels across the top leave the snake clear
+  let portrait = false, aspect = 16 / 9;
+  const lens = fov => portrait ? 2 * Math.atan(Math.tan(fov * Math.PI / 360) * 1.45 / aspect) * 180 / Math.PI : fov;
+  function orbit(az, el, d, ty, fov = 30, shift = 0) {       // az in pole frame (radians), el radians; shift moves the camera sideways, so the pole sits off centre
+    camera.fov = lens(fov); camera.updateProjectionMatrix(); if (portrait) shift *= .3;
     const right = V(Math.sin(az), 0, Math.cos(az)).multiplyScalar(shift);
     camera.position.set(Math.cos(az) * Math.cos(el) * d, ty + Math.sin(el) * d, -Math.sin(az) * Math.cos(el) * d).add(right);
     camera.lookAt(V(0, ty, 0).add(right));
   }
-  function look(pos, target, fov = 30) { camera.fov = fov; camera.updateProjectionMatrix(); camera.position.copy(pos); camera.lookAt(target); }
-  function resize(w, h) { renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+  function look(pos, target, fov = 30) { camera.fov = lens(fov); camera.updateProjectionMatrix(); camera.position.copy(pos); camera.lookAt(target); }
+  function resize(w, h) {
+    renderer.setSize(w, h, false); aspect = w / h; camera.aspect = aspect; portrait = aspect < 1.2;
+    if (portrait) camera.setViewOffset(w, h, 0, -h * .08, w, h); else camera.clearViewOffset();
+    camera.updateProjectionMatrix();
+  }
   function project(p, w, h) { camera.updateMatrixWorld(); const v = p.clone().project(camera); return { x: (v.x + 1) / 2 * w, y: (1 - v.y) / 2 * h, vis: v.z < 1 && v.z > -1 }; }
   function isolate(names) {                                     // show only these parts (null = everything)
     for (const k in parts) parts[k].mesh.visible = !names || names.includes(k);
@@ -376,7 +394,7 @@ export async function createStudio({ canvas, base = 'assets/snake-v3/', onProgre
   const render = () => renderer.render(scene, camera);
 
   return { THREE, renderer, scene, camera, snake, parts, pole, ground, cans, bottles, setItems, coilMeshes, setCoil, coilsFromItems,
-    cable, chipMeshes, pod, setXray, setNight, setGlow, setRadio, orbit, look, resize, project, render, isolate, headlight, podAt, state, lamp };
+    cable, chipMeshes, pod, setXray, setNight, setGlow, setRadio, orbit, look, resize, project, render, setTheme, isolate, headlight, podAt, state, lamp };
 }
 
 /* items arriving at the mouth one after another and sliding down to rest on the ones below.
