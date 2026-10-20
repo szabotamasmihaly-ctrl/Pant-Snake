@@ -4,13 +4,14 @@
 <meta name="description" content="Your printed Pant Snake as a long coil round a street-light pole: every part with painted 3D previews, a build chooser, a pad finder and downloads.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="../assets/js/theme.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Schibsted+Grotesk:wght@400..800&display=swap">
 <style>
 /* Layout: a dark product studio that continues the renders' slate backdrop. The coil is the hero; parts sit on
    plates like a kit sheet; print-shop data (sizes, masses, file names) is set in mono like a job ticket. The accent
    is the livery: glow green for what fits and what to press, aqua for references, on a navy-tinted slate.
-   One deliberate dark look: the renders are studio shots on slate, so the page has no light theme. */
-:root {
+   Dark by default; a light theme (theme.js sets data-theme) keeps the renders, the 3D viewer and the lightbox on slate. */
+:root, :root[data-theme="light"] dialog, :root[data-theme="light"] .shot {
   color-scheme: dark;
   --studio: #13171D;
   --plate: #1A1F27;
@@ -42,6 +43,33 @@
   --t-hero: clamp(2.5rem, 6.4vw, 4.6rem);
   --radius: 12px;
 }
+:root[data-theme="light"] {
+  color-scheme: light;
+  --studio: #F3F5F7;
+  --plate: #FFFFFF;
+  --plate-2: #EEF1F4;
+  --plate-3: #E3E8ED;
+  --rule: #CDD5DD;
+  --rule-soft: #DFE5EA;
+  --ink: #111820;
+  --ink-2: #45525E;
+  --ink-3: #69757F;
+  --glow: #138A3A;
+  --glow-ink: #FFFFFF;
+  --aqua: #0B78A8;
+  --steel: #59636E;
+  --alert: #9A5B00;
+}
+:root[data-theme="light"] dialog, :root[data-theme="light"] .shot { color-scheme: dark; }
+:root[data-theme="light"] .btn.primary:hover { background: #0F7531; }
+:root[data-theme="light"] .elev { background: linear-gradient(180deg, #FFFFFF, #F1F4F7); }
+:root[data-theme="light"] #padchart .bar.hit rect { fill: #CFEBD5; }
+:root[data-theme="light"] .hero-fig { box-shadow: 0 30px 60px -34px rgba(20, 30, 40, 0.35); }
+.themebtn { flex: none; display: inline-grid; place-items: center; width: 30px; height: 30px; padding: 0; margin-left: 2px; border-radius: 50%; border: 1px solid var(--rule); background: transparent; color: var(--ink-2); cursor: pointer; }
+.themebtn:hover { color: var(--ink); border-color: var(--ink-3); }
+.themebtn .moon { display: none; }
+:root[data-theme="light"] .themebtn .moon { display: inline; }
+:root[data-theme="light"] .themebtn .sun { display: none; }
 html { background: var(--studio); }
 body {
   background: var(--studio);
@@ -373,6 +401,8 @@ dialog::backdrop { background: rgba(9, 11, 13, 0.74); backdrop-filter: blur(3px)
   .build-main { padding: 16px; }
   .seg-ctl label { padding: 6px 10px; }
 }
+@media (max-width: 480px) { .ver { gap: 3px; } .ver .pill { padding: 0 6px; } .top { gap: 8px; } .themebtn { width: 28px; height: 28px; } }
+@media (max-width: 380px) { .top { flex-wrap: wrap; row-gap: 12px; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
@@ -382,7 +412,7 @@ dialog::backdrop { background: rgba(9, 11, 13, 0.74); backdrop-filter: blur(3px)
 <div class="page">
 <header class="top">
   <div class="brand"><span class="mark" aria-hidden="true"></span><span>Pant Snake</span><span class="sub">Light-pole family</span></div>
-  <nav class="ver" aria-label="Pages"><a class="pill" href="../story/">Story</a><a class="pill" href="../sensor/">Sensor</a><span class="pill on" aria-current="page">Kit</span><a class="pill" href="../">Collector app</a></nav>
+  <nav class="ver" aria-label="Pages" data-theme-slot><a class="pill" href="../story/">Story</a><a class="pill" href="../sensor/">Sensor</a><span class="pill on" aria-current="page">Kit</span><a class="pill" href="../">Collector app</a></nav>
 </header>
 
 <section class="hero" aria-labelledby="h-title">

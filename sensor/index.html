@@ -8,17 +8,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Nunito:wght@600;700;800&display=swap">
-<link rel="stylesheet" href="../assets/css/film-v4.css">
+<script src="../assets/js/theme.js"></script>
+<link rel="stylesheet" href="../assets/css/film-v5.css">
 <style>
 .level { right: 64px; top: 120px; width: 330px; display: grid; gap: 14px; }
 .level .row { display: flex; justify-content: space-between; align-items: baseline; }
 .level .row b { font: 700 40px/1 var(--display); letter-spacing: -.02em; }
 .level .row span { font: 500 14px/1 var(--mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
-.meter { height: 12px; border-radius: 6px; background: #232b35; overflow: hidden; }
+.meter { height: 12px; border-radius: 6px; background: var(--track); overflow: hidden; }
 .meter i { display: block; height: 100%; width: 0; background: var(--glow); border-radius: 6px; }
 .meter i.full { background: var(--amber); }
 .dots { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; }
-.dots i { height: 18px; border-radius: 4px; background: #232b35; }
+.dots i { height: 18px; border-radius: 4px; background: var(--track); }
 .dots i.on { background: var(--amber); box-shadow: 0 0 10px rgba(255,181,71,.6); }
 .state { font: 700 22px/1.2 var(--display); color: var(--glow); }
 .state.full { color: var(--amber); }
@@ -26,7 +27,7 @@
 .sim .stat b { font-size: 40px; }
 .sim .stat b em { font-style: normal; color: var(--glow); }
 .flow { left: 50%; top: 110px; transform: translateX(-50%); display: flex; gap: 10px; align-items: center; padding: 16px 20px; }
-.flow div { padding: 12px 16px; border-radius: 12px; background: #1d242e; border: 1px solid var(--line-2); font: 500 17px/1.25 var(--display); text-align: center; min-width: 150px; opacity: .25; transition: opacity .3s; }
+.flow div { padding: 12px 16px; border-radius: 12px; background: var(--plate-2); border: 1px solid var(--line-2); font: 500 17px/1.25 var(--display); text-align: center; min-width: 150px; opacity: .25; transition: opacity .3s; }
 .flow div small { display: block; font: 500 12.5px/1.3 var(--mono); color: var(--muted); letter-spacing: .04em; margin-top: 4px; }
 .flow div.on { opacity: 1; border-color: var(--glow); }
 .flow span { color: var(--dim); font: 500 20px var(--mono); }
@@ -36,16 +37,35 @@
 .costp td.n { text-align: right; font: 500 19px var(--mono); white-space: nowrap; padding-left: 16px; }
 .costp tr.tot td { border-bottom: 0; font-weight: 700; color: var(--glow); }
 .app { right: 64px; top: 330px; width: 330px; padding: 16px 18px; border-radius: 24px; background: #0B0F1A; border: 1px solid #222a3d; font-family: "Nunito", ui-rounded, sans-serif; display: flex; gap: 14px; align-items: center; }
+.app, .app b { color: #EAF0FA; }
 .app .pin { width: 46px; height: 46px; border-radius: 50%; background: #3FCF8E; display: grid; place-items: center; color: #04140C; font: 800 15px "Nunito"; flex: none; transition: background .3s; }
 .app .pin.amber { background: var(--amber); }
 .app b { display: block; font: 800 20px/1.2 "Nunito", ui-rounded, sans-serif; }
 .app span { color: #8E9AB5; font-size: 16px; }
 .lockfig { left: 64px; top: 110px; width: 640px; padding: 18px 22px; }
 .lockfig svg { width: 100%; height: auto; display: block; }
+/* phone stage (560 wide, about 700 tall): panels across the top */
+.portrait .level { left: 18px; right: auto; top: 18px; width: 300px; gap: 10px; }
+.portrait .level .row b { font-size: 34px; }
+.portrait .dots { gap: 4px; } .portrait .dots i { height: 14px; }
+.portrait .state { font-size: 20px; }
+.portrait .app { right: 18px; top: 18px; width: 206px; padding: 12px; gap: 10px; border-radius: 18px; }
+.portrait .app .pin { width: 40px; height: 40px; }
+.portrait .app b { font-size: 17px; } .portrait .app span { font-size: 15px; }
+.portrait .sim { left: 18px; right: 18px; top: 18px; width: auto; gap: 10px; }
+.portrait .sim .stat b { font-size: 34px; }
+.portrait .flow { left: 18px; right: 18px; top: 18px; transform: none; flex-wrap: wrap; gap: 8px; padding: 14px; justify-content: center; }
+.portrait .flow div { min-width: 0; flex: 1 1 140px; padding: 10px 10px; font-size: 17px; }
+.portrait .flow div small { font-size: 13px; }
+.portrait .flow span { display: none; }
+.portrait .costp { left: 18px; right: 18px; top: 18px; width: auto; }
+.portrait .costp table { font-size: 17px; } .portrait .costp td { padding: 8px 0; } .portrait .costp td.n { font-size: 17px; }
+.portrait .costp .est { font-size: 14px; }
+.portrait .lockfig { left: 18px; right: 18px; top: 18px; width: auto; padding: 14px 16px; }
 </style>
 </head>
 <body>
-<header class="topnav">
+<header class="topnav" data-theme-slot>
   <a class="brand" href="../story/">Pant Snake</a>
   <nav><a href="../story/">Story</a><a href="../sensor/" aria-current="page">Sensor</a><a href="../kit/">Kit</a><a href="../">Collector app</a></nav>
 </header>
@@ -79,12 +99,12 @@
         <div class="layer panel lockfig" id="Llock">
           <div class="t" id="lockT">Locked · no key</div>
           <svg viewBox="0 0 520 230" aria-hidden="true" font-family="IBM Plex Mono" font-size="13">
-            <text x="0" y="16" fill="#6B7782">cut through one bolt · uphill to the right</text>
+            <text x="0" y="16" style="fill:var(--dim)">cut through one bolt · uphill to the right</text>
             <rect x="0" y="40" width="520" height="14" fill="#2B4FA8"/>
             <rect x="110" y="62" width="250" height="42" rx="3" fill="#cdc8bd"/><text x="122" y="88" fill="#3a3f45">guide + spring</text>
             <g id="lockBolt"><rect x="250" y="106" width="130" height="16" rx="3" fill="#f2f0ea"/><path d="M250 106 l-14 8 l14 8z" fill="#f2f0ea"/><rect x="318" y="122" width="30" height="7" fill="#c7ccd1"/></g>
             <g id="lockLidG"><path d="M0 150 H230 V112 H246 V124 H240 V160 H0z" fill="#3e5fb8"/><text x="10" y="146" fill="#dfe6f4">lid</text></g>
-            <text x="388" y="118" fill="#9AA7B2">bolt</text><text x="200" y="104" fill="#9AA7B2" text-anchor="end">hook</text>
+            <text x="388" y="118" style="fill:var(--muted)">bolt</text><text x="200" y="104" style="fill:var(--muted)" text-anchor="end">hook</text>
             <g id="lockKey" opacity="0"><rect x="250" y="174" width="200" height="36" rx="5" fill="#ecebe6"/><rect x="345" y="166" width="44" height="12" fill="#c7ccd1"/><text x="262" y="198" fill="#3a3f45">key · N52 magnet</text></g>
           </svg>
         </div>
@@ -147,8 +167,8 @@
 })();
 </script>
 <script type="module">
-import { createStudio, G, COILS, CHIPS, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar, fallback } from '../assets/js/snake3d-v4.js';
-import { createFilm } from '../assets/js/film-v4.js';
+import { createStudio, G, COILS, CHIPS, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar, fallback } from '../assets/js/snake3d-v5.js';
+import { createFilm } from '../assets/js/film-v5.js';
 const root = document.getElementById('film'), $ = s => root.querySelector(s);
 const POSTER = '../assets/posters/sensor.webp';
 let S;
@@ -165,13 +185,13 @@ function cam(t, keys) {
   const A = keys[i], B = keys[i + 1] || A, u = B === A ? 0 : ease((t - A[0]) / (B[0] - A[0]));
   S.orbit(lerp(A[1], B[1], u) * deg, lerp(A[2], B[2], u) * deg, lerp(A[3], B[3], u), lerp(A[4], B[4], u), lerp(A[5], B[5], u), lerp(A[6] ?? .3, B[6] ?? .3, u));
 }
-function podCam(t, keys) {           // [t, out(b), side, along, fov] around the pod
+function podCam(F, t, keys) {        // [t, out(b), side, along, fov, -, sideways] around the pod; centred on a phone
   let i = 0; while (i < keys.length - 2 && t > keys[i + 1][0]) i++;
   const A = keys[i], B = keys[i + 1] || A, u = B === A ? 0 : ease((t - A[0]) / (B[0] - A[0]));
   const f = S.pod.spine(0), r = new S.THREE.Vector3(f.p.x, 0, f.p.z).normalize(), dn = new S.THREE.Vector3(0, -1, 0);
   const pos = f.p.clone().addScaledVector(r, lerp(A[1], B[1], u)).addScaledVector(dn, lerp(A[2], B[2], u)).addScaledVector(f.t, lerp(A[3], B[3], u));
   const tgt = f.p.clone().addScaledVector(f.n, -.045);
-  const right = tgt.clone().sub(pos).cross(new S.THREE.Vector3(0, 1, 0)).normalize().multiplyScalar(-lerp(A[6] ?? 0, B[6] ?? 0, u));
+  const right = tgt.clone().sub(pos).cross(new S.THREE.Vector3(0, 1, 0)).normalize().multiplyScalar(F.portrait ? 0 : -lerp(A[6] ?? 0, B[6] ?? 0, u));
   S.look(pos.add(right), tgt.add(right), lerp(A[4], B[4], u));
 }
 const coilAt = i => { const { p, b } = pathAt(COILS[i].d); return p.clone().addScaledVector(b, .066); };
@@ -198,8 +218,8 @@ const scenes = [
    enter() { resetAll(); },
    run(t, F) {
      cam(t, [[0, -150, 3, 3.3, 1.02, 32, .34], [11, -75, -3, 3.0, 1.02, 32, .3]]);
-     F.label('keel', pathAt(thetaToD(6.6 * G.dth)).p.clone().addScaledVector(pathAt(thetaToD(6.6 * G.dth)).b, .07), 'Belly keel', '48 mm wide, 7 mm deep', seg(t, 4.5, 5.2) * (1 - seg(t, 10.3, 10.8)), 'left');
-     const f = S.pod.spine(0); F.label('pod', f.p, 'Pod under segment 5', '1.07 m up · its lid is a belly scale', seg(t, 6, 6.7) * (1 - seg(t, 10.3, 10.8)), 'aqua');
+     F.label('keel', pathAt(thetaToD(6.6 * G.dth)).p.clone().addScaledVector(pathAt(thetaToD(6.6 * G.dth)).b, .07), 'Belly keel', '48 mm wide, 7 mm deep', seg(t, 4.5, 5.2) * (1 - seg(t, 10.3, 10.8)), 'left', null, [236, 250]);
+     const f = S.pod.spine(0); F.label('pod', f.p, 'Pod under segment 5', '1.07 m up · its lid is a belly scale', seg(t, 6, 6.7) * (1 - seg(t, 10.3, 10.8)), 'aqua', null, [320, 470]);
    } },
  { name: 'Coils', d: 15, caps: [[0, '02 · Under the paint', '12 coils inside the belly wall', 'Each one sits in a pocket 1.2 mm from the cans. A thin cable in the keel joins them to three reader chips.']],
    enter() { resetAll(); },
@@ -240,13 +260,13 @@ const scenes = [
    enter() { resetAll(); S.isolate(['seg5', 'podlid']); },
    run(t, F) {
      S.pod.set({ inside: true, antenna: .6, out: smooth(seg(t, .6, 2.4)) * 1.2 });
-     podCam(t, [[0, .66, .36, .2, 30, 0, .14], [13, .56, .32, .1, 30, 0, .12]]); S.headlight.intensity = 1.2;
+     podCam(F, t, [[0, .66, .36, .2, 30, 0, .14], [13, .56, .32, .1, 30, 0, .12]]); S.headlight.intensity = 1.2;
      const f = x => S.pod.spine(x).p;
-     F.label('bat', f(8).clone().addScaledVector(S.pod.spine(8).n, -.01), 'Battery', 'EVE ER14505, about 10 years', seg(t, 2.4, 3) * (1 - seg(t, 12.3, 12.8)), 'left', [-110, -70]);
-     F.label('radio', f(0), 'Radio + reader board', 'RAK3172 LoRaWAN, 868 MHz', seg(t, 3.6, 4.2) * (1 - seg(t, 12.3, 12.8)), 'aqua', [90, 40]);
-     F.label('ant', f(45), 'Antenna', 'stuck inside the lid', seg(t, 5, 5.6) * (1 - seg(t, 12.3, 12.8)), 'amber', [90, -60]);
-     F.label('bolts', f(-62), 'Two sliding bolts', 'spring-closed, magnet-opened', seg(t, 6.4, 7) * (1 - seg(t, 12.3, 12.8)), 'left', [-110, 60]);
-     F.label('lid', S.pod.pivot.position, 'Lid', 'hooks in at the top end', seg(t, 7.8, 8.4) * (1 - seg(t, 12.3, 12.8)), 'aqua', [60, -150]);
+     F.label('bat', f(8).clone().addScaledVector(S.pod.spine(8).n, -.01), 'Battery', 'EVE ER14505, about 10 years', seg(t, 2.4, 3) * (1 - seg(t, 12.3, 12.8)), 'left', [-110, -70], [270, 150]);
+     F.label('radio', f(0), 'Radio + reader board', 'RAK3172 LoRaWAN, 868 MHz', seg(t, 3.6, 4.2) * (1 - seg(t, 12.3, 12.8)), 'aqua', [90, 40], [290, 230]);
+     F.label('ant', f(45), 'Antenna', 'stuck inside the lid', seg(t, 5, 5.6) * (1 - seg(t, 12.3, 12.8)), 'amber', [90, -60], [290, 150]);
+     F.label('bolts', f(-62), 'Two sliding bolts', 'spring-closed, magnet-opened', seg(t, 6.4, 7) * (1 - seg(t, 12.3, 12.8)), 'left', [-110, 60], [270, 70]);
+     F.label('lid', S.pod.pivot.position, 'Lid', 'hooks in at the top end', seg(t, 7.8, 8.4) * (1 - seg(t, 12.3, 12.8)), 'aqua', [60, -150], [290, 70]);
    } },
  { name: 'Key', d: 19, caps: [[0, '06 · Only your key opens it', 'A lid with no screws, holes or slots', 'Press the key flat on the belly, arrow to the head. Its magnets draw two bolts 4.5 mm open.'], [7.4, '06 · Only your key opens it', 'Tip, slide 7 mm, lift away', 'A third magnet holds a steel disc in the lid, so the lid comes off with the key.'], [13.6, '06 · Only your key opens it', 'No key: it stays shut', 'A pull or a screwdriver in the seam only presses the hooks harder onto the bolts. Push the lid home and it clicks shut by itself.']],
    enter() { resetAll(); S.isolate(['seg5', 'podlid']); },
@@ -256,13 +276,13 @@ const scenes = [
      const out = smooth(seg(t, 9.6, 11.6)) * (1 - smooth(seg(t, 13.6, 15)));
      S.setXray(.5 * smooth(seg(t, 3.8, 4.4)) * (1 - smooth(seg(t, 6.6, 7.4))));
      S.pod.set({ inside: true, key: k, bolts: bo, tip, slide, out });
-     podCam(t, [[0, .62, .34, .16, 30, 0, .07], [7, .56, .3, .08, 30, 0, .06], [11, .66, .38, .1, 32, 0, .07], [19, .62, .34, .16, 30, 0, .07]]); S.headlight.intensity = 1.2;
+     podCam(F, t, [[0, .62, .34, .16, 30, 0, .07], [7, .56, .3, .08, 30, 0, .06], [11, .66, .38, .1, 32, 0, .07], [19, .62, .34, .16, 30, 0, .07]]); S.headlight.intensity = 1.2;
      show('#Llock', seg(t, 3.6, 4) * (1 - seg(t, 7.2, 7.6)));
      $('#lockT').textContent = bo > .5 ? 'Open · key on the belly' : 'Locked · no key';
      $('#lockBolt').setAttribute('transform', `translate(${bo * 45},0)`); $('#lockLidG').setAttribute('transform', `translate(0,${slide * 30})`); $('#lockKey').setAttribute('opacity', seg(t, 3.6, 4));
      F.label('key', S.pod.key.position, 'Your key', 'three N52 magnets, no metal shows', seg(t, 2.6, 3.2) * (1 - seg(t, 7, 7.4)), 'left');
    } },
- { name: 'Radio', d: 10, caps: [[0, '07 · On the network', 'Six bytes, only when something changes', 'The pod reads the coils every three minutes and sends a short LoRaWAN message when the level moves. A gateway passes it on to the collector app.']],
+ { name: 'Radio', d: 10, dark: true, caps: [[0, '07 · On the network', 'Six bytes, only when something changes', 'The pod reads the coils every three minutes and sends a short LoRaWAN message when the level moves. A gateway passes it on to the collector app.']],
    enter() { resetAll(); },
    run(t, F) {
      S.setNight(smooth(seg(t, 0, 2)) * .7); S.setGlow(smooth(seg(t, 1, 3)) * .8);
