@@ -187,7 +187,7 @@ export async function createStudio({ canvas, base = 'assets/snake/', onProgress 
     const m = new THREE.Mesh(geo, mat); m.castShadow = true; m.receiveShadow = true; m.name = p.name; m.renderOrder = 2;
     // depth-only twin: in x-ray only the nearest skin is drawn, so the inner walls never show through as torn panels
     const pre = new THREE.Mesh(geo, preMat); pre.renderOrder = 1; pre.visible = false; m.add(pre); twins.push(pre);
-    const g = new THREE.Group(); g.rotation.y = G.AZ0 + p.k * G.dth; g.position.y = (G.J0 + p.k * G.c * G.dth) / 1000; g.add(m); snake.add(g);
+    const g = new THREE.Group(); if (!p.abs) { g.rotation.y = G.AZ0 + p.k * G.dth; g.position.y = (G.J0 + p.k * G.c * G.dth) / 1000; } g.add(m); snake.add(g);
     parts[p.name] = { mesh: m, group: g, k: p.k };
     mats.push(mat); onProgress(++done / manifest.length);
   }));
