@@ -105,8 +105,9 @@ async function loadSNK2(url) {
 }
 // glow mask: where the livery uses the glow-in-the-dark green
 function glowMask(img) {
-  const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
-  const g = c.getContext('2d'); g.drawImage(img, 0, 0);
+  const k = Math.min(1, 512 / img.width);           // the mask needs no more detail than this
+  const c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+  const g = c.getContext('2d'); g.drawImage(img, 0, 0, c.width, c.height);
   const d = g.getImageData(0, 0, c.width, c.height), a = d.data;
   for (let i = 0; i < a.length; i += 4) {
     const on = Math.abs(a[i] - 124) < 30 && Math.abs(a[i + 1] - 240) < 30 && Math.abs(a[i + 2] - 107) < 40;
@@ -118,8 +119,16 @@ function glowMask(img) {
 
 /* ---------- the studio ---------- */
 export async function createStudio({ canvas, base = 'assets/snake/', onProgress = () => {} }) {
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  // ask for the lightest context that still looks good; fall back step by step on weaker or busy machines
+  let renderer = null, lastErr;
+  for (const o of [{ antialias: true }, { antialias: false }, { antialias: false, powerPreference: 'low-power' }]) {
+    try { renderer = new THREE.WebGLRenderer({ canvas, ...o }); break; } catch (e) { lastErr = e; }
+  }
+  if (!renderer) { const e = new Error('webgl'); e.code = 'webgl'; e.cause = lastErr; throw e; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+  // give the graphics memory back when the page is left; a page restored from the back button reloads
+  addEventListener('pagehide', () => { renderer.dispose(); renderer.forceContextLoss(); });
+  addEventListener('pageshow', e => { if (e.persisted) location.reload(); });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.45;
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -139,7 +148,7 @@ export async function createStudio({ canvas, base = 'assets/snake/', onProgress 
 
   const hemi = new THREE.HemisphereLight('#c9dcf0', '#1a1f26', 1.1); scene.add(hemi);
   const key = new THREE.DirectionalLight('#fff4e6', 3.4); key.position.set(2.6, 5.2, 3.4); key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -1.6, right: 1.6, top: 2.6, bottom: -.4, near: 1, far: 14 }); key.shadow.bias = -0.0003; key.shadow.normalBias = .01;
+  key.shadow.mapSize.set(1024, 1024); Object.assign(key.shadow.camera, { left: -1.6, right: 1.6, top: 2.6, bottom: -.4, near: 1, far: 14 }); key.shadow.bias = -0.0003; key.shadow.normalBias = .01;
   scene.add(key);
   const rim = new THREE.DirectionalLight('#5CC8F0', 1.6); rim.position.set(-4, 3, -3); scene.add(rim);
   const lamp = new THREE.SpotLight('#ffd9a0', 0, 9, .55, .6, 1.2); lamp.position.set(.95, 5.6, 0); lamp.target.position.set(.4, 0, 0); scene.add(lamp, lamp.target);
@@ -170,7 +179,7 @@ export async function createStudio({ canvas, base = 'assets/snake/', onProgress 
     const [geo, img] = await Promise.all([loadSNK2(base + p.file + '.bin'), p.tex ? tl.loadAsync(base + p.tex + '.webp') : null]);
     let mat;
     if (img) {
-      img.flipY = false; img.colorSpace = THREE.SRGBColorSpace; img.anisotropy = 8;
+      img.flipY = false; img.colorSpace = THREE.SRGBColorSpace; img.anisotropy = 4;
       mat = new THREE.MeshPhysicalMaterial({ map: img, roughness: .42, clearcoat: .45, clearcoatRoughness: .28, envMapIntensity: 1.1,
         emissive: '#7CF06B', emissiveMap: glowMask(img.image), emissiveIntensity: 0 });
     } else mat = new THREE.MeshPhysicalMaterial({ color: p.color || '#0B2A5B', roughness: .45, clearcoat: .4, envMapIntensity: .7 });
@@ -380,4 +389,16 @@ export function fillAt(t, seq, { gap = .45, speed = 1500, start = 0 } = {}) {
     items.push({ d, kind, col: k, resting: u >= 1 }); if (u >= 1) nRest++;
   });
   return { items, nRest };
+}
+
+/* ---------- when 3D can't run: a still picture and a retry button instead of a dead screen ---------- */
+export function fallback(screen, poster, why) {
+  const old = screen.querySelector('.loading'); if (old) old.remove();
+  const d = document.createElement('div'); d.className = 'fallback';
+  d.innerHTML = `<img alt="" src="${poster}"><div><b>The 3D view could not start</b><span></span><button type="button">Try again</button></div>`;
+  d.querySelector('span').textContent = why === 'webgl'
+    ? 'Your browser has no graphics memory free for it right now. Close other tabs with 3D or video, then try again.'
+    : 'Something went wrong while loading. Try again in a moment.';
+  d.querySelector('button').onclick = () => location.reload();
+  screen.appendChild(d);
 }

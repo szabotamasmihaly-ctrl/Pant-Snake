@@ -209,10 +209,14 @@
 })();
 </script>
 <script type="module">
-import { createStudio, G, COILS, PATH, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar } from '../assets/js/snake3d.js';
+import { createStudio, G, COILS, PATH, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar, fallback } from '../assets/js/snake3d.js';
 import { createFilm } from '../assets/js/film.js';
 const root = document.getElementById('film'), $ = s => root.querySelector(s);
-const S = await createStudio({ canvas: $('canvas'), base: '../assets/snake/', onProgress: f => $('#loadbar').style.width = (f * 100) + '%' });
+const POSTER = '../assets/posters/story.webp';
+let S;
+try { S = await createStudio({ canvas: $('canvas'), base: '../assets/snake/', onProgress: f => $('#loadbar').style.width = (f * 100) + '%' }); }
+catch (e) { fallback($('.screen'), POSTER, e.code); throw e; }
+$('canvas').addEventListener('webglcontextlost', e => { e.preventDefault(); fallback($('.screen'), POSTER, 'webgl'); });
 const AAR = await (await fetch('../assets/data/aarhus.json')).json();
 $('#loading').style.opacity = 0; setTimeout(() => $('#loading').remove(), 700);
 const THREE = S.THREE, deg = Math.PI / 180, NS = 'http://www.w3.org/2000/svg';
