@@ -53,7 +53,7 @@
   <header class="hero">
     <span class="eyebrow">Sensor snake · hidden fill sensor</span>
     <h1>The snake knows when it is full</h1>
-    <p class="lede">Twelve coils sit inside the belly wall, a thin cable runs along the keel, and a sealed pod under the fifth segment sends the level by radio. From the street you see only the snake. The pod opens only with your magnetic key.</p>
+    <p class="lede">Twelve coils sit inside the belly wall, a thin cable runs along the keel, and a sealed pod under the fifth segment from the tail sends the level by radio. From the street you see only the snake. The pod opens only with your magnetic key.</p>
   </header>
 
   <div class="film" id="film">
@@ -147,10 +147,14 @@
 })();
 </script>
 <script type="module">
-import { createStudio, G, COILS, CHIPS, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar } from '../assets/js/snake3d.js';
+import { createStudio, G, COILS, CHIPS, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar, fallback } from '../assets/js/snake3d-v3.js';
 import { createFilm } from '../assets/js/film.js';
 const root = document.getElementById('film'), $ = s => root.querySelector(s);
-const S = await createStudio({ canvas: $('canvas'), base: '../assets/snake/', onProgress: f => $('#loadbar').style.width = (f * 100) + '%' });
+const POSTER = '../assets/posters/sensor.webp';
+let S;
+try { S = await createStudio({ canvas: $('canvas'), base: '../assets/snake-v3/', onProgress: f => $('#loadbar').style.width = (f * 100) + '%' }); }
+catch (e) { fallback($('.screen'), POSTER, e.code); throw e; }
+$('canvas').addEventListener('webglcontextlost', e => { e.preventDefault(); fallback($('.screen'), POSTER, 'webgl'); });
 $('#loading').style.opacity = 0; setTimeout(() => $('#loading').remove(), 700);
 const deg = Math.PI / 180;
 const dots = $('#lvDots'); COILS.forEach(() => dots.appendChild(document.createElement('i')));
