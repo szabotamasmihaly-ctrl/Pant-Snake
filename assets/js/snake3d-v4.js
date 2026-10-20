@@ -8,8 +8,8 @@ export const G = {
   tubeR: 63, boreR: 60, n: 9, build: 'BBCBDCEEE', mouth: 1674.3, qrZ: 1397,
   qrAz: (85.6 - 86.25 * 2) * Math.PI / 180, viewAz: (66.8 - 86.25 * 2) * Math.PI / 180,
 };
-// tail centre line (pole frame: azimuth deg, height mm, radius mm, half-width mm), from the parts page
-const TAIL = [[-58.36,418.2,155.9,63.0],[-57.49,403.1,151.2,63.0],[-55.41,390.1,143.6,63.0],[-56.15,377.4,147.7,63.0],[-58.36,367.8,158.3,61.2],[-57.06,353.5,154.5,46.9],[-54.64,341.3,146.5,34.7],[-53.66,337.0,146.5,30.4],[-53.53,353.0,145.4,46.4],[-53.52,368.8,143.2,62.2],[-53.8,384.6,140.7,63.0],[-54.02,400.5,139.1,63.0],[-53.82,416.5,138.5,63.0],[-53.18,432.4,138.4,63.0],[-52.1,448.2,138.3,63.0],[-50.54,463.7,138.4,63.0],[-48.58,479.0,138.3,63.0],[-46.28,494.0,138.5,63.0],[-43.62,508.6,139.8,63.0],[-40.6,522.7,140.9,63.0],[-37.39,536.6,141.9,63.0],[-33.88,550.0,142.3,63.0],[-30.03,562.8,142.5,63.0],[-25.89,575.0,142.5,63.0],[-21.5,586.7,142.4,63.0],[-16.89,597.9,142.3,63.0],[-12.07,608.5,142.3,63.0],[-7.08,618.6,142.2,63.0],[-1.93,628.3,142.2,63.0],[3.37,637.4,142.1,63.0],[8.8,646.0,142.1,63.0],[14.34,654.2,142.0,63.0],[19.96,662.1,142.1,63.0],[25.66,669.6,142.1,63.0]];
+// tail centre line, floor first (pole frame: azimuth deg, height mm, radius mm, half-width mm), traced through the bore of the assembled tail
+const TAIL = [[-98.82,291.7,151.6,63.0],[-98.88,307.7,150.3,63.0],[-98.94,323.4,145.6,63.0],[-98.9,339.4,143.9,63.0],[-99.07,355.5,143.5,63.0],[-99.24,371.9,143.2,63.0],[-97.78,387.5,144.7,63.0],[-96.54,403.2,145.5,63.0],[-95.1,419.0,146.1,63.0],[-92.74,433.9,145.7,63.0],[-89.85,448.2,143.1,63.0],[-87.17,462.9,145.2,63.0],[-84.81,478.3,145.4,63.0],[-81.41,492.3,145.1,63.0],[-77.68,505.4,145.1,63.0],[-73.51,518.0,144.8,63.0],[-69.28,530.0,144.4,63.0],[-64.86,541.5,144.6,63.0],[-60.12,552.3,145.5,63.0],[-55.33,563.0,146.2,63.0],[-50.34,572.8,145.2,63.0],[-45.34,582.7,145.4,63.0],[-40.3,592.7,145.2,63.0],[-34.77,600.7,144.6,63.0],[-29.13,608.4,144.6,63.0],[-23.38,615.5,144.1,63.0],[-17.52,621.9,143.6,63.0],[-11.42,627.3,143.9,63.0],[-5.64,634.2,144.0,63.0],[0.47,640.5,146.1,63.0],[6.22,647.3,145.7,63.0],[11.75,655.4,145.6,63.0],[17.69,660.9,144.5,63.0],[20.58,664.3,145.3,63.0]];
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
 export const polar = (az, zmm, rmm) => V(rmm * Math.cos(az) / 1000, zmm / 1000, -rmm * Math.sin(az) / 1000);
@@ -18,7 +18,7 @@ export const helixAt = (th, r = G.R) => polar(G.AZ0 + th, G.J0 + G.c * th, r);
 /* ---------- the can path: from the tail floor up the tail, round the coil, into the head ---------- */
 function buildPath() {
   const pts = [];
-  for (let i = 7; i < TAIL.length; i++) pts.push(polar(TAIL[i][0] * Math.PI / 180, TAIL[i][1], TAIL[i][2]));
+  for (let i = 0; i < TAIL.length; i++) pts.push(polar(TAIL[i][0] * Math.PI / 180, TAIL[i][1], TAIL[i][2]));
   // join smoothly onto the helix
   const thHead = 218 / Math.hypot(G.R, G.c);
   const thEnd = G.n * G.dth + thHead;
@@ -27,7 +27,7 @@ function buildPath() {
   const curve = new THREE.CatmullRomCurve3(pts, false, 'centripetal');
   const len = curve.getLength();
   // distance (mm) where the coil starts (joint 0)
-  const tailPts = pts.slice(0, TAIL.length - 7);
+  const tailPts = pts.slice(0, TAIL.length);
   let tailLen = 0; for (let i = 1; i < tailPts.length; i++) tailLen += tailPts[i].distanceTo(tailPts[i - 1]);
   return { curve, len: len * 1000, tailLen: tailLen * 1000, thEnd };
 }
@@ -335,7 +335,7 @@ export async function createStudio({ canvas, base = 'assets/snake-v3/', onProgre
   function setXray(f) {
     state.xray = f;
     for (const m of mats) {
-      const o = 1 - .86 * f; m.transparent = o < .999; m.opacity = o; m.depthWrite = !m.transparent;
+      const o = 1 - .86 * f, tr = o < .999; if (m.transparent !== tr) { m.transparent = tr; m.needsUpdate = true; } m.opacity = o; m.depthWrite = !tr;   // the shader differs when transparent, so recompile on a switch
       m.clearcoat = .45 * (1 - f); m.envMapIntensity = 1.1 * (1 - .75 * f);
     }
     for (const t of twins) t.visible = f > .001;
@@ -368,7 +368,7 @@ export async function createStudio({ canvas, base = 'assets/snake-v3/', onProgre
   }
   function look(pos, target, fov = 30) { camera.fov = fov; camera.updateProjectionMatrix(); camera.position.copy(pos); camera.lookAt(target); }
   function resize(w, h) { renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
-  function project(p, w, h) { const v = p.clone().project(camera); return { x: (v.x + 1) / 2 * w, y: (1 - v.y) / 2 * h, vis: v.z < 1 && v.z > -1 }; }
+  function project(p, w, h) { camera.updateMatrixWorld(); const v = p.clone().project(camera); return { x: (v.x + 1) / 2 * w, y: (1 - v.y) / 2 * h, vis: v.z < 1 && v.z > -1 }; }
   function isolate(names) {                                     // show only these parts (null = everything)
     for (const k in parts) parts[k].mesh.visible = !names || names.includes(k);
     pole.visible = !names; sensor.visible = !names;

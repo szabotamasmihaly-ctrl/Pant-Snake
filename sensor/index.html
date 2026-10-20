@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Nunito:wght@600;700;800&display=swap">
-<link rel="stylesheet" href="../assets/css/film.css">
+<link rel="stylesheet" href="../assets/css/film-v4.css">
 <style>
 .level { right: 64px; top: 120px; width: 330px; display: grid; gap: 14px; }
 .level .row { display: flex; justify-content: space-between; align-items: baseline; }
@@ -147,8 +147,8 @@
 })();
 </script>
 <script type="module">
-import { createStudio, G, COILS, CHIPS, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar, fallback } from '../assets/js/snake3d-v3.js';
-import { createFilm } from '../assets/js/film.js';
+import { createStudio, G, COILS, CHIPS, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar, fallback } from '../assets/js/snake3d-v4.js';
+import { createFilm } from '../assets/js/film-v4.js';
 const root = document.getElementById('film'), $ = s => root.querySelector(s);
 const POSTER = '../assets/posters/sensor.webp';
 let S;
@@ -242,11 +242,11 @@ const scenes = [
      S.pod.set({ inside: true, antenna: .6, out: smooth(seg(t, .6, 2.4)) * 1.2 });
      podCam(t, [[0, .66, .36, .2, 30, 0, .14], [13, .56, .32, .1, 30, 0, .12]]); S.headlight.intensity = 1.2;
      const f = x => S.pod.spine(x).p;
-     F.label('bat', f(8).clone().addScaledVector(S.pod.spine(8).n, -.01), 'Battery', 'EVE ER14505, about 10 years', seg(t, 2.4, 3) * (1 - seg(t, 12.3, 12.8)), 'left');
-     F.label('radio', f(0), 'Radio + reader board', 'RAK3172 LoRaWAN, 868 MHz', seg(t, 3.6, 4.2) * (1 - seg(t, 12.3, 12.8)), 'aqua');
-     F.label('ant', f(45), 'Antenna', 'stuck inside the lid', seg(t, 5, 5.6) * (1 - seg(t, 12.3, 12.8)), 'amber');
-     F.label('bolts', f(-62), 'Two sliding bolts', 'spring-closed, magnet-opened', seg(t, 6.4, 7) * (1 - seg(t, 12.3, 12.8)), 'left');
-     F.label('lid', S.pod.pivot.position, 'Lid', 'hooks in at the top end', seg(t, 7.8, 8.4) * (1 - seg(t, 12.3, 12.8)), 'aqua');
+     F.label('bat', f(8).clone().addScaledVector(S.pod.spine(8).n, -.01), 'Battery', 'EVE ER14505, about 10 years', seg(t, 2.4, 3) * (1 - seg(t, 12.3, 12.8)), 'left', [-110, -70]);
+     F.label('radio', f(0), 'Radio + reader board', 'RAK3172 LoRaWAN, 868 MHz', seg(t, 3.6, 4.2) * (1 - seg(t, 12.3, 12.8)), 'aqua', [90, 40]);
+     F.label('ant', f(45), 'Antenna', 'stuck inside the lid', seg(t, 5, 5.6) * (1 - seg(t, 12.3, 12.8)), 'amber', [90, -60]);
+     F.label('bolts', f(-62), 'Two sliding bolts', 'spring-closed, magnet-opened', seg(t, 6.4, 7) * (1 - seg(t, 12.3, 12.8)), 'left', [-110, 60]);
+     F.label('lid', S.pod.pivot.position, 'Lid', 'hooks in at the top end', seg(t, 7.8, 8.4) * (1 - seg(t, 12.3, 12.8)), 'aqua', [60, -150]);
    } },
  { name: 'Key', d: 19, caps: [[0, '06 · Only your key opens it', 'A lid with no screws, holes or slots', 'Press the key flat on the belly, arrow to the head. Its magnets draw two bolts 4.5 mm open.'], [7.4, '06 · Only your key opens it', 'Tip, slide 7 mm, lift away', 'A third magnet holds a steel disc in the lid, so the lid comes off with the key.'], [13.6, '06 · Only your key opens it', 'No key: it stays shut', 'A pull or a screwdriver in the seam only presses the hooks harder onto the bolts. Push the lid home and it clicks shut by itself.']],
    enter() { resetAll(); S.isolate(['seg5', 'podlid']); },
