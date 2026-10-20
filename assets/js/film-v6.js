@@ -22,15 +22,43 @@ export function createFilm({ root, scenes, studio, total: wantTotal }) {
   bar.setAttribute('aria-valuemax', Math.round(TOTAL));
   const barSeek = e => { const r = bar.getBoundingClientRect(); seek(Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * TOTAL); };
   bar.addEventListener('pointerdown', e => { barSeek(e); const mv = ev => barSeek(ev); const up = () => { removeEventListener('pointermove', mv); removeEventListener('pointerup', up); }; addEventListener('pointermove', mv); addEventListener('pointerup', up); });
-  bar.addEventListener('keydown', e => { if (e.key === 'ArrowRight') seek(T + 5); if (e.key === 'ArrowLeft') seek(T - 5); });
+  bar.addEventListener('keydown', e => { if (e.key === 'ArrowRight') seek(T + 5); if (e.key === 'ArrowLeft') seek(T - 5); e.stopPropagation(); });
   const playBtn = $('#play');
   const setPlay = p => { playing = p; playBtn.textContent = p ? 'Pause' : 'Play'; if (p && T >= TOTAL - .01) seek(0); };
   playBtn.onclick = () => setPlay(!playing);
   screen.addEventListener('click', e => { if (e.target.closest('a,button')) return; setPlay(!playing); });
+  // keys: space plays, arrows and a clicker's page keys step through chapters, F presents full screen
+  const chapterAt = () => { let i = scenes.findIndex(s => T < s.t0 + s.d); return i < 0 ? scenes.length - 1 : i; };
+  const step = d => { const i = chapterAt(), back = d < 0 && T - scenes[i].t0 > 1.5 ? 0 : d, j = Math.max(0, Math.min(scenes.length - 1, i + back)); seek(scenes[j].t0 + .01); };
   addEventListener('keydown', e => {
-    if (e.target.closest('input,textarea')) return;
-    if (e.key === ' ' && document.activeElement === document.body) { e.preventDefault(); setPlay(!playing); }
+    if (e.target.closest('input,textarea,[contenteditable]') || e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key;
+    if (k === ' ' && (document.activeElement === document.body || root.classList.contains('present'))) { e.preventDefault(); setPlay(!playing); }
+    else if (k === 'ArrowRight' || k === 'PageDown') { e.preventDefault(); step(1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); step(-1); }
+    else if (k === 'f' || k === 'F') present(!root.classList.contains('present'));
+    else if (k === 'Escape' && root.classList.contains('present') && !document.fullscreenElement) present(false);
+    wake();
   });
+
+  // presentation mode: the film fills the screen (real full screen where the browser allows it, otherwise the whole
+  // window), keeps 16:9 on wide screens so no text is cut, and hides the controls when nobody moves the mouse
+  const fsBtn = document.createElement('button'); fsBtn.type = 'button'; fsBtn.id = 'fs'; fsBtn.className = 'fsbtn';
+  time.after(fsBtn);
+  const fsLabel = on => { fsBtn.textContent = on ? 'Exit' : 'Present'; fsBtn.setAttribute('aria-label', on ? 'Leave full screen' : 'Present full screen'); fsBtn.title = (on ? 'Leave full screen' : 'Present full screen') + ' (F)'; };
+  fsLabel(false);
+  function present(on) {
+    root.classList.toggle('present', on); document.documentElement.classList.toggle('presenting', on); fsLabel(on);
+    if (on && !document.fullscreenElement && root.requestFullscreen) root.requestFullscreen({ navigationUI: 'hide' }).catch(() => {});
+    if (!on && document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    if (on) setPlay(true);
+    wake();
+  }
+  fsBtn.onclick = () => present(!root.classList.contains('present'));
+  document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && root.classList.contains('present')) present(false); });
+  let idleT = 0;
+  function wake() { root.classList.remove('idle'); clearTimeout(idleT); if (root.classList.contains('present')) idleT = setTimeout(() => { if (!root.querySelector('.controls:hover')) root.classList.add('idle'); }, 2600); }
+  ['pointermove', 'pointerdown', 'touchstart'].forEach(ev => root.addEventListener(ev, wake, { passive: true }));
 
   // labels: the box stays put on screen (placed where its point is when it appears), a dot follows the 3D point
   // and a thin line joins them, so the text never shakes while the snake turns
@@ -119,7 +147,7 @@ export function createFilm({ root, scenes, studio, total: wantTotal }) {
     box.style.width = BW + 'px'; box.style.height = BH + 'px'; box.style.transform = `scale(${W / BW})`;
     leadSvg.setAttribute('viewBox', `0 0 ${BW} ${BH}`);
     studio.resize(Math.round(W), Math.round(H));
-    root.classList.toggle('narrow', W < 720); root.classList.toggle('portrait', portrait);
+    root.classList.toggle('narrow', portrait || W < (root.classList.contains('present') ? 600 : 720)); root.classList.toggle('portrait', portrait);
     if (was !== portrait) { for (const k in labs) labs[k]._fix = null; const s = scenes[curIdx]; if (s && s.enter) s.enter(F); }
     resized = true;
   }
@@ -130,7 +158,7 @@ export function createFilm({ root, scenes, studio, total: wantTotal }) {
   // pause when the film is off screen, resume when it comes back if it was playing
   let wasPlaying = true;
   new IntersectionObserver(([e]) => { if (!e.isIntersecting) { wasPlaying = playing; setPlay(false); } else if (wasPlaying) setPlay(true); }, { threshold: .15 }).observe(screen);
-  window.__film = { seek: t => { setPlay(false); seek(t); }, scenes, total: TOTAL, frame: () => frame(0) };
+  window.__film = { seek: t => { setPlay(false); seek(t); }, scenes, total: TOTAL, frame: () => frame(0), present };
   requestAnimationFrame(loop);
   return { seek, setPlay, total: TOTAL };
 }
