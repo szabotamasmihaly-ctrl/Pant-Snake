@@ -172,7 +172,8 @@ export async function createStudio({ canvas, base = 'assets/snake/', onProgress 
   /* snake parts */
   const snake = new THREE.Group(); scene.add(snake);
   const MAN = await (await fetch(base + 'parts.json')).json(), manifest = MAN.parts;
-  const parts = {}, mats = [];
+  const parts = {}, mats = [], twins = [];
+  const preMat = new THREE.MeshBasicMaterial({ colorWrite: false, transparent: true, opacity: 0 });
   const tl = new THREE.TextureLoader();
   let done = 0;
   await Promise.all(manifest.map(async p => {
@@ -183,7 +184,9 @@ export async function createStudio({ canvas, base = 'assets/snake/', onProgress 
       mat = new THREE.MeshPhysicalMaterial({ map: img, roughness: .42, clearcoat: .45, clearcoatRoughness: .28, envMapIntensity: 1.1,
         emissive: '#7CF06B', emissiveMap: glowMask(img.image), emissiveIntensity: 0 });
     } else mat = new THREE.MeshPhysicalMaterial({ color: p.color || '#0B2A5B', roughness: .45, clearcoat: .4, envMapIntensity: .7 });
-    const m = new THREE.Mesh(geo, mat); m.castShadow = true; m.receiveShadow = true; m.name = p.name;
+    const m = new THREE.Mesh(geo, mat); m.castShadow = true; m.receiveShadow = true; m.name = p.name; m.renderOrder = 2;
+    // depth-only twin: in x-ray only the nearest skin is drawn, so the inner walls never show through as torn panels
+    const pre = new THREE.Mesh(geo, preMat); pre.renderOrder = 1; pre.visible = false; m.add(pre); twins.push(pre);
     const g = new THREE.Group(); g.rotation.y = G.AZ0 + p.k * G.dth; g.position.y = (G.J0 + p.k * G.c * G.dth) / 1000; g.add(m); snake.add(g);
     parts[p.name] = { mesh: m, group: g, k: p.k };
     mats.push(mat); onProgress(++done / manifest.length);
@@ -332,9 +335,10 @@ export async function createStudio({ canvas, base = 'assets/snake/', onProgress 
   function setXray(f) {
     state.xray = f;
     for (const m of mats) {
-      const o = 1 - .86 * f; m.transparent = o < .999; m.opacity = o; m.depthWrite = o > .6;
+      const o = 1 - .86 * f; m.transparent = o < .999; m.opacity = o; m.depthWrite = !m.transparent;
       m.clearcoat = .45 * (1 - f); m.envMapIntensity = 1.1 * (1 - .75 * f);
     }
+    for (const t of twins) t.visible = f > .001;
     for (const m of coilMeshes) m.material.opacity = Math.max(m.userData.show || 0, f);
     glows.forEach(g => g.userData.x = f);
     cableMat.opacity = f; keelMat.opacity = f * .35;

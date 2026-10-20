@@ -30,8 +30,8 @@
 .slogan { left: 0; top: 0; width: 1600px; height: 900px; background: #07090c; }
 .slogan div { position: absolute; left: 120px; width: 1360px; font: 800 86px/1.05 var(--display); letter-spacing: -.03em; }
 .costw { left: 0; top: 0; width: 1600px; height: 900px; background: var(--studio); }
-.costt { position: absolute; left: 760px; top: 90px; width: 780px; }
-.costt .crow { display: grid; grid-template-columns: 1fr 150px 150px; gap: 14px; padding: 15px 0; border-bottom: 1px solid var(--line); font-size: 21px; align-items: baseline; }
+.costt { position: absolute; left: 740px; top: 60px; width: 800px; }
+.costt .crow { display: grid; grid-template-columns: 1fr 120px 130px; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 21px; align-items: baseline; }
 .costt .crow small { display: block; color: var(--muted); font-size: 15px; }
 .costt .crow b, .costt .crow em { font: 500 20px var(--mono); text-align: right; font-style: normal; }
 .costt .crow em { color: var(--muted); }
@@ -107,19 +107,20 @@
         <!-- cost -->
         <div class="layer costw" id="Lcost">
           <div class="costt">
-            <div class="crow hd"><div>30 snakes for Aarhus</div><em>each</em><em>DKK</em></div>
-            <div class="crow"><div>Printed snake, ASA, painted livery<small>filament 1,448 · printer time 438 · labour 1,305 · hardware 195</small></div><em>3,656</em><b>109,680</b></div>
-            <div class="crow"><div>Hidden fill sensor<small>12 coils, pod, radio, 10-year battery</small></div><em>270</em><b>8,100</b></div>
-            <div class="crow"><div>Fitting on an existing light pole<small>bands and pads, no digging, no new posts</small></div><em>≈ 800</em><b>24,000</b></div>
-            <div class="crow"><div>LoRaWAN gateways<small>up to 3, only if the city network does not reach</small></div><em></em><b>3,700</b></div>
-            <div class="crow"><div>Snake Spa cleaning cargo bike<small>e-cargo bike, two tanks, pump</small></div><em></em><b>30,000</b></div>
-            <div class="crow tot"><div>Total</div><em></em><b id="ctot">0</b></div>
+            <div class="crow hd"><div>What AU Launch pays for: materials for 30 snakes</div><em>each</em><em>DKK</em></div>
+            <div class="crow"><div>ASA filament<small>about 6.5 kg a snake, test pieces, glow ASA for eyes and QR panels</small></div><em>1,467</em><b>44,000</b></div>
+            <div class="crow"><div>Hidden fill sensors<small>12 coils, 3 chips, radio, 10-year cell, one prototype kit</small></div><em>297</em><b>8,900</b></div>
+            <div class="crow"><div>Mounting<small>stainless bands, EPDM rubber, printed pads</small></div><em>300</em><b>9,000</b></div>
+            <div class="crow"><div>Assembly and finish<small>adhesive, inserts, security screws, magnets, seals, primer, UV clear coat</small></div><em>447</em><b>13,400</b></div>
+            <div class="crow"><div>LoRaWAN gateways<small>up to 3, only where The Things Network does not reach</small></div><em></em><b>3,700</b></div>
+            <div class="crow"><div>Spare parts<small>spare segments, heads and sensor pods for repairs during the test</small></div><em></em><b>20,000</b></div>
+            <div class="crow tot"><div>Total, materials only</div><em></em><b id="ctot">0</b></div>
             <div class="per" id="perRow">
-              <div><b>DKK 3,926</b><span>one printed snake with its sensor</span></div>
-              <div><b>47 øre</b><span>for each person in Aarhus Kommune</span></div>
-              <div><b>≈ 7,500</b><span>DKK a year to run one snake, at 30 snakes</span></div>
+              <div><b>30</b><span>snakes on Aarhus streets for the test</span></div>
+              <div><b>Free</b><span>cleaning, repairs, the app and the data</span></div>
+              <div><b>No salaries</b><span>nobody's time is paid from the 99,000</span></div>
             </div>
-            <p class="est" style="margin-top:16px">Estimates, not quotes (cost model and sensor plan, 19 Oct 2026). Fitting ≈ DKK 800 a snake and the bike are earlier estimates. Running cost covers cleaning, a manager, wear, repairs, app, insurance and permits. Population ≈ 373,000.</p>
+            <p class="est" style="margin-top:14px">Estimates, not quotes. Material prices from the AU Launch budget (Oct 2026). Maintenance, the app and the data are free for the city during the test.</p>
           </div>
         </div>
         <!-- cheaper -->
@@ -190,8 +191,7 @@
       <tr><td>Hidden fill sensor, materials</td><td class="n">DKK 270 / 215 / 150</td><td>Hidden-sensor plan, at 30 / 100 / 1,000 snakes</td></tr>
       <tr><td>Printed snake with sensor</td><td class="n">DKK 3,926</td><td>3,656 + 270</td></tr>
       <tr><td>Rotomoulded body at 1,000 a year</td><td class="n">DKK 2,701</td><td>1,976 variable + 724 fixed; Central European moulder; DKK 1.12 M start-up; cheaper than printing from about 375 a year</td></tr>
-      <tr><td>30 snakes for Aarhus, all in</td><td class="n">DKK 175,480</td><td>Snakes, sensors, fitting (≈ 800 each), up to 3 gateways, one Snake Spa bike</td></tr>
-      <tr><td>Running one snake</td><td class="n">≈ DKK 7,500 / yr</td><td>At 30 snakes: cleaning 2,800, manager 2,100, wear 900, repairs 800, app, bike, insurance and permits 900</td></tr>
+      <tr><td>AU Launch ask: materials for 30 test snakes</td><td class="n">DKK 99,000</td><td>Filament 44,000, sensors 8,900, mounting 9,000, assembly and finish 13,400, gateways 3,700, spare parts 20,000. No salaries. Free for the city during the test</td></tr>
     </table></div>
     <p class="est">All figures are estimates, not quotes, from the project's cost model and sensor plan of 19 October 2026. The snake is the 9-segment light-pole build (mouth at 1.67 m, 24 cans). Return rates as cited in the film.</p>
   </section>
@@ -399,12 +399,12 @@ const scenes = [
      goal.style.opacity = seg(t, 6, 6.6);
    } },
  { name: 'Slogan', d: 7, run(t) { show('#Lslo', 1); const a = ease(seg(t, .3, 1.3)), b = ease(seg(t, 2.4, 3.4)); $('#slo1').style.opacity = a; $('#slo1').style.transform = `translateY(${(1 - a) * 24}px)`; $('#slo2').style.opacity = b; $('#slo2').style.transform = `translateY(${(1 - b) * 24}px)`; show('#mark', 0); }, leave() { show('#mark', 1); } },
- { name: 'Cost', d: 14, caps: [[0, '12 · The ask', 'Thirty snakes for Aarhus', 'About DKK 175,000 with sensors, fitting and a cleaning bike. One snake with its sensor: DKK 3,926.']],
+ { name: 'Cost', d: 14, caps: [[0, '12 · The ask', 'DKK 99,000 from AU Launch. Free for the city.', 'All we ask for is the material for 30 snakes. Maintenance, the app and the data are free for Aarhus while the test shows what the snakes do.']],
    enter: resetAll,
    run(t) {
      show('#Lcost', 1); const rows = $('#Lcost').querySelectorAll('.crow:not(.hd):not(.tot)');
      rows.forEach((r, i) => { const u = ease(seg(t, 1 + i * .6, 1.5 + i * .6)); r.style.opacity = u; r.style.transform = `translateX(${(1 - u) * 20}px)`; });
-     $('#ctot').textContent = fmt(175480 * ease(seg(t, 4.4, 6.4))); $('#perRow').style.opacity = ease(seg(t, 6.8, 7.6));
+     $('#ctot').textContent = fmt(99000 * ease(seg(t, 5, 7))); $('#perRow').style.opacity = ease(seg(t, 7.4, 8.2));
    } },
  { name: 'Cheaper', d: 12, capClass: 'top', caps: [[0, '13 · If it works', 'Moulded, it gets cheaper', 'Printing suits the first snakes. From about 375 a year a rotomould wins, so print the first 110 and mould when the orders are there.']],
    enter: resetAll,
