@@ -28,9 +28,9 @@ window.SNAKES = [
    "#8C2F25",
    "#2A211C"
   ],
-  "lat": 56.1577,
-  "lng": 10.1945,
-  "location": "Den Gamle By entrance, Viborgvej at Vesterbrogade"
+  "lat": 56.15637,
+  "lng": 10.19587,
+  "location": "Carl Blochs Gade at Thorvaldsensgade"
  },
  {
   "id": "aar-03-runes",
@@ -43,9 +43,9 @@ window.SNAKES = [
    "#7E1B14",
    "#1C1A18"
   ],
-  "lat": 56.1508,
-  "lng": 10.2038,
-  "location": "Aarhus H, Banegårdspladsen"
+  "lat": 56.14548,
+  "lng": 10.20434,
+  "location": "Sankt Pauls Kirkeplads (Odensegade at Hans Broges Gade)"
  },
  {
   "id": "aar-04-mollestien",
@@ -73,9 +73,9 @@ window.SNAKES = [
    "#F5F8F9",
    "#0B2742"
   ],
-  "lat": 56.16144,
-  "lng": 10.19652,
-  "location": "Langelandsgade in Øgaderne"
+  "lat": 56.16565,
+  "lng": 10.20877,
+  "location": "Nørrebrogade at Nørre Boulevard"
  },
  {
   "id": "aar-06-radhus",
@@ -88,9 +88,9 @@ window.SNAKES = [
    "#6E6E6A",
    "#2C3135"
   ],
-  "lat": 56.1532,
-  "lng": 10.204,
-  "location": "Rådhuspladsen, Park Allé bus stops"
+  "lat": 56.15113,
+  "lng": 10.20304,
+  "location": "Park Allé at Banegårdspladsen"
  },
  {
   "id": "aar-07-domkirke",
@@ -115,9 +115,9 @@ window.SNAKES = [
    "#A2472A",
    "#3C5A3A"
   ],
-  "lat": 56.1568,
-  "lng": 10.2103,
-  "location": "Store Torv by Domkirken"
+  "lat": 56.15149,
+  "lng": 10.20775,
+  "location": "Fredensgade at Ny Banegårdsgade"
  },
  {
   "id": "aar-08-aaen",
@@ -157,9 +157,9 @@ window.SNAKES = [
    "#3A2414",
    "#EFE6D6"
   ],
-  "lat": 56.1449,
-  "lng": 10.199,
-  "location": "Ingerslevs Plads, food market"
+  "lat": 56.14502,
+  "lng": 10.19895,
+  "location": "Ingerslevs Plads (Odensegade at Ingerslevs Boulevard)"
  },
  {
   "id": "aar-10-bro",
@@ -172,9 +172,9 @@ window.SNAKES = [
    "#4A3A2C",
    "#1E5674"
   ],
-  "lat": 56.14358,
-  "lng": 10.20904,
-  "location": "Strandvejen, south end of Frederiksbjerg"
+  "lat": 56.14823,
+  "lng": 10.20935,
+  "location": "Spanien at Strandvejen"
  },
  {
   "id": "aar-11-havn",
@@ -187,9 +187,9 @@ window.SNAKES = [
    "#B23A2E",
    "#2E3236"
   ],
-  "lat": 56.1635,
-  "lng": 10.2155,
-  "location": "Østbanetorvet light rail stop"
+  "lat": 56.16462,
+  "lng": 10.1972,
+  "location": "Langelandsgade at Paludan-Müllers Vej"
  },
  {
   "id": "aar-12-au",
@@ -202,9 +202,9 @@ window.SNAKES = [
    "#B98A3E",
    "#4F6B34"
   ],
-  "lat": 56.1712,
-  "lng": 10.2043,
-  "location": "Universitetet light rail stop, Nørrebrogade by Nordre Ringgade"
+  "lat": 56.17169,
+  "lng": 10.20438,
+  "location": "Nørrebrogade at Nordre Ringgade and Randersvej"
  },
  {
   "id": "aar-13-godsbanen",
@@ -217,9 +217,9 @@ window.SNAKES = [
    "#D6337F",
    "#2BA7CF"
   ],
-  "lat": 56.1547,
-  "lng": 10.1953,
-  "location": "Godsbanen, Skovgaardsgade"
+  "lat": 56.15328,
+  "lng": 10.20247,
+  "location": "Vester Allé at Frederiks Allé, Rådhuspladsen"
  },
  {
   "id": "aar-14-festuge",
@@ -247,9 +247,9 @@ window.SNAKES = [
    "#B8BEC4",
    "#F2C230"
   ],
-  "lat": 56.1482,
-  "lng": 10.2047,
-  "location": "Jægergårdsgade at M.P. Bruuns Gade"
+  "lat": 56.15006,
+  "lng": 10.20309,
+  "location": "Banegårdspladsen at M.P. Bruuns Gade"
  },
  {
   "id": "aar-15-pant-2",
@@ -277,9 +277,9 @@ window.SNAKES = [
    "#2C3A44",
    "#A4793B"
   ],
-  "lat": 56.1535,
-  "lng": 10.213,
-  "location": "Dokk1 light rail stop, Hack Kampmanns Plads"
+  "lat": 56.1529,
+  "lng": 10.21163,
+  "location": "Europaplads at Dynkarken"
  },
  {
   "id": "aar-17-lighthouse",
@@ -292,9 +292,9 @@ window.SNAKES = [
    "#2E4356",
    "#F2F2EE"
   ],
-  "lat": 56.1601,
-  "lng": 10.2143,
-  "location": "Kystvejen at Nørreport"
+  "lat": 56.16031,
+  "lng": 10.2078,
+  "location": "Nørregade at Nørre Allé"
  },
  {
   "id": "aar-18-vikingship",
@@ -322,9 +322,9 @@ window.SNAKES = [
    "#D23B3B",
    "#B8BEC4"
   ],
-  "lat": 56.14841,
-  "lng": 10.20931,
-  "location": "Spanien at Strandvejen"
+  "lat": 56.14659,
+  "lng": 10.20381,
+  "location": "M.P. Bruuns Gade at Sankt Pauls Kirkeplads"
  },
  {
   "id": "aar-20-tropehus",
@@ -337,9 +337,9 @@ window.SNAKES = [
    "#3F7F45",
    "#C9CFC8"
   ],
-  "lat": 56.1582,
-  "lng": 10.1993,
-  "location": "Vesterbro Torv"
+  "lat": 56.15828,
+  "lng": 10.19973,
+  "location": "Vesterbro Torv (Nørre Allé at Langelandsgade)"
  },
  {
   "id": "aar-21-teater",
@@ -352,9 +352,9 @@ window.SNAKES = [
    "#D9C7A0",
    "#5E8C73"
   ],
-  "lat": 56.1567,
-  "lng": 10.212,
-  "location": "Bispetorv by Aarhus Teater"
+  "lat": 56.15646,
+  "lng": 10.21257,
+  "location": "Havnegade at Skolebakken"
  },
  {
   "id": "aar-22-vandmand",
@@ -397,9 +397,9 @@ window.SNAKES = [
    "#C08A3E",
    "#7A5626"
   ],
-  "lat": 56.17,
-  "lng": 10.2115,
-  "location": "Trøjborg, Trøjborgvej at Tordenskjoldsgade"
+  "lat": 56.16989,
+  "lng": 10.21197,
+  "location": "Aldersrovej at Larsen-Ledets Gade"
  },
  {
   "id": "aar-25-musikhuset",
@@ -442,9 +442,9 @@ window.SNAKES = [
    "#24427A",
    "#F7F5EF"
   ],
-  "lat": 56.1578,
-  "lng": 10.2072,
-  "location": "Lille Torv, Guldsmedgade"
+  "lat": 56.15767,
+  "lng": 10.20556,
+  "location": "Frue Kirkeplads at Emil Vetts Passage"
  },
  {
   "id": "aar-28-riisskov",
@@ -457,9 +457,9 @@ window.SNAKES = [
    "#8E8C84",
    "#2F4A26"
   ],
-  "lat": 56.16559,
-  "lng": 10.20894,
-  "location": "Nørrebrogade at Nørre Boulevard"
+  "lat": 56.16822,
+  "lng": 10.21016,
+  "location": "Larsen-Ledets Gade at Peter Sabroes Gade"
  },
  {
   "id": "aar-29-havnebad",
@@ -472,9 +472,9 @@ window.SNAKES = [
    "#2B7FA6",
    "#3B3029"
   ],
-  "lat": 56.16487,
-  "lng": 10.19986,
-  "location": "Langelandsgade, north end of Øgaderne"
+  "lat": 56.15811,
+  "lng": 10.2133,
+  "location": "Kystvejen at Skolebakken"
  },
  {
   "id": "aar-30-home-test",
