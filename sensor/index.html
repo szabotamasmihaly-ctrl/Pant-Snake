@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hidden Snake Sensor</title>
+<meta name="description" content="How the Pant Snake knows it is full: 12 coils hidden in the belly, a sealed pod and a magnetic key.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Nunito:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/css/film.css">
+<style>
+.level { right: 64px; top: 120px; width: 330px; display: grid; gap: 14px; }
+.level .row { display: flex; justify-content: space-between; align-items: baseline; }
+.level .row b { font: 700 40px/1 var(--display); letter-spacing: -.02em; }
+.level .row span { font: 500 14px/1 var(--mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+.meter { height: 12px; border-radius: 6px; background: #232b35; overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: var(--glow); border-radius: 6px; }
+.meter i.full { background: var(--amber); }
+.dots { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; }
+.dots i { height: 18px; border-radius: 4px; background: #232b35; }
+.dots i.on { background: var(--amber); box-shadow: 0 0 10px rgba(255,181,71,.6); }
+.state { font: 700 22px/1.2 var(--display); color: var(--glow); }
+.state.full { color: var(--amber); }
+.sim { right: 64px; top: 120px; width: 470px; display: grid; gap: 14px; }
+.sim .stat b { font-size: 40px; }
+.sim .stat b em { font-style: normal; color: var(--glow); }
+.flow { left: 50%; top: 110px; transform: translateX(-50%); display: flex; gap: 10px; align-items: center; padding: 16px 20px; }
+.flow div { padding: 12px 16px; border-radius: 12px; background: #1d242e; border: 1px solid var(--line-2); font: 500 17px/1.25 var(--display); text-align: center; min-width: 150px; opacity: .25; transition: opacity .3s; }
+.flow div small { display: block; font: 500 12.5px/1.3 var(--mono); color: var(--muted); letter-spacing: .04em; margin-top: 4px; }
+.flow div.on { opacity: 1; border-color: var(--glow); }
+.flow span { color: var(--dim); font: 500 20px var(--mono); }
+.costp { right: 64px; top: 110px; width: 600px; display: grid; gap: 6px; }
+.costp table { border-collapse: collapse; width: 100%; font-size: 19px; }
+.costp td { padding: 11px 0; border-bottom: 1px solid var(--line); }
+.costp td.n { text-align: right; font: 500 19px var(--mono); white-space: nowrap; padding-left: 16px; }
+.costp tr.tot td { border-bottom: 0; font-weight: 700; color: var(--glow); }
+.app { right: 64px; top: 330px; width: 330px; padding: 16px 18px; border-radius: 24px; background: #0B0F1A; border: 1px solid #222a3d; font-family: "Nunito", ui-rounded, sans-serif; display: flex; gap: 14px; align-items: center; }
+.app .pin { width: 46px; height: 46px; border-radius: 50%; background: #3FCF8E; display: grid; place-items: center; color: #04140C; font: 800 15px "Nunito"; flex: none; transition: background .3s; }
+.app .pin.amber { background: var(--amber); }
+.app b { display: block; font: 800 20px/1.2 "Nunito", ui-rounded, sans-serif; }
+.app span { color: #8E9AB5; font-size: 16px; }
+.lockfig { left: 64px; top: 110px; width: 640px; padding: 18px 22px; }
+.lockfig svg { width: 100%; height: auto; display: block; }
+</style>
+</head>
+<body>
+<header class="topnav">
+  <a class="brand" href="../story/">Pant Snake</a>
+  <nav><a href="../story/">Story</a><a href="../sensor/" aria-current="page">Sensor</a><a href="../kit/">Kit</a><a href="../">Collector app</a></nav>
+</header>
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">Sensor snake · hidden fill sensor</span>
+    <h1>The snake knows when it is full</h1>
+    <p class="lede">Twelve coils sit inside the belly wall, a thin cable runs along the keel, and a sealed pod under the fifth segment sends the level by radio. From the street you see only the snake. The pod opens only with your magnetic key.</p>
+  </header>
+
+  <div class="film" id="film">
+    <div class="screen">
+      <canvas aria-label="3D film of the sensor snake"></canvas>
+      <div class="box">
+        <div class="mark">Pant Snake <span>Sensor snake</span></div>
+        <div class="count" id="count"></div>
+        <div class="layer panel level" id="Llevel">
+          <div class="t">What the snake reports</div>
+          <div class="row"><b id="lvN">0</b><span>coils see a can</span></div>
+          <div class="dots" id="lvDots"></div>
+          <div class="meter"><i id="lvBar"></i></div>
+          <div class="state" id="lvState">Empty</div>
+        </div>
+        <div class="layer app" id="Lapp"><div class="pin" id="appPin">24</div><div><b>Grenen · Skolegade</b><span id="appTxt">Filling up</span></div></div>
+        <div class="layer panel sim" id="Lsim">
+          <div class="t">Simulated · 300,000 fills · 30 % bottles</div>
+          <div class="stat"><b>1 in <em>16,000</em></b><span>full snakes that no coil would catch (9-segment build)</span></div>
+          <div class="stat"><b>± 1.4 <em>cans</em></b><span>error on the reported level</span></div>
+          <div class="est">Bottles in long runs are the hard case; the app's "probably full" from each snake's usual fill time covers the rest.</div>
+        </div>
+        <div class="layer panel lockfig" id="Llock">
+          <div class="t" id="lockT">Locked · no key</div>
+          <svg viewBox="0 0 520 230" aria-hidden="true" font-family="IBM Plex Mono" font-size="13">
+            <text x="0" y="16" fill="#6B7782">cut through one bolt · uphill to the right</text>
+            <rect x="0" y="40" width="520" height="14" fill="#2B4FA8"/>
+            <rect x="110" y="62" width="250" height="42" rx="3" fill="#cdc8bd"/><text x="122" y="88" fill="#3a3f45">guide + spring</text>
+            <g id="lockBolt"><rect x="250" y="106" width="130" height="16" rx="3" fill="#f2f0ea"/><path d="M250 106 l-14 8 l14 8z" fill="#f2f0ea"/><rect x="318" y="122" width="30" height="7" fill="#c7ccd1"/></g>
+            <g id="lockLidG"><path d="M0 150 H230 V112 H246 V124 H240 V160 H0z" fill="#3e5fb8"/><text x="10" y="146" fill="#dfe6f4">lid</text></g>
+            <text x="388" y="118" fill="#9AA7B2">bolt</text><text x="200" y="104" fill="#9AA7B2" text-anchor="end">hook</text>
+            <g id="lockKey" opacity="0"><rect x="250" y="174" width="200" height="36" rx="5" fill="#ecebe6"/><rect x="345" y="166" width="44" height="12" fill="#c7ccd1"/><text x="262" y="198" fill="#3a3f45">key · N52 magnet</text></g>
+          </svg>
+        </div>
+        <div class="layer panel flow" id="Lflow">
+          <div>Coils<small>read every 3 min</small></div><span>→</span>
+          <div>Pod radio<small>6 bytes, on change</small></div><span>→</span>
+          <div>Gateway<small>868 MHz LoRaWAN</small></div><span>→</span>
+          <div>The Things Network<small>to the database</small></div><span>→</span>
+          <div>Collector app<small>pin turns amber</small></div>
+        </div>
+        <div class="layer panel costp" id="Lcost">
+          <div class="t">Sensor cost per snake · materials</div>
+          <table>
+            <tr><td>3 LDC1614 readers + 12 flex coil tabs</td><td class="n">116</td></tr>
+            <tr><td>RAK3172 radio, pod and hub boards, cable, antenna</td><td class="n">105</td></tr>
+            <tr><td>Battery, printed covers and pod, gasket, drying sachet</td><td class="n">49</td></tr>
+            <tr class="tot"><td>Per snake, 30 snakes</td><td class="n">DKK 270</td></tr>
+            <tr><td>Per snake at 100 / 1,000 snakes</td><td class="n">215 / 150</td></tr>
+            <tr><td>Fitting and test, about 25 min, if paid</td><td class="n">≈ 125</td></tr>
+            <tr><td>Gateways, once per city (0 to 3, unless the city network covers it)</td><td class="n">0 – 3,700</td></tr>
+          </table>
+          <div class="est">Estimates, not quotes (sensor plan, 19 Oct 2026). With the printed snake at DKK 3,656, a printed sensor snake comes to about DKK 3,926.</div>
+        </div>
+        <div class="cap hide"><div class="k"></div><h2></h2><p></p></div>
+      </div>
+      <div class="fade"></div>
+      <div class="loading" id="loading"><div>Loading the snake<b><i id="loadbar"></i></b></div></div>
+    </div>
+    <div class="capOut"><div class="k"></div><h2></h2><p></p></div>
+    <div class="controls">
+      <button id="play" type="button">Pause</button>
+      <div class="chips"></div>
+      <span class="time"></span>
+      <div class="bar" role="slider" aria-label="Film position" aria-valuemin="0" tabindex="0"><i></i></div>
+    </div>
+  </div>
+
+  <section class="notes">
+    <h2>Every part, in one line</h2>
+    <div class="cards">
+      <div><em>in the belly wall</em><b>12 coil tabs</b><span>Flat copper spirals pressed into pockets 1.2 mm from the cans. Cans roll over them but never touch them.</span></div>
+      <div><em>where</em><b>Spread along the body</b><span>Two in each of the top three segments, one in every segment below. Spread out, bottles cannot hide all of them.</span></div>
+      <div><em>along the belly</em><b>Keel, cable and covers</b><span>A keel 48 mm wide and 7 mm deep carries the cable in a channel. 2 mm cover strips close it and are trapped by the next segment.</span></div>
+      <div><em>in the keel</em><b>3 reader chips (TI LDC1614)</b><span>Each reads four coils. Metal changes a coil's inductance, so a can over it shows up and a plastic bottle does not.</span></div>
+      <div><em>in the pod</em><b>RAK3172 radio + ER14505 battery</b><span>Lying side by side on a printed tray, so the pod is only 19.5 mm deep. About ten years on one battery.</span></div>
+      <div><em>the lock</em><b>Two spring bolts, one key</b><span>Magnets in your key draw the bolts 4.5 mm open. Pulling or prising only presses the hooks harder onto the bolts.</span></div>
+    </div>
+    <p class="est">Built on the light-pole snake v2, 9-segment standard build (mouth 1.67 m, 24 cans). Figures from the sensor snake README and physics notes and the hidden-sensor plan, 19 Oct 2026. Estimates; nothing is bench-tested yet. The first test is one coil reading a can through 1.2 mm of print, then radio range from a full snake beside a steel pole.</p>
+  </section>
+  <footer class="foot">Pant Snake · Aarhus · 2026</footer>
+</div>
+
+<script>
+// if a script or file fails, say so on the loading screen instead of waiting forever
+(function () {
+  function fail(msg) { var l = document.getElementById('loading'); if (l) l.querySelector('div').firstChild.textContent = 'Could not load the snake: ' + msg; }
+  addEventListener('error', function (e) { fail(e.message || ('file ' + (e.target && (e.target.src || e.target.href)))); }, true);
+  addEventListener('unhandledrejection', function (e) { fail(String(e.reason && e.reason.message || e.reason)); });
+  setTimeout(function () { var l = document.getElementById('loading'); if (l && l.isConnected && !document.getElementById('loadbar').style.width) fail('timed out, please reload'); }, 45000);
+})();
+</script>
+<script type="module">
+import { createStudio, G, COILS, CHIPS, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar } from '../assets/js/snake3d.js';
+import { createFilm } from '../assets/js/film.js';
+const root = document.getElementById('film'), $ = s => root.querySelector(s);
+const S = await createStudio({ canvas: $('canvas'), base: '../assets/snake/', onProgress: f => $('#loadbar').style.width = (f * 100) + '%' });
+$('#loading').style.opacity = 0; setTimeout(() => $('#loading').remove(), 700);
+const deg = Math.PI / 180;
+const dots = $('#lvDots'); COILS.forEach(() => dots.appendChild(document.createElement('i')));
+const show = (id, o) => { $(id).style.opacity = o; };
+// camera keyframes: [t, az°, el°, d, ty, fov]
+function cam(t, keys) {
+  let i = 0; while (i < keys.length - 2 && t > keys[i + 1][0]) i++;
+  const A = keys[i], B = keys[i + 1] || A, u = B === A ? 0 : ease((t - A[0]) / (B[0] - A[0]));
+  S.orbit(lerp(A[1], B[1], u) * deg, lerp(A[2], B[2], u) * deg, lerp(A[3], B[3], u), lerp(A[4], B[4], u), lerp(A[5], B[5], u), lerp(A[6] ?? .3, B[6] ?? .3, u));
+}
+function podCam(t, keys) {           // [t, out(b), side, along, fov] around the pod
+  let i = 0; while (i < keys.length - 2 && t > keys[i + 1][0]) i++;
+  const A = keys[i], B = keys[i + 1] || A, u = B === A ? 0 : ease((t - A[0]) / (B[0] - A[0]));
+  const f = S.pod.spine(0), r = new S.THREE.Vector3(f.p.x, 0, f.p.z).normalize(), dn = new S.THREE.Vector3(0, -1, 0);
+  const pos = f.p.clone().addScaledVector(r, lerp(A[1], B[1], u)).addScaledVector(dn, lerp(A[2], B[2], u)).addScaledVector(f.t, lerp(A[3], B[3], u));
+  const tgt = f.p.clone().addScaledVector(f.n, -.045);
+  const right = tgt.clone().sub(pos).cross(new S.THREE.Vector3(0, 1, 0)).normalize().multiplyScalar(-lerp(A[6] ?? 0, B[6] ?? 0, u));
+  S.look(pos.add(right), tgt.add(right), lerp(A[4], B[4], u));
+}
+const coilAt = i => { const { p, b } = pathAt(COILS[i].d); return p.clone().addScaledVector(b, .066); };
+const resetAll = () => { S.isolate(null); S.headlight.intensity = 0; S.setItems([]); COILS.forEach((_, i) => { S.setCoil(i, 0); S.coilMeshes[i].userData.show = 0; }); S.setXray(0); S.setRadio(0, 0); S.pod.set({}); S.setNight(0); S.setGlow(0); };
+function report(items, full) {
+  const lv = S.coilsFromItems(items); lv.forEach((l, i) => S.setCoil(i, l));
+  const n = lv.reduce((a, b) => a + b, 0);
+  let top = -1; lv.forEach((l, i) => { if (l) top = i; });
+  const level = top < 0 ? 0 : Math.round(clamp((COILS[top].d + 60) / thetaToD(G.n * G.dth + 1.4)) * 24);
+  $('#lvN').textContent = n;
+  [...dots.children].forEach((d, i) => d.classList.toggle('on', !!lv[i]));
+  $('#lvBar').style.width = (level / 24 * 100) + '%'; $('#lvBar').classList.toggle('full', level >= 22);
+  const st = level >= 22 ? 'Full' : level >= 17 ? 'Nearly full' : level > 0 ? `About ${level} of 24 cans` : 'Empty';
+  $('#lvState').textContent = st; $('#lvState').classList.toggle('full', level >= 17);
+  $('#appTxt').textContent = level >= 22 ? 'Full · collect now' : level >= 17 ? 'Nearly full' : 'Filling up';
+  $('#appPin').classList.toggle('amber', level >= 17); $('#appPin').textContent = level;
+  return { n, level };
+}
+const FILL = Array(24).fill('can');
+const MIX = ['can','can','bottle','can','can','can','bottle','bottle','bottle','can','can','can','bottle','can','can','bottle','bottle','can','can','can'];
+
+const scenes = [
+ { name: 'Hidden', d: 11, caps: [[0, '01 · Nothing to see', 'The sensor is in the belly, painted over', 'From the street you see a snake, not a gadget. A slim keel runs along the belly like belly scales and swells into a flat pod. All of it takes the livery.']],
+   enter() { resetAll(); },
+   run(t, F) {
+     cam(t, [[0, -150, 3, 3.3, 1.02, 32, .34], [11, -75, -3, 3.0, 1.02, 32, .3]]);
+     F.label('keel', pathAt(thetaToD(6.6 * G.dth)).p.clone().addScaledVector(pathAt(thetaToD(6.6 * G.dth)).b, .07), 'Belly keel', '48 mm wide, 7 mm deep', seg(t, 4.5, 5.2) * (1 - seg(t, 10.3, 10.8)), 'left');
+     const f = S.pod.spine(0); F.label('pod', f.p, 'Pod under segment 5', '1.07 m up · its lid is a belly scale', seg(t, 6, 6.7) * (1 - seg(t, 10.3, 10.8)), 'aqua');
+   } },
+ { name: 'Coils', d: 15, caps: [[0, '02 · Under the paint', '12 coils inside the belly wall', 'Each one sits in a pocket 1.2 mm from the cans. A thin cable in the keel joins them to three reader chips.']],
+   enter() { resetAll(); },
+   run(t, F) {
+     S.setXray(smooth(seg(t, .3, 2.2)));
+     COILS.forEach((c, i) => { const u = seg(t, 2.4 + (11 - i) * .38, 2.9 + (11 - i) * .38); S.coilMeshes[i].material.opacity = Math.max(u, 0); S.setCoil(i, .25 * u); });
+     S.cable.material.opacity = seg(t, 7, 8.5) * .9;
+     cam(t, [[0, -75, -3, 3.0, 1.02, 32, .3], [4, -40, -10, 2.5, 1.08, 34, .26], [15, -10, -8, 2.5, 1.05, 34, .26]]);
+     F.label('c11', coilAt(11), 'Coil in the wall', '60 × 30 mm, 1.2 mm from the cans', seg(t, 3, 3.6) * (1 - seg(t, 7.2, 7.6)), 'amber');
+     F.label('c9', coilAt(8), 'Pairs at the top', 'two coils in each of the top 3 segments', seg(t, 6.2, 6.8) * (1 - seg(t, 10, 10.4)), 'amber left');
+     F.label('c2', coilAt(2), 'One per segment below', '', seg(t, 8.3, 8.9) * (1 - seg(t, 11.4, 11.8)), 'amber');
+     F.label('chip', S.chipMeshes[2].position, 'Reader chip', 'TI LDC1614, four coils each', seg(t, 10.6, 11.2) * (1 - seg(t, 14.4, 14.9)), 'aqua left');
+     F.label('cable', pathAt(thetaToD(3.4 * G.dth)).p.clone().addScaledVector(pathAt(thetaToD(3.4 * G.dth)).b, .066), 'Cable in the keel channel', 'closed by 2 mm cover strips', seg(t, 11.6, 12.2) * (1 - seg(t, 14.4, 14.9)), 'aqua');
+   } },
+ { name: 'Level', d: 17, caps: [[0, '03 · Level, not just full', 'Coil after coil lights as it fills', 'A can over a coil changes its reading. The pod turns the lit coils into a level and sends it, so the app sees the snake filling up and knows when it will be full.']],
+   enter() { resetAll(); S.setXray(1); COILS.forEach((_, i) => S.coilMeshes[i].material.opacity = 1); S.cable.material.opacity = .9; },
+   run(t, F) {
+     S.setXray(1);
+     const { items } = fillAt(Math.max(0, t - .6), FILL, { gap: .5 });
+     S.setItems(items);
+     const r = report(items);
+     show('#Llevel', seg(t, .4, 1)); show('#Lapp', seg(t, 1, 1.6));
+     S.setRadio(t, r.level >= 17 ? seg(t, 13, 13.5) : 0);
+     cam(t, [[0, -20, -5, 3.1, 1.02, 32, 0], [17, -75, 2, 3.2, 1.02, 32, 0]]);
+   } },
+ { name: 'Bottles', d: 13, caps: [[0, '04 · Bottles cannot hide it', 'Coils only feel metal', 'A run of plastic bottles leaves the coils under it dark. Because the coils are spread out, the cans above and below still show the level.']],
+   enter() { resetAll(); S.setXray(1); COILS.forEach((_, i) => S.coilMeshes[i].material.opacity = 1); S.cable.material.opacity = .9; },
+   run(t, F) {
+     S.setXray(1);
+     const { items } = fillAt(Math.max(0, t) + 20, MIX, { gap: .32 });
+     S.setItems(items); report(items);
+     show('#Llevel', 1 - seg(t, 5.5, 6)); show('#Lsim', seg(t, 6, 6.6));
+     cam(t, [[0, -75, 2, 3.2, 1.02, 32, 0], [13, -110, 4, 3.0, 1.05, 32, 0]]);
+     const bi = items.findIndex(it => it.kind === 'bottle' && it.d > 900);
+     if (bi >= 0) { const { p } = pathAt(items[bi].d); F.label('bot', p, 'Bottles in a row', 'the coils under them stay dark', seg(t, 1.5, 2.1) * (1 - seg(t, 5.3, 5.7)), 'aqua'); }
+   } },
+ { name: 'Pod', d: 13, caps: [[0, '05 · Inside the pod', 'Side by side, not stacked', 'Battery and board lie flat on a printed tray, so the pod is only 19.5 mm deep. The antenna lies under the lid, away from the cans and the pole.']],
+   enter() { resetAll(); S.isolate(['seg5', 'podlid']); },
+   run(t, F) {
+     S.pod.set({ inside: true, antenna: .6, out: smooth(seg(t, .6, 2.4)) * 1.2 });
+     podCam(t, [[0, .66, .36, .2, 30, 0, .14], [13, .56, .32, .1, 30, 0, .12]]); S.headlight.intensity = 1.2;
+     const f = x => S.pod.spine(x).p;
+     F.label('bat', f(8).clone().addScaledVector(S.pod.spine(8).n, -.01), 'Battery', 'EVE ER14505, about 10 years', seg(t, 2.4, 3) * (1 - seg(t, 12.3, 12.8)), 'left');
+     F.label('radio', f(0), 'Radio + reader board', 'RAK3172 LoRaWAN, 868 MHz', seg(t, 3.6, 4.2) * (1 - seg(t, 12.3, 12.8)), 'aqua');
+     F.label('ant', f(45), 'Antenna', 'stuck inside the lid', seg(t, 5, 5.6) * (1 - seg(t, 12.3, 12.8)), 'amber');
+     F.label('bolts', f(-62), 'Two sliding bolts', 'spring-closed, magnet-opened', seg(t, 6.4, 7) * (1 - seg(t, 12.3, 12.8)), 'left');
+     F.label('lid', S.pod.pivot.position, 'Lid', 'hooks in at the top end', seg(t, 7.8, 8.4) * (1 - seg(t, 12.3, 12.8)), 'aqua');
+   } },
+ { name: 'Key', d: 19, caps: [[0, '06 · Only your key opens it', 'A lid with no screws, holes or slots', 'Press the key flat on the belly, arrow to the head. Its magnets draw two bolts 4.5 mm open.'], [7.4, '06 · Only your key opens it', 'Tip, slide 7 mm, lift away', 'A third magnet holds a steel disc in the lid, so the lid comes off with the key.'], [13.6, '06 · Only your key opens it', 'No key: it stays shut', 'A pull or a screwdriver in the seam only presses the hooks harder onto the bolts. Push the lid home and it clicks shut by itself.']],
+   enter() { resetAll(); S.isolate(['seg5', 'podlid']); },
+   run(t, F) {
+     const k = seg(t, 1.2, 3.6) * (1 - seg(t, 17.6, 18.6)), bo = smooth(seg(t, 4, 5)) * (1 - smooth(seg(t, 16.6, 17.2)));
+     const tip = smooth(seg(t, 7.6, 8.4)) * (1 - smooth(seg(t, 15.4, 16.2))), slide = smooth(seg(t, 8.4, 9.4)) * (1 - smooth(seg(t, 15, 15.6)));
+     const out = smooth(seg(t, 9.6, 11.6)) * (1 - smooth(seg(t, 13.6, 15)));
+     S.setXray(.5 * smooth(seg(t, 3.8, 4.4)) * (1 - smooth(seg(t, 6.6, 7.4))));
+     S.pod.set({ inside: true, key: k, bolts: bo, tip, slide, out });
+     podCam(t, [[0, .62, .34, .16, 30, 0, .07], [7, .56, .3, .08, 30, 0, .06], [11, .66, .38, .1, 32, 0, .07], [19, .62, .34, .16, 30, 0, .07]]); S.headlight.intensity = 1.2;
+     show('#Llock', seg(t, 3.6, 4) * (1 - seg(t, 7.2, 7.6)));
+     $('#lockT').textContent = bo > .5 ? 'Open · key on the belly' : 'Locked · no key';
+     $('#lockBolt').setAttribute('transform', `translate(${bo * 45},0)`); $('#lockLidG').setAttribute('transform', `translate(0,${slide * 30})`); $('#lockKey').setAttribute('opacity', seg(t, 3.6, 4));
+     F.label('key', S.pod.key.position, 'Your key', 'three N52 magnets, no metal shows', seg(t, 2.6, 3.2) * (1 - seg(t, 7, 7.4)), 'left');
+   } },
+ { name: 'Radio', d: 10, caps: [[0, '07 · On the network', 'Six bytes, only when something changes', 'The pod reads the coils every three minutes and sends a short LoRaWAN message when the level moves. A gateway passes it on to the collector app.']],
+   enter() { resetAll(); },
+   run(t, F) {
+     S.setNight(smooth(seg(t, 0, 2)) * .7); S.setGlow(smooth(seg(t, 1, 3)) * .8);
+     S.setItems(fillAt(99, FILL).items);
+     S.setRadio(t, 1);
+     show('#Lflow', seg(t, .8, 1.4));
+     [...$('#Lflow').querySelectorAll('div')].forEach((d, i) => d.classList.toggle('on', t > 1.4 + i * 1.1));
+     cam(t, [[0, -110, 6, 3.6, 1.05, 32, 0], [10, -60, 10, 3.9, 1.1, 32, 0]]);
+   } },
+ { name: 'Cost', d: 10, caps: [[0, '08 · What it costs', 'About DKK 270 a snake', 'Materials for 30 snakes, falling to DKK 150 at a thousand. Estimates, not quotes, and not bench-tested yet.']],
+   enter() { resetAll(); },
+   run(t, F) {
+     S.setXray(.25);
+     show('#Lcost', seg(t, .5, 1.1));
+     cam(t, [[0, -150, 2, 3.4, 1.02, 32, -.45], [10, -120, 2, 3.4, 1.02, 32, -.45]]);
+   } },
+];
+createFilm({ root, scenes, studio: S });
+</script>
+</body>
+</html>

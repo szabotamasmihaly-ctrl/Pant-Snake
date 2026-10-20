@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pant Snake Story</title>
+<meta name="description" content="One snake, one day, one city: how the Pant Snake turns spare deposit cans into income and dignity for collectors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Nunito:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/css/film.css">
+<style>
+.counter { right: 64px; top: 110px; text-align: right; }
+.counter b { display: block; font: 800 120px/0.9 var(--display); letter-spacing: -.04em; }
+.counter span { font: 500 16px/1.3 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.mapwrap { left: 0; top: 0; width: 1600px; height: 900px; background: #0a1118; }
+.mapwrap svg { position: absolute; left: 540px; top: 0; height: 900px; width: auto; }
+.mapstats { left: 64px; top: 120px; width: 420px; display: grid; gap: 18px; }
+.legend { display: flex; gap: 18px; font: 500 14px var(--mono); color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.eu { left: 0; top: 0; width: 1600px; height: 900px; background: #0a1118; }
+.eu svg.map { position: absolute; left: -40px; top: -40px; width: 1100px; height: 980px; }
+.bars { position: absolute; left: 1010px; top: 330px; width: 540px; display: grid; gap: 12px; }
+.bars .r { display: grid; grid-template-columns: 170px 1fr; gap: 12px; align-items: center; font-size: 18px; }
+.bars .tr { position: relative; height: 26px; background: #18212b; border-radius: 6px; }
+.bars .fl { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 6px; }
+.bars .v { position: absolute; top: 0; white-space: nowrap; font: 500 16px/26px var(--mono); color: var(--fg); }
+.bars .goal { position: absolute; top: -10px; bottom: -10px; width: 2px; background: var(--glow); }
+.srcs { position: absolute; left: 1010px; bottom: 30px; width: 550px; font-size: 12.5px; line-height: 1.45; color: var(--dim); }
+.slogan { left: 0; top: 0; width: 1600px; height: 900px; background: #07090c; }
+.slogan div { position: absolute; left: 120px; width: 1360px; font: 800 86px/1.05 var(--display); letter-spacing: -.03em; }
+.costw { left: 0; top: 0; width: 1600px; height: 900px; background: var(--studio); }
+.costt { position: absolute; left: 760px; top: 90px; width: 780px; }
+.costt .crow { display: grid; grid-template-columns: 1fr 150px 150px; gap: 14px; padding: 15px 0; border-bottom: 1px solid var(--line); font-size: 21px; align-items: baseline; }
+.costt .crow small { display: block; color: var(--muted); font-size: 15px; }
+.costt .crow b, .costt .crow em { font: 500 20px var(--mono); text-align: right; font-style: normal; }
+.costt .crow em { color: var(--muted); }
+.costt .hd { font: 500 13px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line-2); }
+.costt .tot { border: 0; font-weight: 700; }
+.costt .tot b { font: 700 34px var(--display); color: var(--glow); }
+.per { margin-top: 18px; display: flex; gap: 14px; }
+.per div { flex: 1; padding: 14px 16px; background: var(--plate); border: 1px solid var(--line); border-radius: 14px; }
+.per b { display: block; font: 700 30px/1.1 var(--display); }
+.per span { color: var(--muted); font-size: 15px; }
+.chp { left: 0; top: 0; width: 1600px; height: 900px; background: var(--studio); }
+.chp svg { position: absolute; left: 64px; top: 330px; width: 1470px; height: 500px; }
+.endw { left: 0; top: 0; width: 1600px; height: 900px; background: #07090c; display: grid; place-content: center; text-align: center; gap: 22px; pointer-events: auto; }
+.endw h2 { margin: 0; font: 800 150px/1 var(--display); letter-spacing: -.04em; }
+.endw h2 span { color: var(--glow); }
+.endw p { margin: 0; font-size: 30px; color: var(--muted); }
+.endw .links { display: flex; gap: 14px; justify-content: center; margin-top: 18px; }
+.endw .links a { font: 500 20px var(--mono); color: var(--fg); padding: 16px 24px; border: 1px solid var(--line-2); border-radius: 999px; text-decoration: none; background: var(--plate); }
+.endw .links a.pri { background: var(--glow); color: var(--studio); border-color: var(--glow); }
+.spa { right: 64px; top: 110px; width: 420px; display: grid; gap: 10px; }
+.spa .stepx { display: flex; gap: 12px; align-items: baseline; font-size: 19px; opacity: .3; transition: opacity .3s; }
+.spa .stepx.on { opacity: 1; }
+.spa .stepx b { font: 500 14px var(--mono); color: var(--aqua); }
+/* phones */
+.phoneA, .phoneB { right: 150px; top: 60px; }
+.cam { position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 40%, #16304e 0%, #0b1424 70%); }
+.cam .qr { position: absolute; left: 90px; top: 210px; width: 176px; height: 176px; background: #fff; border-radius: 10px; padding: 12px; }
+.cam .qr svg { width: 100%; height: 100%; }
+.cam .frame { position: absolute; left: 70px; top: 190px; width: 216px; height: 216px; border: 4px solid #3FCF8E; border-radius: 22px; }
+.cam .hint { position: absolute; left: 0; right: 0; top: 440px; text-align: center; font: 800 22px "Nunito", ui-rounded, sans-serif; }
+.coin { width: 74px; height: 74px; border-radius: 50%; background: conic-gradient(#0B2A5B 0 60%, #7CF06B 60% 70%, #5CC8F0 70% 100%); border: 3px solid #EAF0FA; }
+.mapv { position: absolute; inset: 0; background: #0c121c; }
+.mapv svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.slide { position: relative; height: 62px; border-radius: 31px; background: #1D2438; overflow: hidden; }
+.slide i { position: absolute; left: 6px; top: 6px; width: 50px; height: 50px; border-radius: 50%; background: #3FCF8E; }
+.slide span { position: absolute; inset: 0; text-align: center; font: 800 19px/62px "Nunito", ui-rounded, sans-serif; color: #EAF0FA; }
+.chart { display: flex; gap: 6px; align-items: flex-end; height: 70px; }
+.chart i { flex: 1; background: #2C3550; border-radius: 4px 4px 0 0; }
+.chart i.now { background: #3FCF8E; }
+</style>
+</head>
+<body>
+<header class="topnav">
+  <a class="brand" href="../story/">Pant Snake</a>
+  <nav><a href="../story/" aria-current="page">Story</a><a href="../sensor/">Sensor</a><a href="../kit/">Kit</a><a href="../">Collector app</a></nav>
+</header>
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">Pant Snake · the story</span>
+    <h1>One snake. One day. One city.</h1>
+    <p class="lede">A street snake for deposit cans and bottles, coiled round an ordinary light pole. Anyone can give, anyone can collect. This film follows one snake through a day in Aarhus, then shows what thirty would cost.</p>
+  </header>
+
+  <div class="film" id="film">
+    <div class="screen">
+      <canvas aria-label="3D film of the Pant Snake"></canvas>
+      <div class="box">
+        <!-- Aarhus map -->
+        <div class="layer mapwrap" id="Lmap"><svg id="aarSvg"></svg>
+          <div class="panel mapstats" id="mapStats">
+            <div class="t">Aarhus · planned sites</div>
+            <div class="stat"><b id="nSn">0</b><span>snakes on busy corners, squares and light rail stops</span></div>
+            <div class="stat"><b>156 m</b><span>average distance to the nearest snake in the busy centre</span></div>
+            <div class="stat"><b>95 %</b><span>of people within 300 m, about a 4 minute walk</span></div>
+            <div class="legend"><span><i style="background:var(--amber)"></i>full</span><span><i style="background:var(--glow)"></i>emptied</span><span><i style="background:var(--aqua)"></i>collector</span></div>
+          </div>
+        </div>
+        <!-- Europe -->
+        <div class="layer eu" id="Leu"><svg class="map" id="euSvg" viewBox="0 0 1100 980"></svg><div class="bars" id="bars"></div>
+          <div class="srcs">Deposit-system return rates: Reloop, DRS performance snapshot (Nov 2025) · Denmark 2024 · Hungary 2025 (MOHU) · * no deposit system, plastic bottles only: France 2024, Spain 2021 (disputed) and Italy, via Investigate Europe · Target: EU Single-Use Plastics Directive and PPWR, 90 % separate collection by 2029.</div></div>
+        <!-- slogan -->
+        <div class="layer slogan" id="Lslo"><div id="slo1" style="top:250px">Denmark already brings 9 of 10 cans back.</div><div id="slo2" style="top:490px;color:var(--glow)">Now let's help Europe bring back the rest.</div></div>
+        <!-- cost -->
+        <div class="layer costw" id="Lcost">
+          <div class="costt">
+            <div class="crow hd"><div>30 snakes for Aarhus</div><em>each</em><em>DKK</em></div>
+            <div class="crow"><div>Printed snake, ASA, painted livery<small>filament 1,448 · printer time 438 · labour 1,305 · hardware 195</small></div><em>3,656</em><b>109,680</b></div>
+            <div class="crow"><div>Hidden fill sensor<small>12 coils, pod, radio, 10-year battery</small></div><em>270</em><b>8,100</b></div>
+            <div class="crow"><div>Fitting on an existing light pole<small>bands and pads, no digging, no new posts</small></div><em>≈ 800</em><b>24,000</b></div>
+            <div class="crow"><div>LoRaWAN gateways<small>up to 3, only if the city network does not reach</small></div><em></em><b>3,700</b></div>
+            <div class="crow"><div>Snake Spa cleaning cargo bike<small>e-cargo bike, two tanks, pump</small></div><em></em><b>30,000</b></div>
+            <div class="crow tot"><div>Total</div><em></em><b id="ctot">0</b></div>
+            <div class="per" id="perRow">
+              <div><b>DKK 3,926</b><span>one printed snake with its sensor</span></div>
+              <div><b>47 øre</b><span>for each person in Aarhus Kommune</span></div>
+              <div><b>≈ 7,500</b><span>DKK a year to run one snake, at 30 snakes</span></div>
+            </div>
+            <p class="est" style="margin-top:16px">Estimates, not quotes (cost model and sensor plan, 19 Oct 2026). Fitting ≈ DKK 800 a snake and the bike are earlier estimates. Running cost covers cleaning, a manager, wear, repairs, app, insurance and permits. Population ≈ 373,000.</p>
+          </div>
+        </div>
+        <!-- cheaper -->
+        <div class="layer chp" id="Lchp"><svg id="chpSvg" viewBox="0 0 1470 520"></svg>
+          <p class="est" style="position:absolute;left:64px;bottom:34px;width:1460px">Body only, per snake, from a Central European rotomoulder at different yearly volumes; DKK 1.12 M one-off for moulds and tools. The sensor adds DKK 270 at 30 snakes, 150 at 1,000. Estimates (mass-production cost model, 19 Oct 2026).</p></div>
+        <!-- in-studio overlays -->
+        <div class="layer counter" id="Lcount"><b id="canN">0</b><span>of 24 cans</span></div>
+        <div class="layer panel spa" id="Lspa">
+          <div class="t">Snake Spa · one rider, one street</div>
+          <div class="stepx"><b>1</b>Seal the drain at the tail</div>
+          <div class="stepx"><b>2</b>Flood the tube with soapy water</div>
+          <div class="stepx"><b>3</b>Let it soak</div>
+          <div class="stepx"><b>4</b>Drain into the grey tank, not the street</div>
+        </div>
+        <div class="layer panel" id="Llevel" style="right:64px;top:110px;width:330px;display:grid;gap:10px">
+          <div class="t">The snake reports</div>
+          <div style="font:700 34px/1.1 var(--display)" id="lvTxt">Filling up</div>
+          <div style="height:12px;border-radius:6px;background:#232b35;overflow:hidden"><i id="lvBar" style="display:block;height:100%;width:0;background:var(--glow);border-radius:6px"></i></div>
+          <span style="color:var(--muted);font-size:16px">12 hidden coils feel the cans. Nobody has to check.</span>
+        </div>
+        <!-- phone A: passer-by -->
+        <div class="layer phone phoneA" id="phA"><div class="scr"><div class="notch"></div>
+          <div class="view" id="vCam"><div class="cam"><div class="qr"><svg viewBox="0 0 25 25" id="qrSvg" shape-rendering="crispEdges"></svg></div><div class="frame"></div><div class="hint">Point at the code</div></div></div>
+          <div class="view" id="vAsk" style="padding:70px 22px 0">
+            <div style="display:flex;gap:14px;align-items:center"><div class="coin"></div><div><h3>Grenen</h3><small>Skolegade · 20 m away</small></div></div>
+            <div class="sheet"><div class="grab"></div><h3 style="font-size:28px">Is it full?</h3><div class="big" id="bYes">Yes, it's full</div><div class="ghost">Something's wrong</div></div>
+          </div>
+          <div class="view" id="vThanks" style="display:grid;place-content:center;text-align:center;gap:14px;padding:0 30px">
+            <div style="width:96px;height:96px;border-radius:50%;background:#3FCF8E;margin:0 auto;display:grid;place-items:center;font:800 54px Nunito;color:#04140C">✓</div>
+            <h3>Thanks!</h3><small>Collectors nearby can see it now.</small>
+          </div>
+          <div class="tapdot" id="tapA"></div>
+        </div></div>
+        <!-- phone B: collector -->
+        <div class="layer phone phoneB" id="phB"><div class="scr"><div class="notch"></div>
+          <div class="view" id="vMap"><div class="mapv"><svg id="miniMap" viewBox="380 260 300 520" preserveAspectRatio="xMidYMid slice"></svg></div>
+            <div class="round" style="left:18px;top:58px">☰</div><div class="round" style="right:18px;top:58px">🔔</div>
+            <div class="sheet"><div class="grab"></div><h3>3 snakes ahead</h3><small>Expected full snakes by hour</small>
+              <div class="chart"><i style="height:30%"></i><i style="height:45%"></i><i class="now" style="height:80%"></i><i style="height:60%"></i><i style="height:35%"></i><i style="height:50%"></i><i style="height:70%"></i></div>
+              <div class="slide"><i id="slideK"></i><span>Slide to start</span></div></div></div>
+          <div class="view" id="vCheck" style="background:#0c121c">
+            <div class="sheet" style="padding-bottom:36px"><div class="grab"></div><div style="display:flex;justify-content:space-between;align-items:center"><h3>Grenen</h3><span style="font:800 22px Nunito;color:#8E9AB5">✕</span></div><small>40 m</small>
+              <div class="big" id="bOk">All good</div><div class="ghost">Something's wrong</div></div></div>
+          <div class="tapdot" id="tapB"></div>
+        </div></div>
+        <div class="layer endw" id="Lend"><h2>Pant <span>Snake</span></h2><p>Anyone can give. Anyone can collect. Aarhus first, then Europe.</p>
+          <div class="links"><a class="pri" href="#" id="replay">Watch again</a><a href="../sensor/">The sensor</a><a href="../kit/">The kit</a></div></div>
+        <div class="mark" id="mark">Pant Snake <span>The story</span></div>
+        <div class="cap hide"><div class="k"></div><h2></h2><p></p></div>
+      </div>
+      <div class="fade"></div>
+      <div class="loading" id="loading"><div>Loading the snake<b><i id="loadbar"></i></b></div></div>
+    </div>
+    <div class="capOut"><div class="k"></div><h2></h2><p></p></div>
+    <div class="controls">
+      <button id="play" type="button">Pause</button>
+      <div class="chips"></div>
+      <span class="time"></span>
+      <div class="bar" role="slider" aria-label="Film position" aria-valuemin="0" tabindex="0"><i></i></div>
+    </div>
+  </div>
+
+  <section class="notes">
+    <h2>The numbers in the film</h2>
+    <div class="tablewrap"><table class="figs">
+      <tr><th>What</th><th>Figure</th><th>Where it comes from</th></tr>
+      <tr><td>One printed snake (9 segments, ASA, painted)</td><td class="n">DKK 3,656</td><td>Cost model: filament 1,448, printer time 438, labour 1,305 (3.3 h), hardware 195</td></tr>
+      <tr><td>Hidden fill sensor, materials</td><td class="n">DKK 270 / 215 / 150</td><td>Hidden-sensor plan, at 30 / 100 / 1,000 snakes</td></tr>
+      <tr><td>Printed snake with sensor</td><td class="n">DKK 3,926</td><td>3,656 + 270</td></tr>
+      <tr><td>Rotomoulded body at 1,000 a year</td><td class="n">DKK 2,701</td><td>1,976 variable + 724 fixed; Central European moulder; DKK 1.12 M start-up; cheaper than printing from about 375 a year</td></tr>
+      <tr><td>30 snakes for Aarhus, all in</td><td class="n">DKK 175,480</td><td>Snakes, sensors, fitting (≈ 800 each), up to 3 gateways, one Snake Spa bike</td></tr>
+      <tr><td>Running one snake</td><td class="n">≈ DKK 7,500 / yr</td><td>At 30 snakes: cleaning 2,800, manager 2,100, wear 900, repairs 800, app, bike, insurance and permits 900</td></tr>
+    </table></div>
+    <p class="est">All figures are estimates, not quotes, from the project's cost model and sensor plan of 19 October 2026. The snake is the 9-segment light-pole build (mouth at 1.67 m, 24 cans). Return rates as cited in the film.</p>
+  </section>
+  <footer class="foot">Pant Snake · Aarhus · 2026</footer>
+</div>
+
+<script src="../assets/data/europe.js"></script>
+<script>
+// if a script or file fails, say so on the loading screen instead of waiting forever
+(function () {
+  function fail(msg) { var l = document.getElementById('loading'); if (l) l.querySelector('div').firstChild.textContent = 'Could not load the snake: ' + msg; }
+  addEventListener('error', function (e) { fail(e.message || ('file ' + (e.target && (e.target.src || e.target.href)))); }, true);
+  addEventListener('unhandledrejection', function (e) { fail(String(e.reason && e.reason.message || e.reason)); });
+  setTimeout(function () { var l = document.getElementById('loading'); if (l && l.isConnected && !document.getElementById('loadbar').style.width) fail('timed out, please reload'); }, 45000);
+})();
+</script>
+<script type="module">
+import { createStudio, G, COILS, PATH, pathAt, thetaToD, fillAt, seg, ease, smooth, lerp, clamp, polar } from '../assets/js/snake3d.js';
+import { createFilm } from '../assets/js/film.js';
+const root = document.getElementById('film'), $ = s => root.querySelector(s);
+const S = await createStudio({ canvas: $('canvas'), base: '../assets/snake/', onProgress: f => $('#loadbar').style.width = (f * 100) + '%' });
+const AAR = await (await fetch('../assets/data/aarhus.json')).json();
+$('#loading').style.opacity = 0; setTimeout(() => $('#loading').remove(), 700);
+const THREE = S.THREE, deg = Math.PI / 180, NS = 'http://www.w3.org/2000/svg';
+const show = (id, o) => { $(id).style.opacity = o; };
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; };
+const fmt = n => Math.round(n).toLocaleString('en-US');
+function cam(t, keys) {
+  let i = 0; while (i < keys.length - 2 && t > keys[i + 1][0]) i++;
+  const A = keys[i], B = keys[i + 1] || A, u = B === A ? 0 : ease((t - A[0]) / (B[0] - A[0]));
+  S.orbit(lerp(A[1], B[1], u) * deg, lerp(A[2], B[2], u) * deg, lerp(A[3], B[3], u), lerp(A[4], B[4], u), lerp(A[5], B[5], u), lerp(A[6] ?? .3, B[6] ?? .3, u));
+}
+function tap(id, x, y, t, at) { const d = $(id), u = seg(t, at, at + .5); d.style.left = x + 'px'; d.style.top = y + 'px'; d.style.opacity = u > 0 && u < 1 ? 1 - u : 0; d.style.transform = `scale(${.6 + u * .8})`; }
+const view = (ph, id) => ph.querySelectorAll('.view').forEach(v => v.style.opacity = v.id === id ? 1 : 0);
+
+/* water for the Snake Spa, a tube along the can path filled from the bottom */
+const TUB = 400, RAD = 16;
+const water = new THREE.Mesh(new THREE.TubeGeometry(PATH.curve, TUB, .05, RAD, false), new THREE.MeshStandardMaterial({ color: '#7fe6ff', emissive: '#22b8f0', emissiveIntensity: 1.6, transparent: true, opacity: .8, roughness: .15, depthWrite: false }));
+water.visible = false; S.scene.add(water);
+const setWater = f => { water.visible = f > 0; water.geometry.setDrawRange(0, Math.floor(f * TUB) * RAD * 6); };
+/* the tail tip, where the door is */
+const tip = pathAt(0).p.clone(), tipDir = pathAt(0).p.clone().sub(pathAt(60).p).normalize();
+/* a bag under the tail */
+const tailP = pathAt(0).p;
+const bag = new THREE.Mesh(new THREE.LatheGeometry([[0, 0], [.13, .01], [.16, .12], [.15, .34], [.17, .36]].map(([r, y]) => new THREE.Vector2(r, y)), 40), new THREE.MeshStandardMaterial({ color: '#222a33', roughness: .7, side: THREE.DoubleSide, transparent: true, opacity: .92 }));
+bag.position.set(tailP.x * 1.4, 0, tailP.z * 1.4); bag.visible = false; S.scene.add(bag);
+
+/* QR code drawing for the phone (decorative) */
+(() => { const q = $('#qrSvg'); let r = 7; const rnd = () => (r = (r * 9301 + 49297) % 233280) / 233280;
+  const finder = (x, y) => { el('rect', { x, y, width: 7, height: 7, fill: '#000' }, q); el('rect', { x: x + 1, y: y + 1, width: 5, height: 5, fill: '#fff' }, q); el('rect', { x: x + 2, y: y + 2, width: 3, height: 3, fill: '#000' }, q); };
+  for (let y = 0; y < 25; y++) for (let x = 0; x < 25; x++) { if ((x < 8 && y < 8) || (x > 16 && y < 8) || (x < 8 && y > 16)) continue; if (rnd() > .52) el('rect', { x, y, width: 1, height: 1, fill: '#000' }, q); }
+  finder(0, 0); finder(18, 0); finder(0, 18); })();
+
+/* Aarhus map */
+const svg = $('#aarSvg'); svg.setAttribute('viewBox', '96 60 897 760'); svg.style.width = '1060px'; svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+el('rect', { x: 0, y: 0, width: AAR.w, height: AAR.h, fill: '#0b1720' }, svg);
+el('path', { d: AAR.land, fill: '#121820' }, svg);
+el('path', { d: AAR.green, fill: '#14211b' }, svg);
+el('path', { d: AAR.water, fill: '#0b1720' }, svg);
+el('path', { d: AAR.res, fill: 'none', stroke: '#1d2530', 'stroke-width': .9 }, svg);
+el('path', { d: AAR.sec, fill: 'none', stroke: '#2b3542', 'stroke-width': 2 }, svg);
+el('path', { d: AAR.main, fill: 'none', stroke: '#36414f', 'stroke-width': 3 }, svg);
+el('path', { d: AAR.tram, fill: 'none', stroke: '#5CC8F0', 'stroke-width': 1.6, 'stroke-dasharray': '6 5', opacity: .45 }, svg);
+const routeG = el('g', {}, svg), siteG = el('g', {}, svg);
+const sites = AAR.sites.map(s => { const g = el('g', { transform: `translate(${s.x},${s.y})`, opacity: 0 }, siteG);
+  const ring = el('circle', { r: 16, fill: 'none', stroke: '#FFB547', 'stroke-width': 2, opacity: 0 }, g);
+  const c = el('circle', { r: 8.5, fill: '#5CC8F0', stroke: '#0b1720', 'stroke-width': 2.5 }, g); return { s, g, c, ring }; });
+const byN = n => sites.find(x => x.s.n === n);
+const off = (n, dx, dy) => [byN(n).s.x + dx, byN(n).s.y + dy];
+const ROUTES = [{ from: off(13, -60, 40), via: [13, 1, 26], t0: 1 }, { from: off(17, 50, 60), via: [17, 14, 6, 3], t0: 1.6 }, { from: off(28, -30, -70), via: [28, 7, 22], t0: 2.2 }];
+ROUTES.forEach(r => { const pts = [r.from, ...r.via.map(n => [byN(n).s.x, byN(n).s.y])];
+  r.p = el('path', { d: 'M' + pts.map(p => p.join(',')).join('L'), fill: 'none', stroke: '#5CC8F0', 'stroke-width': 3, 'stroke-dasharray': '2 8', 'stroke-linecap': 'round', opacity: 0 }, routeG);
+  r.len = r.p.getTotalLength(); r.dot = el('circle', { r: 10, fill: '#5CC8F0', stroke: '#fff', 'stroke-width': 3, opacity: 0 }, routeG);
+  r.marks = []; let acc = 0; for (let i = 1; i < pts.length; i++) { acc += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); r.marks.push(acc / r.len); } });
+const FULL = new Set(ROUTES.flatMap(r => r.via));
+/* mini map in the collector phone */
+(() => { const m = $('#miniMap'); { const P = [[byN(3).s.x, byN(3).s.y + 90], ...[3, 6, 14].map(n => [byN(n).s.x, byN(n).s.y])], xs = P.map(p => p[0]), ys = P.map(p => p[1]);
+  const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2 + 40, hh = Math.max(Math.max(...ys) - Math.min(...ys) + 260, (Math.max(...xs) - Math.min(...xs) + 120) * 2.1);
+  m.setAttribute('viewBox', `${cx - hh / 4.2} ${cy - hh / 2} ${hh / 2.1} ${hh}`); } el('rect', { x: 0, y: 0, width: 1000, height: 1000, fill: '#0c121c' }, m); el('path', { d: AAR.land, fill: '#121a26' }, m); el('path', { d: AAR.sec, fill: 'none', stroke: '#26324a', 'stroke-width': 3 }, m); el('path', { d: AAR.res, fill: 'none', stroke: '#19222f', 'stroke-width': 1.4 }, m);
+  const pts = [[byN(3).s.x, byN(3).s.y + 90], ...[3, 6, 14].map(n => [byN(n).s.x, byN(n).s.y])];
+  el('path', { d: 'M' + pts.map(p => p.join(',')).join('L'), fill: 'none', stroke: '#3FCF8E', 'stroke-width': 6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, m);
+  [3, 6, 14].forEach((n, i) => { const s = byN(n).s; el('circle', { cx: s.x, cy: s.y, r: 13, fill: '#FFB547', stroke: '#0c121c', 'stroke-width': 4 }, m); const tx = el('text', { x: s.x, y: s.y + 5, 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 800, fill: '#0c121c', 'font-family': 'Nunito' }, m); tx.textContent = i + 1; });
+  el('circle', { cx: pts[0][0], cy: pts[0][1], r: 11, fill: '#5CC8F0', stroke: '#fff', 'stroke-width': 4 }, m); })();
+
+/* Europe */
+const EUROWS = [{ c: 'Helsinki', id: '246', v: 99 }, { c: 'Berlin', id: '276', v: 98 }, { c: 'Copenhagen', id: '208', v: 93, lab: 'Denmark' }, { c: 'Bratislava', id: '703', v: 90 }, { c: 'Budapest', id: '348', v: 89 }, { c: 'Madrid', id: '724', v: 71, st: 1 }, { c: 'Amsterdam', id: '528', v: 68, worst: 1 }, { c: 'Rome', id: '380', v: 64, st: 1, worst: 1 }, { c: 'Paris', id: '250', v: 58, st: 1, worst: 1 }];
+const NAMES = { Helsinki: 'Finland', Berlin: 'Germany', Bratislava: 'Slovakia', Budapest: 'Hungary', Madrid: 'Spain', Amsterdam: 'Netherlands', Rome: 'Italy', Paris: 'France' };
+const rateCol = v => v >= 90 ? '#7CF06B' : v >= 80 ? '#B8E05A' : v >= 70 ? '#FFB547' : '#FF7A6B';
+const eu = $('#euSvg'), cp = {};
+(window.EU?.countries || []).forEach(c => { cp[c.id] = el('path', { d: c.d, fill: '#18212b', stroke: '#0a1118', 'stroke-width': 1 }, eu); });
+const cityG = el('g', {}, eu);
+const euCity = EUROWS.map(r => { const p = (window.EU?.cities || {})[r.c] || [0, 0]; const g = el('g', { transform: `translate(${p[0]},${p[1]})`, opacity: 0 }, cityG);
+  const ring = el('circle', { r: 16, fill: 'none', stroke: '#FF7A6B', 'stroke-width': 2, opacity: 0 }, g); el('circle', { r: 6, fill: '#EEF2F4' }, g); return { g, ring, r }; });
+const aarDot = el('g', { transform: `translate(${(window.EU?.cities || {}).Aarhus || [0, 0]})`, opacity: 0 }, cityG); el('circle', { r: 9, fill: '#7CF06B' }, aarDot); const at = el('text', { x: -14, y: 5, 'text-anchor': 'end', fill: '#7CF06B', 'font-size': 20, 'font-family': 'Schibsted Grotesk', 'font-weight': 700 }, aarDot); at.textContent = 'Aarhus';
+const bars = $('#bars'), X0 = 50; const barEls = EUROWS.map(r => { const b = document.createElement('div'); b.className = 'r'; b.innerHTML = `<div>${r.lab || NAMES[r.c]}${r.st ? '*' : ''}</div><div class="tr"><div class="fl" style="background:${rateCol(r.v)}"></div><div class="v"></div></div>`; bars.appendChild(b); return { b, fl: b.querySelector('.fl'), v: b.querySelector('.v'), r }; });
+const goal = document.createElement('div'); goal.className = 'goal'; bars.querySelectorAll('.tr')[0].appendChild(goal);
+goal.style.left = ((90 - X0) / (100 - X0) * 100) + '%'; goal.style.height = (EUROWS.length * 38) + 'px'; goal.style.bottom = 'auto';
+/* cheaper chart */
+const CH = [{ l: 'Printed in Denmark, any number', v: 3656, c: '#5CC8F0' }, { l: 'Rotomoulded, 110 a year', v: 5935, c: '#3a4655' }, { l: 'Rotomoulded, 500 a year', v: 3193, c: '#7CF06B' }, { l: 'Rotomoulded, 1,000 a year', v: 2701, c: '#7CF06B' }, { l: 'Rotomoulded, 10,000 a year', v: 2158, c: '#7CF06B' }];
+const chs = $('#chpSvg'); const chEls = CH.map((c, i) => { const g = el('g', { transform: `translate(0,${i * 100})`, opacity: 0 }, chs);
+  const lab = el('text', { x: 0, y: 34, fill: '#EEF2F4', 'font-size': 26, 'font-family': 'Schibsted Grotesk' }, g); lab.textContent = c.l;
+  const r = el('rect', { x: 0, y: 48, height: 34, width: 0, rx: 6, fill: c.c }, g);
+  const v = el('text', { x: 0, y: 75, fill: '#EEF2F4', 'font-size': 26, 'font-family': 'IBM Plex Mono' }, g); return { g, r, v, c }; });
+
+const FILL24 = Array(24).fill('can');
+const resetAll = () => { S.isolate(null); S.headlight.intensity = 0; S.setItems([]); COILS.forEach((_, i) => S.setCoil(i, 0)); S.setXray(0); S.setRadio(0, 0); S.pod.set({}); S.setNight(0); S.setGlow(0); setWater(0); bag.visible = false; };
+const fullItems = () => fillAt(999, FILL24).items;
+const QR = polar(G.qrAz, G.qrZ, 199);
+
+const scenes = [
+ { name: 'Title', d: 7, caps: [[.6, 'Pant Snake · the story', 'One snake. One day.<br>One city.', 'A street snake for deposit cans and bottles. Anyone can give, anyone can collect.']],
+   enter: resetAll, run(t) { S.setNight(.12); cam(t, [[0, -150, 8, 3.0, 1.08, 32, .4], [7, -95, 3, 2.8, 1.02, 32, .36]]); } },
+ { name: 'Give', d: 14, caps: [[0, '01 · Give', 'Drop a can in the mouth', 'People who can skip the deposit leave their cans here instead of in a bin.'], [6.5, '01 · Give', 'It slides down the coil', 'Cans lie end to end from the tail up. 24 fill the snake to the mouth.']],
+   enter: resetAll,
+   run(t) {
+     const { items, nRest } = fillAt(Math.max(0, t - .8), FILL24, { gap: .48 });
+     S.setItems(items); S.setXray(.62 * smooth(seg(t, 3, 5)));
+     show('#Lcount', seg(t, 1, 1.5)); $('#canN').textContent = nRest;
+     cam(t, [[0, -95, 14, 1.25, 1.62, 30, .26], [4, -80, 10, 1.9, 1.4, 32, .3], [14, -60, 4, 3.1, 1.02, 32, .34]]);
+   } },
+ { name: 'Sense', d: 10, caps: [[0, '02 · Sense', 'It knows when it is full', 'Twelve hidden coils feel the cans and a sealed pod tells the collector app by radio. No one has to walk past to check.']],
+   enter: resetAll,
+   run(t) {
+     S.setXray(1); const items = fullItems(); S.setItems(items); const lv = S.coilsFromItems(items);
+     lv.forEach((l, i) => S.setCoil(i, l * seg(t, .5 + i * .25, .8 + i * .25)));
+     S.setRadio(t, seg(t, 4.2, 4.8)); show('#Llevel', seg(t, .6, 1.2));
+     const f = seg(t, .5, 4); $('#lvBar').style.width = (f * 100) + '%'; $('#lvBar').style.background = f > .85 ? 'var(--amber)' : 'var(--glow)';
+     $('#lvTxt').textContent = f >= 1 ? 'Full · 24 cans' : f > .7 ? 'Nearly full' : 'Filling up'; $('#lvTxt').style.color = f >= 1 ? 'var(--amber)' : '';
+     cam(t, [[0, -60, 4, 3.1, 1.02, 32, .34], [10, -20, -4, 3.0, 1.02, 32, .34]]);
+   } },
+ { name: 'Tell', d: 9, caps: [[0, '03 · Tell', 'Anyone can scan the snake', 'The QR code sits on the body just below the head. No app, no account.'], [4, '03 · Tell', 'Two taps: it is full', 'The answer goes to collectors nearby, as a second signal next to the sensor.']],
+   enter: resetAll,
+   run(t) {
+     S.setItems(fullItems()); const pin = ease(seg(t, .3, 1.1)); show('#phA', pin); $('#phA').style.transform = `translateY(${(1 - pin) * 60}px)`;
+     view($('#phA'), t < 3.2 ? 'vCam' : t < 6 ? 'vAsk' : 'vThanks'); tap('#tapA', 190, 600, t, 5.1);
+     S.look(QR.clone().add(new THREE.Vector3(QR.x, 0, QR.z).normalize().multiplyScalar(lerp(.9, .7, ease(t / 9)))).add(new THREE.Vector3(0, .1, 0)).add(new THREE.Vector3(-QR.z, 0, QR.x).normalize().multiplyScalar(-.25)), QR.clone().add(new THREE.Vector3(-QR.z, 0, QR.x).normalize().multiplyScalar(-.18)), 34);
+   } },
+ { name: 'Collect', d: 9, caps: [[0, '04 · Collect', 'A collector sees it on the map', 'Only the next three snakes, in order, with the route. The plan changes live as snakes fill.'], [5, '04 · Collect', 'Slide to start', '']],
+   enter: resetAll,
+   run(t) {
+     S.setItems(fullItems()); S.setNight(.1);
+     const pin = ease(seg(t, .2, 1)); show('#phB', pin); $('#phB').style.transform = `translateY(${(1 - pin) * 60}px)`; view($('#phB'), 'vMap');
+     $('#slideK').style.left = (6 + 270 * ease(seg(t, 5.4, 6.4))) + 'px';
+     cam(t, [[0, -130, 6, 3.4, 1.05, 32, .55], [9, -100, 6, 3.4, 1.05, 32, .55]]);
+   } },
+ { name: 'Route', d: 10, caps: [[0, '05 · Route', 'Collectors fan out across the city', 'Each one heads for a different full snake, so nobody walks for nothing.']],
+   enter() { resetAll(); },
+   run(t) {
+     show('#Lmap', 1); show('#mapStats', 0);
+     sites.forEach(x => { x.g.setAttribute('opacity', 1); x.c.setAttribute('r', 8.5); });
+     const done = new Set();
+     ROUTES.forEach(r => { const u = smooth(seg(t, r.t0, r.t0 + 7)); r.p.setAttribute('opacity', seg(t, r.t0 - .6, r.t0) * .9); r.dot.setAttribute('opacity', seg(t, r.t0 - .6, r.t0));
+       const p = r.p.getPointAtLength(u * r.len); r.dot.setAttribute('cx', p.x); r.dot.setAttribute('cy', p.y);
+       r.marks.forEach((m, i) => { if (u >= m - .002) done.add(r.via[i]); }); });
+     sites.forEach(x => { const full = FULL.has(x.s.n), d = done.has(x.s.n); x.c.setAttribute('fill', d ? '#7CF06B' : full ? '#FFB547' : '#5CC8F0'); x.c.setAttribute('opacity', full || d ? 1 : .45);
+       x.ring.setAttribute('opacity', full && !d ? .4 + .6 * Math.abs(Math.sin(t * 3)) : 0); });
+   } },
+ { name: 'Empty', d: 12, caps: [[0, '06 · Empty', 'Open the door at the tail', 'A bag goes under the door at knee height, so nobody kneels on the pavement.'], [4.5, '06 · Empty', 'Every can slides out', '24 cans, DKK 24 in deposit for the collector. A side hatch reaches any can that sticks.']],
+   enter: resetAll,
+   run(t) {
+     S.setXray(.62 * smooth(seg(t, .5, 2)));
+     const v = .42, T1 = 3.0, out = [];
+     fullItems().forEach(it => { const d = t > T1 ? it.d - v * 1000 * (t - T1) : it.d;
+       if (d >= 0) out.push({ ...it, d });
+       else if (d > -380) { const k = -d / 1000, q = tip.clone().addScaledVector(tipDir, k).add(new THREE.Vector3(0, -2.2 * k * k, 0)); out.push({ ...it, pos: q, scale: d > -300 ? 1 : (380 + d) / 80 }); } });
+     S.setItems(out);
+     cam(t, [[0, -95, 4, 1.7, .62, 32, .25], [12, -75, 8, 1.6, .58, 32, .25]]);
+   } },
+ { name: 'Report', d: 7, caps: [[0, '07 · Report', 'All good, or something wrong?', 'One card after each emptying. A tap on "Something\'s wrong" becomes a task for that snake.']],
+   enter: resetAll,
+   run(t) { const pin = ease(seg(t, .2, 1)); show('#phB', pin); view($('#phB'), 'vCheck'); tap('#tapB', 190, 645, t, 3.4); $('#bOk').style.filter = t > 3.4 && t < 3.9 ? 'brightness(1.3)' : '';
+     cam(t, [[0, -80, 2, 3.2, 1.02, 32, .55], [7, -60, 2, 3.2, 1.02, 32, .55]]); } },
+ { name: 'Clean', d: 10, caps: [[0, '08 · Clean', 'The Snake Spa rolls up', 'A cleaning kit on a cargo bike. The tube is watertight, so it fills from the bottom up.']],
+   enter: resetAll,
+   run(t) {
+     S.setXray(.9); show('#Lspa', seg(t, .4, 1));
+     const f = smooth(seg(t, 1.6, 6.5)) * (1 - smooth(seg(t, 8, 9.6)));
+     setWater(f);
+     [...$('#Lspa').querySelectorAll('.stepx')].forEach((s, i) => s.classList.toggle('on', t > [1, 1.8, 6.5, 8][i]));
+     cam(t, [[0, -150, 4, 2.7, 1.0, 32, .3], [10, -120, 4, 2.7, 1.0, 32, .3]]);
+   } },
+ { name: 'Night', d: 8, caps: [[0, '09 · Night', 'After dark, it glows', 'The green lines are glow-in-the-dark plastic. Easy to find, easy to scan, and very easy to photograph.']],
+   enter: resetAll,
+   run(t) { S.setItems(fullItems()); const n = smooth(seg(t, 0, 2.6)); S.setNight(n); S.setGlow(smooth(seg(t, 1.6, 3.6)));
+     cam(t, [[0, -100, 3, 3.3, 1.05, 32, .34], [8, -60, 3, 3.0, 1.05, 32, .34]]); } },
+ { name: 'Aarhus', d: 14, caps: [[0, '10 · Aarhus', 'Now picture thirty of them', 'Busy corners, squares and light rail stops. Each themed snake stands at its landmark when that spot has the foot traffic.']],
+   enter() { resetAll(); },
+   run(t) {
+     show('#Lmap', 1); show('#mapStats', seg(t, .8, 1.4));
+     ROUTES.forEach(r => { r.p.setAttribute('opacity', 0); r.dot.setAttribute('opacity', 0); });
+     let n = 0; sites.forEach((x, i) => { const u = seg(t, .8 + i * .2, 1.1 + i * .2); x.g.setAttribute('opacity', u); x.c.setAttribute('r', 8.5 * (u < 1 ? .6 + .4 * u + .5 * Math.sin(u * Math.PI) : 1)); x.c.setAttribute('fill', '#7CF06B'); x.c.setAttribute('opacity', 1); x.ring.setAttribute('opacity', 0); if (u > 0) n = i + 1; });
+     $('#nSn').textContent = n;
+   } },
+ { name: 'Europe', d: 14, capClass: 'tr', caps: [[0, '11 · Europe', 'Denmark brings back 93 % of its cans and bottles', 'Hungary started in 2024 and is already at 89 %.'], [6, '11 · Europe', 'Europe\'s goal: 90 % by 2029', 'Every EU country must collect 9 in 10 plastic bottles separately by then.'], [9.5, '11 · Europe', 'Furthest from the goal: Paris, Rome, Amsterdam', 'Where a visible street network could help most.']],
+   enter() { resetAll(); },
+   run(t) {
+     show('#Leu', 1); aarDot.setAttribute('opacity', seg(t, .5, 1));
+     EUROWS.forEach((r, i) => { const p = cp[r.id]; if (p) p.setAttribute('fill', seg(t, 1.5 + i * .25, 2 + i * .25) > 0 ? rateCol(r.v) : '#18212b'); if (p) p.setAttribute('fill-opacity', .5); });
+     euCity.forEach((c, i) => { c.g.setAttribute('opacity', seg(t, 1.5 + i * .3, 2 + i * .3)); c.ring.setAttribute('opacity', c.r.worst && t > 9.5 ? .5 + .5 * Math.sin(t * 4) : 0); c.ring.setAttribute('r', 16 + 6 * Math.abs(Math.sin(t * 2))); });
+     barEls.forEach((b, i) => { const u = ease(seg(t, 1.5 + i * .3, 2.6 + i * .3)); const w = clamp((b.r.v - X0) / (100 - X0)) * 100 * u; b.fl.style.width = w + '%'; b.v.style.left = w > 80 ? `calc(${w}% - 54px)` : `calc(${w}% + 10px)`; b.v.style.color = w > 80 ? '#0B1410' : ''; b.v.textContent = u > 0 ? Math.round(lerp(X0, b.r.v, u)) + ' %' : ''; b.b.style.opacity = t > 9.5 && !b.r.worst ? .4 : 1; });
+     goal.style.opacity = seg(t, 6, 6.6);
+   } },
+ { name: 'Slogan', d: 7, run(t) { show('#Lslo', 1); const a = ease(seg(t, .3, 1.3)), b = ease(seg(t, 2.4, 3.4)); $('#slo1').style.opacity = a; $('#slo1').style.transform = `translateY(${(1 - a) * 24}px)`; $('#slo2').style.opacity = b; $('#slo2').style.transform = `translateY(${(1 - b) * 24}px)`; show('#mark', 0); }, leave() { show('#mark', 1); } },
+ { name: 'Cost', d: 14, caps: [[0, '12 · The ask', 'Thirty snakes for Aarhus', 'About DKK 175,000 with sensors, fitting and a cleaning bike. One snake with its sensor: DKK 3,926.']],
+   enter: resetAll,
+   run(t) {
+     show('#Lcost', 1); const rows = $('#Lcost').querySelectorAll('.crow:not(.hd):not(.tot)');
+     rows.forEach((r, i) => { const u = ease(seg(t, 1 + i * .6, 1.5 + i * .6)); r.style.opacity = u; r.style.transform = `translateX(${(1 - u) * 20}px)`; });
+     $('#ctot').textContent = fmt(175480 * ease(seg(t, 4.4, 6.4))); $('#perRow').style.opacity = ease(seg(t, 6.8, 7.6));
+   } },
+ { name: 'Cheaper', d: 12, capClass: 'top', caps: [[0, '13 · If it works', 'Moulded, it gets cheaper', 'Printing suits the first snakes. From about 375 a year a rotomould wins, so print the first 110 and mould when the orders are there.']],
+   enter: resetAll,
+   run(t) { show('#Lchp', 1); chEls.forEach((e, i) => { const u = ease(seg(t, 1 + i * 1.1, 2.2 + i * 1.1)); const w = e.c.v / 6000 * 1050 * u; e.r.setAttribute('width', w); e.v.setAttribute('x', w + 16); e.v.textContent = u > 0 ? 'DKK ' + fmt(e.c.v * u) : ''; e.g.setAttribute('opacity', u > 0 ? 1 : 0); }); } },
+ { name: 'End', d: 6, run(t) { show('#Lend', 1); show('#mark', 0); }, leave() { show('#mark', 1); } },
+];
+// captions sit top-left on the full-frame chart scenes so they never cover the charts
+const film = createFilm({ root, scenes, studio: S });
+$('#replay').addEventListener('click', e => { e.preventDefault(); film.seek(0); film.setPlay(true); });
+</script>
+</body>
+</html>

@@ -1,0 +1,1631 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Light-Pole Snake Kit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Your printed Pant Snake as a long coil round a street-light pole: every part with painted 3D previews, a build chooser, a pad finder and downloads.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Schibsted+Grotesk:wght@400..800&display=swap">
+<style>
+/* Layout: a dark product studio that continues the renders' slate backdrop. The coil is the hero; parts sit on
+   plates like a kit sheet; print-shop data (sizes, masses, file names) is set in mono like a job ticket. The accent
+   is the livery: glow green for what fits and what to press, aqua for references, on a navy-tinted slate.
+   One deliberate dark look: the renders are studio shots on slate, so the page has no light theme. */
+:root {
+  color-scheme: dark;
+  --studio: #13171D;
+  --plate: #1A1F27;
+  --plate-2: #212833;
+  --plate-3: #2A323F;
+  --rule: #313A48;
+  --rule-soft: #252D38;
+  --ink: #E9EEF2;
+  --ink-2: #A9B4BF;
+  --ink-3: #788593;
+  --navy: #0B2A5B;
+  --navy-hi: #17417F;
+  --glow: #7CF06B;
+  --glow-ink: #0D1A0B;
+  --aqua: #5CC8F0;
+  --white: #F2F4F5;
+  --window: #B9C5CC;
+  --steel: #C5CBD0;
+  --alert: #E8B86B;
+  --f-display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --t-xs: 0.75rem;
+  --t-s: 0.8125rem;
+  --t-m: 0.9375rem;
+  --t-l: 1.0625rem;
+  --t-xl: 1.375rem;
+  --t-2xl: clamp(1.5rem, 2.6vw, 2rem);
+  --t-hero: clamp(2.5rem, 6.4vw, 4.6rem);
+  --radius: 12px;
+}
+html { background: var(--studio); }
+body {
+  background: var(--studio);
+  color: var(--ink);
+  font: 400 var(--t-m)/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 56px;
+  -webkit-font-smoothing: antialiased;
+}
+.page { max-width: 1240px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; color: var(--ink); }
+p { margin: 0; }
+a { color: var(--aqua); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+.num, .mono { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+.eyebrow { font: 500 var(--t-xs)/1.2 var(--f-data); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+.i { width: 16px; height: 16px; flex: none; }
+.est { color: var(--ink-3); font-style: italic; }
+.hint { color: var(--ink-3); font-size: var(--t-s); }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* top bar */
+.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--rule-soft); }
+.brand { display: flex; align-items: center; gap: 10px; font: 600 var(--t-s)/1 var(--f-display); letter-spacing: 0.04em; text-transform: uppercase; }
+.brand .sub { color: var(--ink-3); font-weight: 500; }
+.mark { width: 18px; height: 18px; border-radius: 50%; background: conic-gradient(from 210deg, var(--navy-hi), var(--glow) 18%, var(--navy-hi) 36%, var(--aqua) 54%, var(--navy-hi) 72%); box-shadow: inset 0 0 0 4px var(--studio), 0 0 0 1px var(--rule); }
+.ver { display: flex; align-items: center; gap: 6px; font: 500 var(--t-xs)/1 var(--f-data); }
+.ver .pill { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-3); text-decoration: none; }
+.ver .pill.on { color: var(--glow-ink); background: var(--glow); border-color: transparent; font-weight: 600; }
+.ver a.pill:hover { color: var(--ink); border-color: var(--ink-3); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 44px; align-items: center; padding-block: 44px 56px; }
+.hero h1 { font-size: var(--t-hero); font-weight: 760; letter-spacing: -0.025em; line-height: 0.98; margin-top: 14px; }
+.hero .lede { font-size: var(--t-l); color: var(--ink-2); margin-top: 20px; max-width: 34em; }
+.figures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 28px 0 0; border-top: 1px solid var(--rule-soft); }
+.figures div { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--rule-soft); min-width: 0; }
+.figures dt { font: 500 var(--t-xs)/1.3 var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.figures dd { margin: 4px 0 0; font: 500 var(--t-m)/1.35 var(--f-data); font-variant-numeric: tabular-nums; color: var(--ink); }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.hero-fig { margin: 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--rule-soft); background: #1C1F24; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6); }
+.hero-fig button { all: unset; display: block; cursor: zoom-in; }
+.hero-fig img { display: block; width: 100%; height: auto; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: 0 14px; border-radius: 9px; border: 1px solid var(--rule); background: var(--plate-2); color: var(--ink); font: 600 var(--t-s)/1 var(--f-body); cursor: pointer; text-decoration: none; white-space: nowrap; transition: background-color 0.15s, border-color 0.15s; }
+.btn:hover { background: var(--plate-3); }
+.btn.primary { background: var(--glow); border-color: transparent; color: var(--glow-ink); }
+.btn.primary:hover { background: #95F487; }
+.btn.ghost { background: transparent; }
+.btn.ghost:hover { background: var(--plate-2); }
+.btn[disabled] { opacity: 0.5; cursor: default; }
+.btn[data-state="busy"] .i { animation: bob 0.9s ease-in-out infinite; }
+.btn[data-state="saved"] { background: transparent; border-color: var(--glow); color: var(--ink); }
+.btn.sm { min-height: 32px; padding: 0 10px; font-size: var(--t-xs); }
+@keyframes bob { 50% { transform: translateY(2px); } }
+
+/* sections */
+.section { padding-block: 64px 8px; }
+.section-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 44px; align-items: end; margin-bottom: 26px; }
+.section-head h2 { font-size: var(--t-2xl); font-weight: 720; letter-spacing: -0.015em; line-height: 1.1; margin-top: 8px; }
+.section-head p { color: var(--ink-2); max-width: 40em; }
+
+/* what you asked for */
+.asks { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule-soft); }
+.ask { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) 168px; gap: 28px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--rule-soft); }
+.ask .q { font: 500 var(--t-s)/1.45 var(--f-data); color: var(--ink-2); }
+.ask .q::before { content: "You asked"; display: block; font-size: var(--t-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+.ask .a { color: var(--ink); }
+.ask .a strong { font-weight: 650; }
+.ask .ev { all: unset; box-sizing: border-box; display: block; width: 168px; max-width: 100%; aspect-ratio: 3 / 2; border-radius: 10px; overflow: hidden; border: 1px solid var(--rule-soft); cursor: zoom-in; background: #1C1F24; }
+.ask .ev img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(.2, .7, .2, 1); }
+.ask .ev:hover img { transform: scale(1.04); }
+.ask .ev:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+
+/* build chooser */
+.build { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); border: 1px solid var(--rule-soft); border-radius: 16px; background: var(--plate); overflow: hidden; }
+.build-main { padding: 22px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.seg-ctl { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--studio); border: 1px solid var(--rule-soft); border-radius: 12px; align-self: flex-start; max-width: 100%; }
+.seg-ctl label { position: relative; display: inline-flex; flex-direction: column; justify-content: center; min-height: 48px; padding: 6px 14px; border-radius: 9px; cursor: pointer; color: var(--ink-2); }
+.seg-ctl input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg-ctl .n { font: 650 var(--t-m)/1.1 var(--f-display); }
+.seg-ctl .d { font: 400 var(--t-xs)/1.3 var(--f-data); color: var(--ink-3); }
+.seg-ctl label:has(input:checked) { background: var(--plate-3); color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule); }
+.seg-ctl label:has(input:checked) .d { color: var(--glow); }
+.seg-ctl label:has(input:focus-visible) { outline: 2px solid var(--glow); outline-offset: 1px; }
+.bfig { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--rule-soft); margin: 0; }
+.bfig div { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--rule-soft); min-width: 0; }
+.bfig dt { font: 500 var(--t-xs)/1.3 var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.bfig dd { margin: 4px 0 0; font: 500 var(--t-l)/1.3 var(--f-data); font-variant-numeric: tabular-nums; }
+.bfig dd small { display: block; font-size: var(--t-xs); color: var(--ink-3); font-weight: 400; }
+.build-note { color: var(--ink-2); font-size: var(--t-s); max-width: 46em; }
+.build-note strong { color: var(--ink); font-weight: 600; }
+.elev { margin: 0; padding: 14px 18px 10px; border-left: 1px solid var(--rule-soft); background: linear-gradient(180deg, #1C222B, #161B22); min-width: 0; }
+.elev svg { display: block; width: 100%; height: auto; max-height: 520px; }
+.elev text { font-family: var(--f-data); font-size: 11px; fill: var(--ink-2); }
+.elev .lab-strong { fill: var(--ink); font-weight: 600; }
+.elev .lab-glow { fill: var(--glow); font-weight: 600; }
+.elev .lab-dim { fill: var(--ink-3); }
+.elev figcaption { color: var(--ink-3); font-size: var(--t-xs); margin-top: 6px; }
+
+/* pad finder */
+.finder { border: 1px solid var(--rule-soft); border-radius: 16px; background: var(--plate); overflow: hidden; }
+.finder-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 20px; padding: 16px 20px; border-bottom: 1px solid var(--rule-soft); }
+.finder-top p { color: var(--ink-2); font-size: var(--t-s); max-width: 54em; }
+.tbl { overflow-x: auto; position: relative; }
+table { width: 100%; border-collapse: collapse; font-size: var(--t-s); }
+th, td { text-align: left; vertical-align: middle; padding: 10px 14px 10px 0; border-top: 1px solid var(--rule-soft); }
+thead th { font: 500 var(--t-xs) var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); border-top: 0; vertical-align: bottom; }
+td { color: var(--ink-2); }
+.padtab { min-width: 760px; }
+.padtab th:first-child, .padtab td:first-child { padding-left: 20px; }
+.padtab td.j { color: var(--ink); font-weight: 600; white-space: nowrap; }
+.padtab td.j small { display: block; font: 400 var(--t-xs) var(--f-data); color: var(--ink-3); }
+.role { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.tag { display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px; border-radius: 999px; font: 500 var(--t-xs)/1.4 var(--f-data); border: 1px solid var(--rule); color: var(--ink-2); white-space: nowrap; }
+.tag.band { border-color: #59636E; color: var(--steel); }
+.tag.stop { border-color: #3D6F8A; color: var(--aqua); }
+.field { display: flex; align-items: stretch; border: 1px solid var(--rule); border-radius: 9px; background: var(--studio); overflow: hidden; width: 128px; }
+.field input { flex: 1; min-width: 0; width: 100%; border: 0; background: transparent; color: var(--ink); font: 500 var(--t-l)/1 var(--f-data); padding: 8px 10px; font-variant-numeric: tabular-nums; }
+.field input:focus-visible { outline: none; }
+.field:focus-within { border-color: var(--glow); }
+.field .unit { display: flex; align-items: center; padding: 0 9px; color: var(--ink-3); font: 500 var(--t-xs) var(--f-data); border-left: 1px solid var(--rule-soft); }
+.dia { font: 500 var(--t-m) var(--f-data); color: var(--ink); white-space: nowrap; }
+.padname { font: 600 var(--t-s) var(--f-data); color: var(--glow); white-space: nowrap; }
+.padname.bad { color: var(--alert); }
+.padtab .pfile { font: 400 var(--t-xs) var(--f-data); color: var(--ink-3); display: block; margin-top: 2px; overflow-wrap: anywhere; }
+.finder-chart { margin: 0; padding: 14px 20px 12px; border-top: 1px solid var(--rule-soft); }
+.chart-scroll { overflow-x: auto; position: relative; }
+#padchart { width: 100%; min-width: 880px; height: auto; display: block; }
+#padchart text { font-family: var(--f-data); font-size: 12.5px; fill: var(--ink-2); }
+#padchart .bar rect { fill: var(--plate-3); stroke: var(--rule); stroke-width: 1; }
+#padchart .bar.alt rect { fill: var(--plate-2); }
+#padchart .bar.hit rect { fill: #2F5A2A; stroke: var(--glow); }
+#padchart .axis, #padchart .tick { stroke: var(--ink-3); stroke-width: 1; }
+#padchart .lab { fill: var(--ink-3); }
+#padchart .row-lab { fill: var(--ink-2); }
+#padchart .mk circle { fill: var(--glow); }
+#padchart .mk.bad circle { fill: var(--alert); }
+#padchart .mk line { stroke: var(--glow); stroke-width: 1; stroke-dasharray: 2 3; opacity: 0.6; }
+#padchart .mk.bad line { stroke: var(--alert); }
+#padchart .limit { stroke: var(--alert); stroke-width: 1; stroke-dasharray: 4 3; }
+.finder-chart figcaption { color: var(--ink-3); font-size: var(--t-xs); margin-top: 6px; }
+.finder-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 20px 18px; border-top: 1px solid var(--rule-soft); }
+.status { color: var(--ink-2); font-size: var(--t-s); }
+
+/* print one snake */
+.lane { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 44px; align-items: start; }
+.lane-text { display: flex; flex-direction: column; gap: 14px; }
+.lane-text h2 { font-size: var(--t-2xl); font-weight: 720; letter-spacing: -0.015em; line-height: 1.1; margin-top: 8px; }
+.lane-text p { color: var(--ink-2); }
+.lane-sum { font: 500 var(--t-m) var(--f-data); color: var(--ink) !important; }
+.lane-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.hw { color: var(--ink-3); font-size: var(--t-s); }
+.checklist { list-style: none; margin: 0; padding: 0; border: 1px solid var(--rule-soft); border-radius: 14px; background: var(--plate); overflow: hidden; }
+.checklist li { display: grid; grid-template-columns: 3.2em minmax(0, 1fr) auto; grid-template-areas: "q n c" "q f c"; gap: 0 12px; padding: 7px 16px; border-top: 1px solid var(--rule-soft); align-items: center; }
+.checklist li:first-child { border-top: 0; }
+.checklist li.grp { display: block; padding: 6px 16px; background: var(--plate-2); font: 500 var(--t-xs)/1.3 var(--f-data); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+.checklist .q { grid-area: q; color: var(--ink-2); font: 500 var(--t-m) var(--f-data); }
+.checklist .n { grid-area: n; font-weight: 600; }
+.checklist .f { grid-area: f; font: 400 var(--t-xs) var(--f-data); color: var(--ink-3); overflow-wrap: anywhere; }
+.checklist .c { grid-area: c; color: var(--ink-2); font: 400 var(--t-xs) var(--f-data); white-space: nowrap; }
+.checklist li.saved .q::after { content: " ✓"; color: var(--glow); }
+
+/* tabs and part grid */
+.bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 20px; margin: 0 0 14px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--plate); border: 1px solid var(--rule-soft); border-radius: 12px; max-width: 100%; }
+.tab { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: transparent; color: var(--ink-2); font: 600 var(--t-s)/1 var(--f-body); cursor: pointer; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { background: var(--plate-3); color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule); }
+.tab .count { font: 500 var(--t-xs) var(--f-data); color: var(--ink-3); }
+.tab .short { display: none; }
+.dl-note { color: var(--ink-3); font-size: var(--t-s); max-width: 44em; }
+.dl-note.warn { color: var(--alert); }
+.panel-meta { color: var(--ink-2); font-size: var(--t-s); margin-bottom: 16px; max-width: 70em; }
+.panel-meta strong { color: var(--ink); font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(262px, 1fr)); gap: 16px; }
+.part { display: flex; flex-direction: column; background: var(--plate); border: 1px solid var(--rule-soft); border-radius: var(--radius); overflow: hidden; min-width: 0; }
+.shot { all: unset; box-sizing: border-box; display: block; position: relative; aspect-ratio: 1 / 1; max-width: 100%; cursor: zoom-in; background: #1D2127; }
+.shot:focus-visible { outline: 2px solid var(--glow); outline-offset: -2px; }
+.shot img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(.2, .7, .2, 1); }
+.shot:hover img { transform: scale(1.035); }
+.badge { position: absolute; top: 10px; right: 10px; display: inline-flex; align-items: center; gap: 5px; font: 500 var(--t-xs)/1 var(--f-data); padding: 5px 8px; border-radius: 999px; background: rgba(17, 20, 24, 0.72); border: 1px solid var(--rule); color: var(--ink-2); }
+.badge .i { width: 13px; height: 13px; }
+.shown { position: absolute; left: 10px; bottom: 10px; font: 400 var(--t-xs)/1.2 var(--f-body); color: var(--ink-2); background: rgba(17, 20, 24, 0.72); padding: 4px 8px; border-radius: 6px; }
+.part-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 0; }
+.part h3 { font-size: var(--t-l); font-weight: 680; letter-spacing: -0.005em; }
+.note { color: var(--ink-2); font-size: var(--t-s); }
+.spec { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 5px 12px; margin: 0; font-size: var(--t-s); }
+.spec div { display: contents; }
+.spec dt { color: var(--ink-3); }
+.spec dd { margin: 0; color: var(--ink); min-width: 0; }
+.spec .num { font-size: var(--t-s); }
+.file { display: flex; justify-content: space-between; gap: 10px; font: 400 var(--t-xs)/1.4 var(--f-data); color: var(--ink-3); margin-top: auto; padding-top: 10px; border-top: 1px solid var(--rule-soft); }
+.file .fname { overflow-wrap: anywhere; min-width: 0; user-select: all; }
+.file .fsize { flex: none; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.actions .btn.primary { flex: 1; }
+.pads-intro { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 20px; align-items: center; margin-bottom: 14px; }
+.pads-intro .shot { border-radius: 12px; overflow: hidden; border: 1px solid var(--rule-soft); }
+.pads-intro p { color: var(--ink-2); font-size: var(--t-s); max-width: 52em; }
+.pads-intro p + p { margin-top: 8px; }
+.sizes { min-width: 640px; }
+.sizes td:first-child, .sizes th:first-child { padding-left: 2px; }
+.sizes td.r { color: var(--ink); font: 600 var(--t-s) var(--f-data); white-space: nowrap; }
+.sizes td .acts { display: flex; gap: 6px; justify-content: flex-end; }
+.sizes tr.pick td.r { color: var(--glow); }
+.sizes tr.pick td.r::after { content: " ●"; font-size: 0.7em; vertical-align: 1px; }
+.beds { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.bedc { display: flex; flex-direction: column; gap: 10px; padding: 16px; background: var(--plate); border: 1px solid var(--rule-soft); border-radius: var(--radius); min-width: 0; }
+.bedc h3 { font-size: var(--t-l); font-weight: 680; }
+.bedc .contents { color: var(--ink-2); font-size: var(--t-s); }
+.panel-meta.beds11 { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--rule-soft); }
+
+/* gallery */
+.gallery { columns: 3 300px; column-gap: 16px; }
+.g-item { break-inside: avoid; margin: 0 0 18px; }
+.g-btn { all: unset; box-sizing: border-box; display: block; width: 100%; cursor: zoom-in; border-radius: 12px; overflow: hidden; border: 1px solid var(--rule-soft); background: #1C1F24; }
+.g-btn:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+.g-btn img { display: block; width: 100%; height: auto; transition: transform 0.5s cubic-bezier(.2, .7, .2, 1); }
+.g-btn:hover img { transform: scale(1.02); }
+.g-item figcaption { font-size: var(--t-s); color: var(--ink-2); margin-top: 8px; }
+.g-item figcaption strong { color: var(--ink); font-weight: 600; margin-right: 4px; }
+
+/* numbers */
+.numbers { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 44px; align-items: start; }
+.numbers h3 { font-size: var(--t-xl); font-weight: 680; margin-bottom: 12px; }
+.qa th, .qa td { vertical-align: top; padding: 11px 14px 11px 0; }
+.qa tr:last-child th, .qa tr:last-child td { border-bottom: 1px solid var(--rule-soft); }
+.qa tbody th { font-weight: 600; color: var(--ink); width: 30%; }
+.rules { list-style: none; margin: 0 0 26px; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.rules li { padding-left: 16px; position: relative; color: var(--ink-2); font-size: var(--t-s); }
+.rules li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; border-radius: 2px; background: var(--ink-3); }
+.rules li.key::before { background: var(--alert); }
+.rules strong { color: var(--ink); font-weight: 600; }
+
+/* v1 band */
+.earlier { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 28px; margin-top: 64px; padding: 20px 22px; border: 1px solid var(--rule-soft); border-radius: 16px; background: var(--plate); }
+.earlier p { color: var(--ink-2); max-width: 52em; }
+.earlier strong { color: var(--ink); font-weight: 650; }
+
+.foot { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--rule-soft); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; color: var(--ink-3); font-size: var(--t-s); }
+.foot .mono { font-size: var(--t-xs); }
+.foot .docs { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* dialogs */
+dialog { padding: 0; border: 1px solid var(--rule); border-radius: 18px; background: var(--plate); color: var(--ink); width: min(1120px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 32px); overflow: hidden; }
+dialog::backdrop { background: rgba(9, 11, 13, 0.74); backdrop-filter: blur(3px); }
+.viewer { display: grid; grid-template-columns: minmax(0, 1fr) 330px; height: min(680px, calc(100dvh - 34px)); }
+.stage { position: relative; min-height: 0; background: radial-gradient(110% 85% at 50% 32%, #2E333B 0%, #1B1E23 58%, #131518 100%); }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+.stage canvas:active { cursor: grabbing; }
+.stage-msg { position: absolute; inset: auto 0 18px 0; text-align: center; color: var(--ink-2); font-size: var(--t-s); pointer-events: none; }
+.stage-fallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; }
+.stage-fallback img { max-width: min(520px, 100%); max-height: 100%; border-radius: 12px; }
+.stage-help { position: absolute; left: 16px; bottom: 14px; font: 400 var(--t-xs) var(--f-data); color: var(--ink-3); pointer-events: none; }
+.legend { position: absolute; right: 14px; top: 14px; display: flex; flex-direction: column; gap: 5px; padding: 8px 10px; border-radius: 9px; background: rgba(17, 20, 24, 0.66); border: 1px solid var(--rule-soft); font: 400 var(--t-xs)/1.2 var(--f-data); color: var(--ink-2); pointer-events: none; }
+.legend span { display: flex; align-items: center; gap: 7px; }
+.chip { display: inline-block; width: 10px; height: 10px; border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2); flex: none; }
+.v-info { padding: 22px 22px 20px; border-left: 1px solid var(--rule-soft); display: flex; flex-direction: column; gap: 14px; overflow: auto; min-width: 0; }
+.v-info h2 { font-size: var(--t-xl); font-weight: 700; }
+.v-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.icon-btn { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 9px; border: 1px solid var(--rule); background: var(--plate-2); color: var(--ink); cursor: pointer; font: 600 1rem/1 var(--f-body); }
+.icon-btn:hover { background: var(--plate-3); }
+.v-nav { display: flex; gap: 6px; }
+.v-actions { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+.lb { display: flex; flex-direction: column; }
+.lb-stage { position: relative; display: grid; place-items: center; background: #15181B; min-height: 0; }
+.lb-stage img { display: block; max-width: 100%; max-height: calc(100dvh - 120px); width: auto; height: auto; }
+.lb-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px 12px 18px; border-top: 1px solid var(--rule-soft); }
+.lb-bar .t { font-weight: 600; }
+.lb-bar .n { color: var(--ink-3); font: 400 var(--t-xs) var(--f-data); margin-left: 10px; }
+
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 50; max-width: min(560px, calc(100vw - 32px)); padding: 11px 16px; border-radius: 10px; background: var(--plate-3); border: 1px solid var(--rule); color: var(--ink); font-size: var(--t-s); box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.6); }
+.toast[data-kind="ok"] { border-color: var(--glow); }
+.toast[data-kind="warn"] { border-color: var(--alert); }
+
+@media (max-width: 960px) {
+  .hero, .section-head, .lane, .numbers, .build { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .build { gap: 0; }
+  .elev { border-left: 0; border-top: 1px solid var(--rule-soft); }
+  .elev svg { max-height: 440px; }
+  .hero { padding-block: 28px 36px; }
+  .ask { grid-template-columns: minmax(0, 1fr) 140px; gap: 10px 18px; }
+  .ask .q { grid-column: 1 / -1; }
+  .ask .ev { width: 140px; }
+}
+@media (max-width: 760px) {
+  dialog { width: 100vw; max-height: 100dvh; height: 100dvh; border-radius: 0; border: 0; }
+  .viewer { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; height: 100dvh; }
+  .v-info { border-left: 0; border-top: 1px solid var(--rule-soft); max-height: 46dvh; padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .v-top { padding-top: env(safe-area-inset-top, 0px); }
+  .lb-stage img { max-height: calc(100dvh - 90px); }
+  .bfig { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pads-intro { grid-template-columns: minmax(0, 1fr); }
+  .pads-intro .shot { width: 160px; }
+}
+@media (max-width: 640px) {
+  .padtab { min-width: 0; }
+  .padtab thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .padtab tbody { display: block; }
+  .padtab tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "j c" "r d" "p v" "s s"; gap: 8px 14px; align-items: center; padding: 14px 16px; border-top: 1px solid var(--rule-soft); }
+  .padtab tr:first-child { border-top: 0; }
+  .padtab td, .padtab th:first-child, .padtab td:first-child { display: block; padding: 0; border: 0; }
+  .padtab td.j { grid-area: j; }
+  .padtab td.rc { grid-area: r; }
+  .padtab td.cf { grid-area: c; }
+  .padtab td.dia { grid-area: d; text-align: right; }
+  .padtab td.pick-cell { grid-area: p; min-width: 0; }
+  .padtab td.v3 { grid-area: v; }
+  .padtab td.shim { grid-area: s; font-size: var(--t-xs); }
+  .padtab td.shim::before { content: "Shims under the liner: "; color: var(--ink-3); font-family: var(--f-body); }
+  .padtab td.v3:empty { display: none; }
+}
+@media (max-width: 560px) {
+  .brand .sub, .tab .long { display: none; }
+  .tab .short { display: inline; }
+  .figures { grid-template-columns: minmax(0, 1fr); }
+  .ask { grid-template-columns: minmax(0, 1fr); }
+  .ask .ev { width: 100%; }
+  .part { display: grid; grid-template-columns: 112px minmax(0, 1fr); }
+  .shot { align-self: start; }
+  .badge { top: 6px; right: 6px; padding: 4px 6px; }
+  .shown { display: none; }
+  .part-body { padding: 12px 12px 14px; }
+  .actions .btn { flex: 1; }
+  .checklist li { grid-template-columns: 2.6em minmax(0, 1fr); grid-template-areas: "q n" "q f" "q c"; }
+  .build-main { padding: 16px; }
+  .seg-ctl label { padding: 6px 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+.dl { display: none !important; }
+</style>
+
+<div class="page">
+<header class="top">
+  <div class="brand"><span class="mark" aria-hidden="true"></span><span>Pant Snake</span><span class="sub">Light-pole family</span></div>
+  <nav class="ver" aria-label="Pages"><a class="pill" href="../story/">Story</a><a class="pill" href="../sensor/">Sensor</a><span class="pill on" aria-current="page">Kit</span><a class="pill" href="../">Collector app</a></nav>
+</header>
+
+<section class="hero" aria-labelledby="h-title">
+  <div>
+    <p class="eyebrow">Design package v2 · 31 STL files · 6 painted beds</p>
+    <h1 id="h-title">Light-Pole Snake Kit</h1>
+    <p class="lede">The printed Pant Snake, now a long coil round an ordinary street-light pole. It keeps the original head, tail, door and livery. Between them, nine identical segments wind 2.2 times round the pole, and the holders hide between the coil and the pole.</p>
+    <dl class="figures">
+      <div><dt>Snake</dt><dd>2.94 m, 2.2 turns</dd></div>
+      <div><dt>Holds</dt><dd>24 × 33 cl cans</dd></div>
+      <div><dt>Mouth</dt><dd>1.67 m, standard build</dd></div>
+      <div><dt>Poles</dt><dd>Ø64–132 mm</dd></div>
+      <div><dt>Body</dt><dd>6.6 kg of PETG</dd></div>
+      <div><dt>Prints on</dt><dd>Prusa XL, 6 beds</dd></div>
+    </dl>
+    <div class="cta">
+      <a class="btn primary" href="#parts">Get the parts</a>
+      <a class="btn" href="#pads">Fit the pads to your pole</a>
+    </div>
+  </div>
+  <figure class="hero-fig"><button type="button" class="g-open" data-idx="0" aria-label="Open image: Light-pole snake v2"><img src="v2/img/01-light-pole-snake-v2.webp" alt="Your navy snake with green glow lines coiled 2.2 times round a grey street-light pole, the head and its QR panel near the top and the tail near the ground." width="1800" height="1200" fetchpriority="high"></button></figure>
+</section>
+
+<section class="section" id="asks" aria-labelledby="asks-title">
+  <div class="section-head">
+    <div><p class="eyebrow">Changes from v1</p><h2 id="asks-title">What changed</h2></div>
+    <p>Each change, with the image that shows it.</p>
+  </div>
+  <ol class="asks">
+<li class="ask"><p class="q">A longer snake</p><p class="a"><strong>2.94 m and 2.2 turns round the pole.</strong> Nine identical segments between your head and tail hold 24 standard cans; v1 held 9. Two more segments make it 3.40 m.</p><button class="ev" type="button" data-idx="8" aria-label="Open image: Heights and the service door" style="aspect-ratio: 1800 / 1200"><img src="v2/img/09-heights-and-service-door-880.webp" alt="" width="880" height="587" loading="lazy" decoding="async"></button></li>
+<li class="ask"><p class="q">Head and tail like my printable snake</p><p class="a"><strong>Your own P12 head and your P01 + P02 tail</strong>, on your snake’s own coil shape. Your door, bail lever, pins, drain and hatch lids are reused unchanged.</p><button class="ev" type="button" data-idx="7" aria-label="Open image: Everything printed for one snake" style="aspect-ratio: 2100 / 1200"><img src="v2/img/08-everything-printed-880.webp" alt="" width="880" height="503" loading="lazy" decoding="async"></button></li>
+<li class="ask"><p class="q">The QR code on the body below the head, not on the head</p><p class="a"><strong>Your panel sits on segments 7–9, just below the head.</strong> The QR centre is 1.40 m up, tilted 45° toward a person in front of it. The head keeps only its pattern.</p><button class="ev" type="button" data-idx="2" aria-label="Open image: Panel below the head" style="aspect-ratio: 1800 / 1200"><img src="v2/img/03-panel-below-the-head-880.webp" alt="" width="880" height="587" loading="lazy" decoding="async"></button></li>
+<li class="ask"><p class="q">Only go round the pole, with no turn on top at the end</p><p class="a"><strong>The head stays on the coil.</strong> The hood of your P12 that went over the box top is trimmed off and the hat is not used, so nothing passes over the pole.</p><button class="ev" type="button" data-idx="6" aria-label="Open image: Built from the tail up" style="aspect-ratio: 1800 / 1200"><img src="v2/img/07-built-from-the-tail-up-880.webp" alt="" width="880" height="587" loading="lazy" decoding="async"></button></li>
+<li class="ask"><p class="q">Holders less visible</p><p class="a"><strong>No clamps or screws on the street side.</strong> Six pads sit between the coil and the pole. Four steel bands run in a groove behind the tube and show only as thin rings on the pole.</p><button class="ev" type="button" data-idx="4" aria-label="Open image: Where the holders are" style="aspect-ratio: 1800 / 1200"><img src="v2/img/05-where-the-holders-are-880.webp" alt="" width="880" height="587" loading="lazy" decoding="async"></button></li>
+  </ol>
+</section>
+
+<section class="section" id="build" aria-labelledby="build-title">
+  <div class="section-head">
+    <div><p class="eyebrow">Build</p><h2 id="build-title">Choose the height</h2></div>
+    <p>Every build uses the same parts. You chose 9 segments. Two more plain segments raise the mouth to 1.87 m and hold four more cans; two fewer lower it to 1.48 m. The pad finder and the print list below follow the build picked here.</p>
+  </div>
+  <div class="build">
+    <div class="build-main">
+      <div class="seg-ctl" role="radiogroup" aria-label="Number of body segments">
+        <label><input type="radio" name="build" id="build-11" value="11"><span class="n">11 segments</span><span class="d">add 2 plain</span></label>
+        <label><input type="radio" name="build" id="build-9" value="9" checked><span class="n">9 segments</span><span class="d">standard</span></label>
+        <label><input type="radio" name="build" id="build-7" value="7"><span class="n">7 segments</span><span class="d">leave out 4, 5</span></label>
+      </div>
+      <dl class="bfig" id="bfig" aria-live="polite">
+        <div><dt>Mouth</dt><dd id="b-mouth">1.67 m</dd></div>
+        <div><dt>QR centre</dt><dd id="b-qr">1.40 m</dd></div>
+        <div><dt>Holds</dt><dd id="b-cans">24 cans</dd></div>
+        <div><dt>Snake</dt><dd id="b-len">2.94 m</dd></div>
+        <div><dt>Coil</dt><dd id="b-turns">2.2 turns</dd></div>
+        <div><dt>Body</dt><dd id="b-mass">6.6 kg</dd></div>
+      </dl>
+      <p class="build-note" id="b-note"></p>
+    </div>
+    <figure class="elev">
+      <svg id="elev" viewBox="0 0 360 470" role="img" aria-labelledby="elev-title"><title id="elev-title">Side view of the snake on the pole, drawn to scale, with the heights of the mouth, the QR panel, the bands and the tail</title></svg>
+      <figcaption>Drawn to scale, 0 to 2 m. Squares on the pole are the pads; rings are the bands.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section" id="pads" aria-labelledby="pads-title">
+  <div class="section-head">
+    <div><p class="eyebrow">Pads</p><h2 id="pads-title">Fit the pads to your pole</h2></div>
+    <p>Wrap a tape round the pole at each pad height and type the circumference. The page picks the pad for each joint. The values filled in are a Danish 5 m conical mast <span class="est">(assumed taper, 119 mm at 0.8 m)</span>.</p>
+  </div>
+  <div class="finder">
+    <div class="tbl">
+      <table class="padtab">
+        <thead><tr><th scope="col">Joint</th><th scope="col">Holds</th><th scope="col">Circumference</th><th scope="col">Pole</th><th scope="col">Pad</th><th scope="col">Shims</th><th scope="col"><span class="sr">3D</span></th></tr></thead>
+        <tbody id="pad-rows"></tbody>
+      </table>
+    </div>
+    <figure class="finder-chart">
+      <div class="chart-scroll"><svg id="padchart" viewBox="0 0 1160 248" role="img" aria-labelledby="pc-title"><title id="pc-title">Pole diameter at each pad height against the 17 pad sizes</title><text class="lab" x="8" y="16">PAD AT</text><line class="limit" x1="240.4" x2="240.4" y1="22" y2="210.0"/><line class="limit" x1="1013.6" x2="1013.6" y1="22" y2="210.0"/><text class="lab" x="172.2" y="200.0" text-anchor="middle">too thin</text><text class="lab" x="1081.8" y="200.0" text-anchor="middle">too thick</text><g class="bar" data-pad="pad-D64-68"><title>D64-68</title><rect x="240.9" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar alt" data-pad="pad-D68-72"><title>D68-72</title><rect x="286.4" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar" data-pad="pad-D72-76"><title>D72-76</title><rect x="331.9" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar alt" data-pad="pad-D76-80"><title>D76-80</title><rect x="377.4" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar" data-pad="pad-D80-84"><title>D80-84</title><rect x="422.8" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar alt" data-pad="pad-D84-88"><title>D84-88</title><rect x="468.3" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar" data-pad="pad-D88-92"><title>D88-92</title><rect x="513.8" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar alt" data-pad="pad-D92-96"><title>D92-96</title><rect x="559.3" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar" data-pad="pad-D96-100"><title>D96-100</title><rect x="604.8" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar alt" data-pad="pad-D100-104"><title>D100-104</title><rect x="650.2" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar" data-pad="pad-D104-108"><title>D104-108</title><rect x="695.7" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar alt" data-pad="pad-D108-112"><title>D108-112</title><rect x="741.2" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar" data-pad="pad-D112-116"><title>D112-116</title><rect x="786.7" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar alt" data-pad="pad-D116-120"><title>D116-120</title><rect x="832.2" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar" data-pad="pad-D120-124"><title>D120-124</title><rect x="877.6" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar alt" data-pad="pad-D124-128"><title>D124-128</title><rect x="923.1" y="182.0" width="44.5" height="28" rx="3"/></g><g class="bar" data-pad="pad-D128-132"><title>D128-132</title><rect x="968.6" y="182.0" width="44.5" height="28" rx="3"/></g><line class="axis" x1="240.4" x2="1013.6" y1="220.0" y2="220.0"/><line class="tick" x1="240.4" x2="240.4" y1="220.0" y2="224.0"/><text class="lab" x="240.4" y="240.0" text-anchor="middle">64</text><line class="tick" x1="285.9" x2="285.9" y1="220.0" y2="224.0"/><text class="lab" x="285.9" y="240.0" text-anchor="middle">68</text><line class="tick" x1="331.4" x2="331.4" y1="220.0" y2="224.0"/><text class="lab" x="331.4" y="240.0" text-anchor="middle">72</text><line class="tick" x1="376.9" x2="376.9" y1="220.0" y2="224.0"/><text class="lab" x="376.9" y="240.0" text-anchor="middle">76</text><line class="tick" x1="422.3" x2="422.3" y1="220.0" y2="224.0"/><text class="lab" x="422.3" y="240.0" text-anchor="middle">80</text><line class="tick" x1="467.8" x2="467.8" y1="220.0" y2="224.0"/><text class="lab" x="467.8" y="240.0" text-anchor="middle">84</text><line class="tick" x1="513.3" x2="513.3" y1="220.0" y2="224.0"/><text class="lab" x="513.3" y="240.0" text-anchor="middle">88</text><line class="tick" x1="558.8" x2="558.8" y1="220.0" y2="224.0"/><text class="lab" x="558.8" y="240.0" text-anchor="middle">92</text><line class="tick" x1="604.3" x2="604.3" y1="220.0" y2="224.0"/><text class="lab" x="604.3" y="240.0" text-anchor="middle">96</text><line class="tick" x1="649.7" x2="649.7" y1="220.0" y2="224.0"/><text class="lab" x="649.7" y="240.0" text-anchor="middle">100</text><line class="tick" x1="695.2" x2="695.2" y1="220.0" y2="224.0"/><text class="lab" x="695.2" y="240.0" text-anchor="middle">104</text><line class="tick" x1="740.7" x2="740.7" y1="220.0" y2="224.0"/><text class="lab" x="740.7" y="240.0" text-anchor="middle">108</text><line class="tick" x1="786.2" x2="786.2" y1="220.0" y2="224.0"/><text class="lab" x="786.2" y="240.0" text-anchor="middle">112</text><line class="tick" x1="831.7" x2="831.7" y1="220.0" y2="224.0"/><text class="lab" x="831.7" y="240.0" text-anchor="middle">116</text><line class="tick" x1="877.1" x2="877.1" y1="220.0" y2="224.0"/><text class="lab" x="877.1" y="240.0" text-anchor="middle">120</text><line class="tick" x1="922.6" x2="922.6" y1="220.0" y2="224.0"/><text class="lab" x="922.6" y="240.0" text-anchor="middle">124</text><line class="tick" x1="968.1" x2="968.1" y1="220.0" y2="224.0"/><text class="lab" x="968.1" y="240.0" text-anchor="middle">128</text><line class="tick" x1="1013.6" x2="1013.6" y1="220.0" y2="224.0"/><text class="lab" x="1013.6" y="240.0" text-anchor="middle">132</text><text class="lab" x="8" y="240.0">Ø, mm</text><g id="pc-marks"></g></svg></div>
+      <figcaption>Pole diameter at each pad, in mm. Bars are the 17 pad sizes, 4 mm each; the snake fits poles from Ø64 to Ø132 at the pads.</figcaption>
+    </figure>
+    <div class="finder-foot">
+      <button class="btn primary" type="button" id="save-pads"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Save these pads</span></button>
+      <span class="status" id="pads-status" aria-live="polite">You confirm each file as it saves.</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="print" aria-labelledby="lane-title">
+  <div class="lane">
+    <div class="lane-text">
+      <div><p class="eyebrow">Start here</p><h2 id="lane-title">Print one snake</h2></div>
+      <p>The files for the build and the pole above. Before printing the rest, tilt one printed segment to 24.8° and check that a can slides: can-on-PETG friction has no published value, and the slope leaves little margin.</p>
+      <p class="lane-sum" id="lane-sum">9 segments · 6 pads · 6.9 kg of PETG</p>
+      <p class="hint">About 95–120 printer-hours for the body <span class="est">(estimate from 5.2 litres of plastic, slice to confirm)</span>. The painted beds in <span class="mono">3mf/</span> carry the livery for the 9-segment build; beds for 11 segments are in <span class="mono">3mf/11-segment-build/</span>.</p>
+      <div class="lane-actions">
+        <button class="btn primary" type="button" id="save-lane"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Save all files</span></button>
+        <span class="status" id="lane-status" aria-live="polite">You confirm each file as it saves.</span>
+      </div>
+      <p class="hw">Hardware for one snake: 4 stainless bands 19 × 0.76 mm with buckles (about 0.5 m each), 4 strips of 1 mm EPDM under the bands, 6 self-adhesive 3 mm EPDM liners cut 58 × 70 mm, a few 1 mm EPDM shims, neutral-cure silicone and the glue you used for P01 and P02. The README has the full list.</p>
+    </div>
+    <ol class="checklist" id="lane-list"></ol>
+  </div>
+</section>
+
+<section class="section" id="parts" aria-labelledby="parts-title">
+  <div class="section-head">
+    <div><p class="eyebrow">Parts</p><h2 id="parts-title">Every part, in print orientation</h2></div>
+    <p>Every STL is one part, checked watertight and inside the Prusa XL's 360 mm cube. The photos and 3D views show the livery from the painted beds; the STL files themselves are the plain shapes.</p>
+  </div>
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="Part sets">
+<button class="tab" role="tab" type="button" id="tab-body" data-key="body" aria-controls="panel-body" aria-selected="true" tabindex="0">Body<span class="count">5</span></button>
+<button class="tab" role="tab" type="button" id="tab-pads-all" data-key="pads-all" aria-controls="panel-pads-all" aria-selected="false" tabindex="-1">Pads<span class="count">17</span></button>
+<button class="tab" role="tab" type="button" id="tab-yours" data-key="yours" aria-controls="panel-yours" aria-selected="false" tabindex="-1">Your parts<span class="count">9</span></button>
+<button class="tab" role="tab" type="button" id="tab-beds" data-key="beds" aria-controls="panel-beds" aria-selected="false" tabindex="-1"><span class="long">Painted beds</span><span class="short">Beds</span><span class="count">6</span></button>
+    </div>
+    <p class="dl-note" id="dl-note">Pick a part's photo to turn it in 3D. Print files are shared with partners on request.</p>
+  </div>
+<div class="panel" role="tabpanel" id="panel-body" aria-labelledby="tab-body"><p class="panel-meta"><strong>The coil, head and tail.</strong> Masses are solid PETG: your 2.9 mm walls print as 6 perimeters. Every segment prints with the same settings.</p><div class="grid"><article class="part" id="part-segment">
+  <button class="shot" type="button" data-view="segment" aria-label="Open Segment in 3D">
+    <img src="v2/thumbs/segment.webp" alt="Segment, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span><span class="shown">Your livery, segment 5</span>
+  </button>
+  <div class="part-body">
+    <h3>Segment</h3>
+    <p class="note">One 86° piece of the coil, 234 mm along its centre line and 98 mm of rise. Spigot down, socket up. All seven plain segments are this file.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>7 (segments 1, 2, 4, 5, 7–9)</dd></div>
+      <div><dt>Size</dt><dd class="num">178 × 176 × 326 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">544 g</dd></div>
+      <div><dt>Print</dt><dd>Tree supports under the joint</dd></div>
+      <div><dt>On the bed</dt><dd>On its spigot tip</dd></div>
+    </dl>
+    <p class="file"><span class="fname">LPS2-segment.stl</span><span class="fsize">11.3 MB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="LPS2-segment.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="segment"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-segment-hatch">
+  <button class="shot" type="button" data-view="segment-hatch" aria-label="Open Hatch segment in 3D">
+    <img src="v2/thumbs/segment-hatch.webp" alt="Hatch segment, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span><span class="shown">Your livery, segment 3</span>
+  </button>
+  <div class="part-body">
+    <h3>Hatch segment</h3>
+    <p class="note">The same segment with your P04 hatch port. Your Lid 1 and Lid 2 screw in, so a jam can be cleared from outside at 0.9 m and 1.2 m.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>2 (segments 3 and 6)</dd></div>
+      <div><dt>Size</dt><dd class="num">177 × 177 × 326 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">569 g</dd></div>
+      <div><dt>Print</dt><dd>Tree supports under the joint</dd></div>
+      <div><dt>On the bed</dt><dd>On its spigot tip</dd></div>
+    </dl>
+    <p class="file"><span class="fname">LPS2-segment-hatch.stl</span><span class="fsize">15.3 MB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="LPS2-segment-hatch.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="segment-hatch"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-head">
+  <button class="shot" type="button" data-view="head" aria-label="Open Head, your P12 in 3D">
+    <img src="v2/thumbs/head.webp" alt="Head, your P12, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span><span class="shown">Your livery</span>
+  </button>
+  <div class="part-body">
+    <h3>Head, your P12</h3>
+    <p class="note">Your P12 with the hood trimmed, so the head stays on the coil. Its back is thickened on the pole side to carry the pad under the head. The mouth opens at 1.67 m.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">176 × 178 × 292 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">527 g</dd></div>
+      <div><dt>Print</dt><dd>Tree supports under the joint</dd></div>
+      <div><dt>On the bed</dt><dd>On its spigot tip</dd></div>
+    </dl>
+    <p class="file"><span class="fname">LPS2-head.stl</span><span class="fsize">28.3 MB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="LPS2-head.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="head"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-tail-P02">
+  <button class="shot" type="button" data-view="tail-P02" aria-label="Open Tail, your P02 in 3D">
+    <img src="v2/thumbs/tail-P02.webp" alt="Tail, your P02, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span><span class="shown">Your livery</span>
+  </button>
+  <div class="part-body">
+    <h3>Tail, your P02</h3>
+    <p class="note">Your P02 with its top end eased onto the coil, a socket for segment 1 and the groove for the lowest pad.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">259 × 196 × 290 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">584 g</dd></div>
+      <div><dt>Print</dt><dd>No supports</dd></div>
+      <div><dt>On the bed</dt><dd>As in your own file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">LPS2-tail-P02.stl</span><span class="fsize">25.1 MB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="LPS2-tail-P02.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="tail-P02"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-tail-tip-P01">
+  <button class="shot" type="button" data-view="tail-tip-P01" aria-label="Open Tail tip, your P01 in 3D">
+    <img src="v2/thumbs/tail-tip-P01.webp" alt="Tail tip, your P01, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span><span class="shown">Your livery</span>
+  </button>
+  <div class="part-body">
+    <h3>Tail tip, your P01</h3>
+    <p class="note">Your P01, unchanged: the cans wait here behind your door. Glue it to P02 as in your build.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">185 × 238 × 240 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">511 g</dd></div>
+      <div><dt>Print</dt><dd>No supports</dd></div>
+      <div><dt>On the bed</dt><dd>As in your own file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">LPS2-tail-tip-P01.stl</span><span class="fsize">16.0 MB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="LPS2-tail-tip-P01.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="tail-tip-P01"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article></div></div>
+<div class="panel" role="tabpanel" id="panel-pads-all" aria-labelledby="tab-pads-all" hidden><div class="pads-intro"><button class="shot" type="button" data-view="pad-D116-120" aria-label="Open pad D116-120 in 3D"><img src="v2/thumbs/pad-D116-120.webp" alt="Pad D116-120, studio render lying on its side" width="720" height="720" loading="lazy" decoding="async"><span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span></button><div><p><strong>17 sizes, one per 4 mm of pole diameter from Ø64 to Ø132.</strong> Print the six that match your pole; the pad finder above picks them. A rib on each pad runs in the groove across its joint, and 1 mm EPDM shims under the 3 mm liner take up the rest of the size.</p><p>Pads print lying on a side with 4 perimeters and 40 % gyroid. Sizes up to D96-100 need supports under the rib end; the larger ones print without.</p></div></div><div class="tbl"><table class="sizes"><thead><tr><th scope="col">Pad</th><th scope="col">Pole Ø at the pad</th><th scope="col">Thickness</th><th scope="col">Mass</th><th scope="col">Supports</th><th scope="col">File size</th><th scope="col"><span class="sr">Download and 3D</span></th></tr></thead><tbody><tr data-pad="pad-D64-68"><td class="r">D64-68</td><td class="num">over 64, up to 68 mm</td><td class="num">38.3 mm</td><td class="num">120 g</td><td>Under the rib end</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D64-68.stl" aria-label="Download LPS2-pad-pole-D64-68.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D64-68" aria-label="Open pad D64-68 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D68-72"><td class="r">D68-72</td><td class="num">over 68, up to 72 mm</td><td class="num">36.3 mm</td><td class="num">116 g</td><td>Under the rib end</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D68-72.stl" aria-label="Download LPS2-pad-pole-D68-72.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D68-72" aria-label="Open pad D68-72 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D72-76"><td class="r">D72-76</td><td class="num">over 72, up to 76 mm</td><td class="num">34.3 mm</td><td class="num">110 g</td><td>Under the rib end</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D72-76.stl" aria-label="Download LPS2-pad-pole-D72-76.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D72-76" aria-label="Open pad D72-76 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D76-80"><td class="r">D76-80</td><td class="num">over 76, up to 80 mm</td><td class="num">32.3 mm</td><td class="num">105 g</td><td>Under the rib end</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D76-80.stl" aria-label="Download LPS2-pad-pole-D76-80.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D76-80" aria-label="Open pad D76-80 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D80-84"><td class="r">D80-84</td><td class="num">over 80, up to 84 mm</td><td class="num">30.3 mm</td><td class="num">100 g</td><td>Under the rib end</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D80-84.stl" aria-label="Download LPS2-pad-pole-D80-84.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D80-84" aria-label="Open pad D80-84 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D84-88"><td class="r">D84-88</td><td class="num">over 84, up to 88 mm</td><td class="num">28.3 mm</td><td class="num">94 g</td><td>Under the rib end</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D84-88.stl" aria-label="Download LPS2-pad-pole-D84-88.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D84-88" aria-label="Open pad D84-88 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D88-92"><td class="r">D88-92</td><td class="num">over 88, up to 92 mm</td><td class="num">26.3 mm</td><td class="num">88 g</td><td>Under the rib end</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D88-92.stl" aria-label="Download LPS2-pad-pole-D88-92.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D88-92" aria-label="Open pad D88-92 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D92-96"><td class="r">D92-96</td><td class="num">over 92, up to 96 mm</td><td class="num">24.3 mm</td><td class="num">82 g</td><td>Under the rib end</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D92-96.stl" aria-label="Download LPS2-pad-pole-D92-96.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D92-96" aria-label="Open pad D92-96 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D96-100"><td class="r">D96-100</td><td class="num">over 96, up to 100 mm</td><td class="num">22.3 mm</td><td class="num">76 g</td><td>Under the rib end</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D96-100.stl" aria-label="Download LPS2-pad-pole-D96-100.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D96-100" aria-label="Open pad D96-100 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D100-104"><td class="r">D100-104</td><td class="num">over 100, up to 104 mm</td><td class="num">20.3 mm</td><td class="num">70 g</td><td>None</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D100-104.stl" aria-label="Download LPS2-pad-pole-D100-104.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D100-104" aria-label="Open pad D100-104 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D104-108"><td class="r">D104-108</td><td class="num">over 104, up to 108 mm</td><td class="num">18.3 mm</td><td class="num">65 g</td><td>None</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D104-108.stl" aria-label="Download LPS2-pad-pole-D104-108.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D104-108" aria-label="Open pad D104-108 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D108-112"><td class="r">D108-112</td><td class="num">over 108, up to 112 mm</td><td class="num">16.3 mm</td><td class="num">59 g</td><td>None</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D108-112.stl" aria-label="Download LPS2-pad-pole-D108-112.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D108-112" aria-label="Open pad D108-112 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D112-116"><td class="r">D112-116</td><td class="num">over 112, up to 116 mm</td><td class="num">14.3 mm</td><td class="num">53 g</td><td>None</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D112-116.stl" aria-label="Download LPS2-pad-pole-D112-116.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D112-116" aria-label="Open pad D112-116 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D116-120"><td class="r">D116-120</td><td class="num">over 116, up to 120 mm</td><td class="num">12.3 mm</td><td class="num">48 g</td><td>None</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D116-120.stl" aria-label="Download LPS2-pad-pole-D116-120.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D116-120" aria-label="Open pad D116-120 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D120-124"><td class="r">D120-124</td><td class="num">over 120, up to 124 mm</td><td class="num">10.3 mm</td><td class="num">42 g</td><td>None</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D120-124.stl" aria-label="Download LPS2-pad-pole-D120-124.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D120-124" aria-label="Open pad D120-124 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D124-128"><td class="r">D124-128</td><td class="num">over 124, up to 128 mm</td><td class="num">8.3 mm</td><td class="num">37 g</td><td>None</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D124-128.stl" aria-label="Download LPS2-pad-pole-D124-128.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D124-128" aria-label="Open pad D124-128 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr><tr data-pad="pad-D128-132"><td class="r">D128-132</td><td class="num">over 128, up to 132 mm</td><td class="num">6.3 mm</td><td class="num">31 g</td><td>None</td><td class="num">1.2 MB</td><td><div class="acts"><button class="btn sm dl" type="button" data-file="LPS2-pad-pole-D128-132.stl" aria-label="Download LPS2-pad-pole-D128-132.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>STL</span></button><button class="btn sm ghost" type="button" data-view="pad-D128-132" aria-label="Open pad D128-132 in 3D"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D</span></button></div></td></tr></tbody></table></div></div>
+<div class="panel" role="tabpanel" id="panel-yours" aria-labelledby="tab-yours" hidden><p class="panel-meta"><strong>Your door and hatch parts, unchanged.</strong> They come from your BED files and print as you printed them. Masses are solid PETG.</p><div class="grid"><article class="part" id="part-Door">
+  <button class="shot" type="button" data-view="Door" aria-label="Open Door in 3D">
+    <img src="v2/thumbs/Door.webp" alt="Door, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span>
+  </button>
+  <div class="part-body">
+    <h3>Door</h3>
+    <p class="note">Your tail door. Unchanged from your BED_5_1 file.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">159 × 154 × 30 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">340 g</dd></div>
+      <div><dt>Print</dt><dd>As in your file</dd></div>
+      <div><dt>On the bed</dt><dd>As in your BED_5_1 file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">Door.stl</span><span class="fsize">43.3 MB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="Door.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="Door"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-Bail_lever">
+  <button class="shot" type="button" data-view="Bail_lever" aria-label="Open Bail lever in 3D">
+    <img src="v2/thumbs/Bail_lever.webp" alt="Bail lever, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span>
+  </button>
+  <div class="part-body">
+    <h3>Bail lever</h3>
+    <p class="note">Your bail lever for the door latch. Unchanged from your BED_1_1 file.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">126 × 202 × 43 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">11 g</dd></div>
+      <div><dt>Print</dt><dd>As in your file</dd></div>
+      <div><dt>On the bed</dt><dd>As in your BED_1_1 file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">Bail-lever.stl</span><span class="fsize">216 kB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="Bail-lever.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="Bail_lever"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-Hinge_pin">
+  <button class="shot" type="button" data-view="Hinge_pin" aria-label="Open Hinge pin in 3D">
+    <img src="v2/thumbs/Hinge_pin.webp" alt="Hinge pin, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span>
+  </button>
+  <div class="part-body">
+    <h3>Hinge pin</h3>
+    <p class="note">Your door’s hinge pin. Unchanged from your BED_1_1 file.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">90 × 5.5 × 4 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">1 g</dd></div>
+      <div><dt>Print</dt><dd>As in your file</dd></div>
+      <div><dt>On the bed</dt><dd>As in your BED_1_1 file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">Hinge-pin.stl</span><span class="fsize">61 kB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="Hinge-pin.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="Hinge_pin"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-Latch_pin">
+  <button class="shot" type="button" data-view="Latch_pin" aria-label="Open Latch pin in 3D">
+    <img src="v2/thumbs/Latch_pin.webp" alt="Latch pin, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span>
+  </button>
+  <div class="part-body">
+    <h3>Latch pin</h3>
+    <p class="note">Your latch pin. Unchanged from your BED_1_1 file.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">6.3 × 23 × 6 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">1 g</dd></div>
+      <div><dt>Print</dt><dd>As in your file</dd></div>
+      <div><dt>On the bed</dt><dd>As in your BED_1_1 file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">Latch-pin.stl</span><span class="fsize">29 kB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="Latch-pin.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="Latch_pin"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-Eccentric_bushing">
+  <button class="shot" type="button" data-view="Eccentric_bushing" aria-label="Open Eccentric bushing in 3D">
+    <img src="v2/thumbs/Eccentric_bushing.webp" alt="Eccentric bushing, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span>
+  </button>
+  <div class="part-body">
+    <h3>Eccentric bushing</h3>
+    <p class="note">Your eccentric bushing for the latch. Unchanged from your BED_1_1 file.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">24 × 31 × 18 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">6 g</dd></div>
+      <div><dt>Print</dt><dd>As in your file</dd></div>
+      <div><dt>On the bed</dt><dd>As in your BED_1_1 file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">Eccentric-bushing.stl</span><span class="fsize">427 kB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="Eccentric-bushing.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="Eccentric_bushing"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-Drain_neck">
+  <button class="shot" type="button" data-view="Drain_neck" aria-label="Open Drain neck in 3D">
+    <img src="v2/thumbs/Drain_neck.webp" alt="Drain neck, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span>
+  </button>
+  <div class="part-body">
+    <h3>Drain neck</h3>
+    <p class="note">Your drain neck for the tail. Unchanged from your BED_1_1 file.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">39 × 51 × 21 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">13 g</dd></div>
+      <div><dt>Print</dt><dd>As in your file</dd></div>
+      <div><dt>On the bed</dt><dd>As in your BED_1_1 file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">Drain-neck.stl</span><span class="fsize">285 kB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="Drain-neck.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="Drain_neck"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-Drain_cap">
+  <button class="shot" type="button" data-view="Drain_cap" aria-label="Open Drain cap in 3D">
+    <img src="v2/thumbs/Drain_cap.webp" alt="Drain cap, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span>
+  </button>
+  <div class="part-body">
+    <h3>Drain cap</h3>
+    <p class="note">Your drain cap. Unchanged from your BED_1_1 file.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">13 × 14 × 12 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">1 g</dd></div>
+      <div><dt>Print</dt><dd>As in your file</dd></div>
+      <div><dt>On the bed</dt><dd>As in your BED_1_1 file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">Drain-cap.stl</span><span class="fsize">53 kB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="Drain-cap.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="Drain_cap"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-Lid_1">
+  <button class="shot" type="button" data-view="Lid_1" aria-label="Open Lid 1 in 3D">
+    <img src="v2/thumbs/Lid_1.webp" alt="Lid 1, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span>
+  </button>
+  <div class="part-body">
+    <h3>Lid 1</h3>
+    <p class="note">Your hatch lid, for the port on segment 3. Unchanged from your BED_1_1 file.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">52 × 52 × 11 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">17 g</dd></div>
+      <div><dt>Print</dt><dd>As in your file</dd></div>
+      <div><dt>On the bed</dt><dd>As in your BED_1_1 file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">Lid-1.stl</span><span class="fsize">4.5 MB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="Lid-1.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="Lid_1"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article>
+<article class="part" id="part-Lid_2">
+  <button class="shot" type="button" data-view="Lid_2" aria-label="Open Lid 2 in 3D">
+    <img src="v2/thumbs/Lid_2.webp" alt="Lid 2, studio render in print orientation" width="720" height="720" loading="lazy" decoding="async">
+    <span class="badge"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>3D</span>
+  </button>
+  <div class="part-body">
+    <h3>Lid 2</h3>
+    <p class="note">Your second hatch lid, for the port on segment 6. Unchanged from your BED_1_1 file.</p>
+    <dl class="spec">
+      <div><dt>Quantity</dt><dd>1</dd></div>
+      <div><dt>Size</dt><dd class="num">52 × 52 × 11 mm</dd></div>
+      <div><dt>Mass</dt><dd class="num">17 g</dd></div>
+      <div><dt>Print</dt><dd>As in your file</dd></div>
+      <div><dt>On the bed</dt><dd>As in your BED_1_1 file</dd></div>
+    </dl>
+    <p class="file"><span class="fname">Lid-2.stl</span><span class="fsize">4.8 MB</span></p>
+    <div class="actions">
+      <button class="btn primary dl" type="button" data-file="Lid-2.stl"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      <button class="btn ghost" type="button" data-view="Lid_2"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>3D view</span></button>
+    </div>
+  </div>
+</article></div></div>
+<div class="panel" role="tabpanel" id="panel-beds" aria-labelledby="tab-beds" hidden><p class="panel-meta"><strong>Extra: the same parts painted in the livery</strong>, laid out on six Prusa XL beds for the 9-segment build, with supports painted where they are needed. They use your five colours in your extruder slots.</p><ul class="beds"><li class="bedc"><p class="eyebrow">Bed 1</p><h3>Tail P02 and your small parts</h3><p class="contents">P02 tail, Bail lever, Hinge pin, Eccentric bushing, Latch pin, Drain neck, Drain cap, Lid 1, Lid 2</p><p class="file"><span class="fname">LPS2-bed-1-tail-P02.3mf</span><span class="fsize">8.8 MB</span></p><div class="actions"><button class="btn primary dl" type="button" data-file="LPS2-bed-1-tail-P02.3mf"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download 3MF</span></button></div></li><li class="bedc"><p class="eyebrow">Bed 2</p><h3>Tail tip P01 and your door</h3><p class="contents">P01 tail tip, Door</p><p class="file"><span class="fname">LPS2-bed-2-tail-tip-P01-and-door.3mf</span><span class="fsize">16.0 MB</span></p><div class="actions"><button class="btn primary dl" type="button" data-file="LPS2-bed-2-tail-tip-P01-and-door.3mf"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download 3MF</span></button></div></li><li class="bedc"><p class="eyebrow">Bed 3</p><h3>Segments 1 to 3, with the first hatch</h3><p class="contents">Segment 1, Segment 2, Segment 3 (hatch)</p><p class="file"><span class="fname">LPS2-bed-3-segments-1-3.3mf</span><span class="fsize">9.8 MB</span></p><div class="actions"><button class="btn primary dl" type="button" data-file="LPS2-bed-3-segments-1-3.3mf"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download 3MF</span></button></div></li><li class="bedc"><p class="eyebrow">Bed 4</p><h3>Segments 4 to 6, with the second hatch</h3><p class="contents">Segment 4, Segment 5, Segment 6 (hatch)</p><p class="file"><span class="fname">LPS2-bed-4-segments-4-6.3mf</span><span class="fsize">9.8 MB</span></p><div class="actions"><button class="btn primary dl" type="button" data-file="LPS2-bed-4-segments-4-6.3mf"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download 3MF</span></button></div></li><li class="bedc"><p class="eyebrow">Bed 5</p><h3>Segments 7 to 9, with your panel</h3><p class="contents">Segment 7, Segment 8, Segment 9</p><p class="file"><span class="fname">LPS2-bed-5-segments-7-9.3mf</span><span class="fsize">9.0 MB</span></p><div class="actions"><button class="btn primary dl" type="button" data-file="LPS2-bed-5-segments-7-9.3mf"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download 3MF</span></button></div></li><li class="bedc"><p class="eyebrow">Bed 6</p><h3>The head</h3><p class="contents">Head (your P12)</p><p class="file"><span class="fname">LPS2-bed-6-head.3mf</span><span class="fsize">7.2 MB</span></p><div class="actions"><button class="btn primary dl" type="button" data-file="LPS2-bed-6-head.3mf"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download 3MF</span></button></div></li></ul><p class="panel-meta beds11"><strong>Building 11 segments instead?</strong> Print beds 1 and 2 above and these four, painted for the longer coil. They are in <span class="mono">3mf/11-segment-build/</span>.</p><ul class="beds"><li class="bedc"><p class="eyebrow">Bed 3 · 11 segments</p><h3>Segments 1 to 3</h3><p class="contents">Segment 1, Segment 2, Segment 3</p><p class="file"><span class="fname">LPS2-11seg-bed-3-segments-1-3.3mf</span><span class="fsize">8.8 MB</span></p><div class="actions"><button class="btn primary dl" type="button" data-file="LPS2-11seg-bed-3-segments-1-3.3mf"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download 3MF</span></button></div></li><li class="bedc"><p class="eyebrow">Bed 4 · 11 segments</p><h3>Segments 4 to 6, with the first hatch</h3><p class="contents">Segment 4, Segment 5 (hatch), Segment 6</p><p class="file"><span class="fname">LPS2-11seg-bed-4-segments-4-6.3mf</span><span class="fsize">9.8 MB</span></p><div class="actions"><button class="btn primary dl" type="button" data-file="LPS2-11seg-bed-4-segments-4-6.3mf"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download 3MF</span></button></div></li><li class="bedc"><p class="eyebrow">Bed 5 · 11 segments</p><h3>Segments 7 to 9, with the second hatch</h3><p class="contents">Segment 7, Segment 8 (hatch), Segment 9</p><p class="file"><span class="fname">LPS2-11seg-bed-5-segments-7-9.3mf</span><span class="fsize">9.9 MB</span></p><div class="actions"><button class="btn primary dl" type="button" data-file="LPS2-11seg-bed-5-segments-7-9.3mf"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download 3MF</span></button></div></li><li class="bedc"><p class="eyebrow">Bed 6 · 11 segments</p><h3>Segments 10 and 11 and the head</h3><p class="contents">Segment 10, Segment 11, Head (your P12)</p><p class="file"><span class="fname">LPS2-11seg-bed-6-segments-10-11-head.3mf</span><span class="fsize">13.1 MB</span></p><div class="actions"><button class="btn primary dl" type="button" data-file="LPS2-11seg-bed-6-segments-10-11-head.3mf"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download 3MF</span></button></div></li></ul></div>
+</section>
+
+<section class="section" id="images" aria-labelledby="img-title">
+  <div class="section-head">
+    <div><p class="eyebrow">Images</p><h2 id="img-title">Rendered from the same files</h2></div>
+    <p>Studio renders of the parts above in the standard build, on a Danish 5 m conical mast. The night view uses the glow colour of the livery.</p>
+  </div>
+  <div class="gallery">
+<figure class="g-item"><button type="button" class="g-btn" data-idx="0" aria-label="Open image: Light-pole snake v2"><img src="v2/img/01-light-pole-snake-v2-880.webp" alt="Light-pole snake v2" width="880" height="587" loading="lazy" decoding="async"></button><figcaption><strong>Light-pole snake v2</strong> Your printed snake, long enough to coil 2.2 turns round a street-light pole: your head and tail with 9 identical segments between them.</figcaption></figure>
+<figure class="g-item"><button type="button" class="g-btn" data-idx="1" aria-label="Open image: After dark"><img src="v2/img/02-after-dark-880.webp" alt="After dark" width="880" height="587" loading="lazy" decoding="async"></button><figcaption><strong>After dark</strong> The glow colour of the livery charges under the street lamp, so the coil and its panel are easy to find at night.</figcaption></figure>
+<figure class="g-item"><button type="button" class="g-btn" data-idx="2" aria-label="Open image: Panel below the head"><img src="v2/img/03-panel-below-the-head-880.webp" alt="Panel below the head" width="880" height="587" loading="lazy" decoding="async"></button><figcaption><strong>Panel below the head</strong> Your info panel and QR code sit on the body just below the head, tilted 45° up at 1.40 m, so a phone at chest height sees the code straight on.</figcaption></figure>
+<figure class="g-item"><button type="button" class="g-btn" data-idx="3" aria-label="Open image: From the other side"><img src="v2/img/04-from-the-other-side-880.webp" alt="From the other side" width="880" height="587" loading="lazy" decoding="async"></button><figcaption><strong>From the other side</strong> From every side you see the coil and four thin steel bands: no clamps, no screws, nothing drilled.</figcaption></figure>
+<figure class="g-item"><button type="button" class="g-btn" data-idx="4" aria-label="Open image: Where the holders are"><img src="v2/img/05-where-the-holders-are-880.webp" alt="Where the holders are" width="880" height="587" loading="lazy" decoding="async"></button><figcaption><strong>Where the holders are</strong> Coil drawn see-through. Six pads sit on the pole behind the tube; four are held by a stainless band in a groove behind the tube.</figcaption></figure>
+<figure class="g-item"><button type="button" class="g-btn" data-idx="5" aria-label="Open image: One joint, opened"><img src="v2/img/06-one-joint-opened-880.webp" alt="One joint, opened" width="880" height="587" loading="lazy" decoding="async"></button><figcaption><strong>One joint, opened</strong> Each part turns down the coil into the one below. The pad slides round the pole into the groove across the joint, and the band goes over it.</figcaption></figure>
+<figure class="g-item"><button type="button" class="g-btn" data-idx="6" aria-label="Open image: Built from the tail up"><img src="v2/img/07-built-from-the-tail-up-880.webp" alt="Built from the tail up" width="880" height="587" loading="lazy" decoding="async"></button><figcaption><strong>Built from the tail up</strong> Each part is held beside the pole and turned down the coil onto the one below. Nothing has to pass over the lamp.</figcaption></figure>
+<figure class="g-item"><button type="button" class="g-btn" data-idx="7" aria-label="Open image: Everything printed for one snake"><img src="v2/img/08-everything-printed-880.webp" alt="Everything printed for one snake" width="880" height="503" loading="lazy" decoding="async"></button><figcaption><strong>Everything printed for one snake</strong> In print orientation: seven segments, two hatch segments, your head, tail and small parts, and six pads. About 7 kg of PETG.</figcaption></figure>
+<figure class="g-item"><button type="button" class="g-btn" data-idx="8" aria-label="Open image: Heights and the service door"><img src="v2/img/09-heights-and-service-door-880.webp" alt="Heights and the service door" width="880" height="587" loading="lazy" decoding="async"></button><figcaption><strong>Heights and the service door</strong> Standard build. The lowest band is at 0.86 m, so the pole’s service door stays free on the side shown.</figcaption></figure>
+  </div>
+</section>
+
+<section class="section" id="numbers" aria-labelledby="num-title">
+  <div class="section-head">
+    <div><p class="eyebrow">Checked numbers</p><h2 id="num-title">Physics and the rules of the street</h2></div>
+    <p>The full working is in physics.md beside the files. Values marked as assumed or estimated were not measured or quoted.</p>
+  </div>
+  <div class="numbers">
+    <div class="tbl">
+      <table class="qa">
+        <thead><tr><th scope="col">Question</th><th scope="col">Answer</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Will a can slide?</th><td>Yes, if friction μ is below 0.46 (24.8° slope, round bore). Lacquered aluminium on PETG is about 0.2–0.35 dry <span class="est">(assumed, no published value)</span>. A sticky can can stop; the next can pushes it on.</td></tr>
+          <tr><th scope="row">How fast does it arrive?</th><td>At most 1.8 m/s at the tail, for a slippery can. The side force in the bend limits the speed.</td></tr>
+          <tr><th scope="row">How hard does it land?</th><td>Like a 16 cm drop. Only the first can hits your tail floor; the rest land on cans.</td></tr>
+          <tr><th scope="row">Can it jam?</th><td>No. Every can and 0.5 l bottle passes every bend with at least 18 mm to spare, and a tilted can would need μ of 0.6 or more to wedge. Two slim cans side by side still pass.</td></tr>
+          <tr><th scope="row">What does it hold?</th><td>24 × 33 cl cans, 17 × 50 cl cans or 13 × 0.5 l PET bottles in the standard build.</td></tr>
+          <tr><th scope="row">Is it strong enough?</th><td>Safety factor 1.6–2.8 against a 12 MPa design stress across the print layers, for a 1 kN kick on the mouth, 1.5 kN of someone sitting on the head and 2 kN on the coil.</td></tr>
+          <tr><th scope="row">Will it slip down the pole?</th><td>Four bands hold 3.2 kN on bare steel and 4.7 kN on a 1 mm EPDM strip, after liner creep, against 1.65 kN of snake, full cans and misuse: safety factor 2.0 and 2.8. Use the strip.</td></tr>
+          <tr><th scope="row">Will it turn round the pole?</th><td>Not from wind or cans. A deliberate shove of about 0.2 kN (thinnest pole) to 0.45 kN (thickest) sideways on the mouth turns it the weaker way; it then hangs on the top pad and cannot fall. Turn it back and re-tension.</td></tr>
+          <tr><th scope="row">Does it overload the pole?</th><td>Wind on the snake uses 3.7–7.9 % of a 4–6 m column's capacity. The pole owner still signs off an EN 40-3-3 check.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3>Before you mount one</h3>
+      <ul class="rules">
+        <li class="key"><strong>Aarhus bans all items on its light masts</strong> (<a href="https://aarhus.dk:443/media/2ramoq5i/belysningsstrategi-del-3.pdf" target="_blank" rel="noopener">belysningsstrategi del 3</a>). A pilot there needs a campus or private pole, or a written exception from Aarhus Kommune, Trafik: <span class="mono">lys@aarhus.dk</span>.</li>
+        <li><strong>Copenhagen</strong> accepts fittings only for a public purpose, approved by both EDF and TMF Trafik, with no holes or damage.</li>
+        <li><strong>Prague</strong> has a formal route for non-advertising add-ons fixed with a clamp or strap (<a href="https://thmp.cz/wp-content/uploads/2026/05/STANDARD_pro_umstn_zazen_na_story_VO_v_Praze.pdf" target="_blank" rel="noopener">THMP standard</a>).</li>
+        <li>Leave passive-safety (crash-friendly) poles alone everywhere.</li>
+        <li class="key"><strong>The pole's service door</strong> must stay free. The lowest band is at 0.86 m. The door fits best almost straight below the head, about 50° round from where the panel faces, where its top may reach 0.74 m; image 09 shows the side.</li>
+      </ul>
+      <h3>Still open</h3>
+      <ul class="rules">
+        <li><strong>Mouth height.</strong> 1.67 m suits most adults but is above a wheelchair user's side reach of about 1.22 m. The 7-segment build lowers it to 1.48 m.</li>
+        <li><strong>Pole size.</strong> v2 fits Ø64–132 mm only; thicker poles would need a wider coil and a refit of your head and tail.</li>
+        <li><strong>Band creep</strong> on the EPDM has a 50 % reserve but is untested. Re-tension after the first month and at the yearly check.</li>
+        <li><strong>PETG outdoors</strong> yellows and turns brittle in a few years of UV and frost; print a long-term snake in ASA or give it a clear UV coat.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <p>Print files (STL and painted Prusa XL beds) are shared with partners on request.</p>
+  <p class="mono">Pant Snake · light-pole family · v2 · 16 Oct 2026, 9-segment standard since 19 Oct 2026</p>
+</footer>
+</div>
+
+<dialog id="viewer" aria-labelledby="v-name">
+  <div class="viewer">
+    <div class="stage" id="stage">
+      <canvas id="v-canvas" aria-label="3D view of the part. Drag to turn, pinch or scroll to zoom."></canvas>
+      <div class="legend" id="legend" hidden></div>
+      <p class="stage-msg" id="stage-msg"></p>
+      <p class="stage-help">Drag to turn · scroll to zoom · grid 10 mm</p>
+    </div>
+    <div class="v-info">
+      <div class="v-top">
+        <p class="eyebrow" id="v-grp">Body</p>
+        <div class="v-nav">
+          <button class="icon-btn" type="button" id="v-prev" aria-label="Previous part">‹</button>
+          <button class="icon-btn" type="button" id="v-next" aria-label="Next part">›</button>
+          <button class="icon-btn" type="button" id="v-close" aria-label="Close">✕</button>
+        </div>
+      </div>
+      <h2 id="v-name">Segment</h2>
+      <p class="note" id="v-note"></p>
+      <dl class="spec" id="v-spec"></dl>
+      <p class="file"><span class="fname" id="v-file"></span><span class="fsize" id="v-fsize"></span></p>
+      <div class="v-actions">
+        <button class="btn primary dl" type="button" id="v-dl" data-file=""><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0 3.2-3.2M8 10 4.8 6.8M2.5 11.5v1.7c0 .5.4.8.8.8h9.4c.4 0 .8-.3.8-.8v-1.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Download STL</span></button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="lightbox" aria-labelledby="lb-title">
+  <div class="lb">
+    <div class="lb-stage"><img id="lb-img" alt="" src="v2/img/01-light-pole-snake-v2.webp" width="1800" height="1200"></div>
+    <div class="lb-bar">
+      <p><span class="t" id="lb-title">Light-pole snake v2</span><span class="n" id="lb-count">1 / 9</span></p>
+      <div class="v-nav">
+        <button class="icon-btn" type="button" id="lb-prev" aria-label="Previous image">‹</button>
+        <button class="icon-btn" type="button" id="lb-next" aria-label="Next image">›</button>
+        <button class="icon-btn" type="button" id="lb-close" aria-label="Close">✕</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script type="importmap">{"imports":{"three":"../assets/three/three.module.min.js","three/addons/":"../assets/three/addons/"}}</script>
+<script type="application/json" id="kit-data">{"parts":[{"id":"segment","group":"body","file":"LPS2-segment.stl","name":"Segment","note":"One 86° piece of the coil, 234 mm along its centre line and 98 mm of rise. Spigot down, socket up. All seven plain segments are this file.","qty":"7 (segments 1, 2, 4, 5, 7–9)","print":"Tree supports under the joint","orient":"On its spigot tip","size":[178.0,175.9,326.1],"mass":544.4,"bytes":11301084,"mesh":"v2/mesh/segment.json","thumb":"v2/thumbs/segment.webp","view":[-56.0,16]},{"id":"segment-hatch","group":"body","file":"LPS2-segment-hatch.stl","name":"Hatch segment","note":"The same segment with your P04 hatch port. Your Lid 1 and Lid 2 screw in, so a jam can be cleared from outside at 0.9 m and 1.2 m.","qty":"2 (segments 3 and 6)","print":"Tree supports under the joint","orient":"On its spigot tip","size":[177.2,176.6,326.1],"mass":569.3,"bytes":15299884,"mesh":"v2/mesh/segment-hatch.json","thumb":"v2/thumbs/segment-hatch.webp","view":[120.0,26]},{"id":"head","group":"body","file":"LPS2-head.stl","name":"Head, your P12","note":"Your P12 with the hood trimmed, so the head stays on the coil. Its back is thickened on the pole side to carry the pad under the head. The mouth opens at 1.67 m.","qty":"1","print":"Tree supports under the joint","orient":"On its spigot tip","size":[176.1,178.3,291.8],"mass":527.0,"bytes":28345684,"mesh":"v2/mesh/head.json","thumb":"v2/thumbs/head.webp","view":[200.0,34]},{"id":"tail-P02","group":"body","file":"LPS2-tail-P02.stl","name":"Tail, your P02","note":"Your P02 with its top end eased onto the coil, a socket for segment 1 and the groove for the lowest pad.","qty":"1","print":"No supports","orient":"As in your own file","size":[258.8,196.2,290.4],"mass":584.2,"bytes":25100784,"mesh":"v2/mesh/tail-P02.json","thumb":"v2/thumbs/tail-P02.webp","view":[30.0,26]},{"id":"tail-tip-P01","group":"body","file":"LPS2-tail-tip-P01.stl","name":"Tail tip, your P01","note":"Your P01, unchanged: the cans wait here behind your door. Glue it to P02 as in your build.","qty":"1","print":"No supports","orient":"As in your own file","size":[185.1,238.1,240.5],"mass":511.0,"bytes":16015784,"mesh":"v2/mesh/tail-tip-P01.json","thumb":"v2/thumbs/tail-tip-P01.webp","view":[-56.0,26]},{"id":"Door","group":"yours","file":"Door.stl","name":"Door","note":"Your tail door. Unchanged from your BED_5_1 file.","qty":"1","print":"As in your file","orient":"As in your BED_5_1 file","size":[159.0,154.4,29.5],"mass":340.1,"bytes":43250284,"mesh":"v2/mesh/Door.json","thumb":"v2/thumbs/Door.webp","view":[-56.0,40]},{"id":"Bail_lever","group":"yours","file":"Bail-lever.stl","name":"Bail lever","note":"Your bail lever for the door latch. Unchanged from your BED_1_1 file.","qty":"1","print":"As in your file","orient":"As in your BED_1_1 file","size":[126.1,201.9,42.8],"mass":11.2,"bytes":216084,"mesh":"v2/mesh/Bail_lever.json","thumb":"v2/thumbs/Bail_lever.webp","view":[-56.0,46]},{"id":"Hinge_pin","group":"yours","file":"Hinge-pin.stl","name":"Hinge pin","note":"Your door’s hinge pin. Unchanged from your BED_1_1 file.","qty":"1","print":"As in your file","orient":"As in your BED_1_1 file","size":[90.1,5.5,4.0],"mass":1.4,"bytes":60984,"mesh":"v2/mesh/Hinge_pin.json","thumb":"v2/thumbs/Hinge_pin.webp","view":[-56.0,46]},{"id":"Latch_pin","group":"yours","file":"Latch-pin.stl","name":"Latch pin","note":"Your latch pin. Unchanged from your BED_1_1 file.","qty":"1","print":"As in your file","orient":"As in your BED_1_1 file","size":[6.3,23.1,6.0],"mass":0.8,"bytes":28584,"mesh":"v2/mesh/Latch_pin.json","thumb":"v2/thumbs/Latch_pin.webp","view":[-56.0,46]},{"id":"Eccentric_bushing","group":"yours","file":"Eccentric-bushing.stl","name":"Eccentric bushing","note":"Your eccentric bushing for the latch. Unchanged from your BED_1_1 file.","qty":"1","print":"As in your file","orient":"As in your BED_1_1 file","size":[24.5,30.8,18.5],"mass":5.8,"bytes":426684,"mesh":"v2/mesh/Eccentric_bushing.json","thumb":"v2/thumbs/Eccentric_bushing.webp","view":[-56.0,46]},{"id":"Drain_neck","group":"yours","file":"Drain-neck.stl","name":"Drain neck","note":"Your drain neck for the tail. Unchanged from your BED_1_1 file.","qty":"1","print":"As in your file","orient":"As in your BED_1_1 file","size":[39.2,51.1,21.0],"mass":13.0,"bytes":285384,"mesh":"v2/mesh/Drain_neck.json","thumb":"v2/thumbs/Drain_neck.webp","view":[-56.0,46]},{"id":"Drain_cap","group":"yours","file":"Drain-cap.stl","name":"Drain cap","note":"Your drain cap. Unchanged from your BED_1_1 file.","qty":"1","print":"As in your file","orient":"As in your BED_1_1 file","size":[12.7,13.8,12.1],"mass":1.4,"bytes":53084,"mesh":"v2/mesh/Drain_cap.json","thumb":"v2/thumbs/Drain_cap.webp","view":[-56.0,46]},{"id":"Lid_1","group":"yours","file":"Lid-1.stl","name":"Lid 1","note":"Your hatch lid, for the port on segment 3. Unchanged from your BED_1_1 file.","qty":"1","print":"As in your file","orient":"As in your BED_1_1 file","size":[51.5,51.5,11.4],"mass":17.1,"bytes":4506884,"mesh":"v2/mesh/Lid_1.json","thumb":"v2/thumbs/Lid_1.webp","view":[-56.0,44]},{"id":"Lid_2","group":"yours","file":"Lid-2.stl","name":"Lid 2","note":"Your second hatch lid, for the port on segment 6. Unchanged from your BED_1_1 file.","qty":"1","print":"As in your file","orient":"As in your BED_1_1 file","size":[51.5,51.5,11.4],"mass":17.1,"bytes":4778284,"mesh":"v2/mesh/Lid_2.json","thumb":"v2/thumbs/Lid_2.webp","view":[-56.0,44]},{"id":"pad-D64-68","group":"pad","file":"LPS2-pad-pole-D64-68.stl","name":"Pad D64-68","short":"D64-68","note":"For a pole over Ø64 up to Ø68 mm at the pad. It sits 38.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, supports under the rib end","orient":"Lying on a side","size":[132.8,132.8,62.0],"mass":120.1,"bytes":1176584,"mesh":"v2/mesh/pad-D64-68.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":64,"hi":68},{"id":"pad-D68-72","group":"pad","file":"LPS2-pad-pole-D68-72.stl","name":"Pad D68-72","short":"D68-72","note":"For a pole over Ø68 up to Ø72 mm at the pad. It sits 36.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, supports under the rib end","orient":"Lying on a side","size":[131.8,131.8,62.0],"mass":115.5,"bytes":1176284,"mesh":"v2/mesh/pad-D68-72.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":68,"hi":72},{"id":"pad-D72-76","group":"pad","file":"LPS2-pad-pole-D72-76.stl","name":"Pad D72-76","short":"D72-76","note":"For a pole over Ø72 up to Ø76 mm at the pad. It sits 34.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, supports under the rib end","orient":"Lying on a side","size":[130.8,130.8,62.0],"mass":110.5,"bytes":1176484,"mesh":"v2/mesh/pad-D72-76.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":72,"hi":76},{"id":"pad-D76-80","group":"pad","file":"LPS2-pad-pole-D76-80.stl","name":"Pad D76-80","short":"D76-80","note":"For a pole over Ø76 up to Ø80 mm at the pad. It sits 32.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, supports under the rib end","orient":"Lying on a side","size":[129.7,129.7,62.0],"mass":105.3,"bytes":1175784,"mesh":"v2/mesh/pad-D76-80.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":76,"hi":80},{"id":"pad-D80-84","group":"pad","file":"LPS2-pad-pole-D80-84.stl","name":"Pad D80-84","short":"D80-84","note":"For a pole over Ø80 up to Ø84 mm at the pad. It sits 30.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, supports under the rib end","orient":"Lying on a side","size":[128.7,128.7,62.0],"mass":99.9,"bytes":1175884,"mesh":"v2/mesh/pad-D80-84.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":80,"hi":84},{"id":"pad-D84-88","group":"pad","file":"LPS2-pad-pole-D84-88.stl","name":"Pad D84-88","short":"D84-88","note":"For a pole over Ø84 up to Ø88 mm at the pad. It sits 28.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, supports under the rib end","orient":"Lying on a side","size":[125.6,125.6,62.0],"mass":93.9,"bytes":1171884,"mesh":"v2/mesh/pad-D84-88.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":84,"hi":88},{"id":"pad-D88-92","group":"pad","file":"LPS2-pad-pole-D88-92.stl","name":"Pad D88-92","short":"D88-92","note":"For a pole over Ø88 up to Ø92 mm at the pad. It sits 26.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, supports under the rib end","orient":"Lying on a side","size":[122.2,122.2,62.0],"mass":88.0,"bytes":1166484,"mesh":"v2/mesh/pad-D88-92.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":88,"hi":92},{"id":"pad-D92-96","group":"pad","file":"LPS2-pad-pole-D92-96.stl","name":"Pad D92-96","short":"D92-96","note":"For a pole over Ø92 up to Ø96 mm at the pad. It sits 24.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, supports under the rib end","orient":"Lying on a side","size":[118.9,118.9,62.0],"mass":82.0,"bytes":1162584,"mesh":"v2/mesh/pad-D92-96.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":92,"hi":96},{"id":"pad-D96-100","group":"pad","file":"LPS2-pad-pole-D96-100.stl","name":"Pad D96-100","short":"D96-100","note":"For a pole over Ø96 up to Ø100 mm at the pad. It sits 22.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, supports under the rib end","orient":"Lying on a side","size":[115.8,115.8,62.0],"mass":76.2,"bytes":1159884,"mesh":"v2/mesh/pad-D96-100.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":96,"hi":100},{"id":"pad-D100-104","group":"pad","file":"LPS2-pad-pole-D100-104.stl","name":"Pad D100-104","short":"D100-104","note":"For a pole over Ø100 up to Ø104 mm at the pad. It sits 20.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, no supports","orient":"Lying on a side","size":[112.9,112.9,62.0],"mass":70.4,"bytes":1156884,"mesh":"v2/mesh/pad-D100-104.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":100,"hi":104},{"id":"pad-D104-108","group":"pad","file":"LPS2-pad-pole-D104-108.stl","name":"Pad D104-108","short":"D104-108","note":"For a pole over Ø104 up to Ø108 mm at the pad. It sits 18.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, no supports","orient":"Lying on a side","size":[110.1,110.1,62.0],"mass":64.7,"bytes":1160484,"mesh":"v2/mesh/pad-D104-108.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":104,"hi":108},{"id":"pad-D108-112","group":"pad","file":"LPS2-pad-pole-D108-112.stl","name":"Pad D108-112","short":"D108-112","note":"For a pole over Ø108 up to Ø112 mm at the pad. It sits 16.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, no supports","orient":"Lying on a side","size":[107.5,107.5,62.0],"mass":59.0,"bytes":1157984,"mesh":"v2/mesh/pad-D108-112.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":108,"hi":112},{"id":"pad-D112-116","group":"pad","file":"LPS2-pad-pole-D112-116.stl","name":"Pad D112-116","short":"D112-116","note":"For a pole over Ø112 up to Ø116 mm at the pad. It sits 14.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, no supports","orient":"Lying on a side","size":[104.9,104.9,62.0],"mass":53.4,"bytes":1153884,"mesh":"v2/mesh/pad-D112-116.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":112,"hi":116},{"id":"pad-D116-120","group":"pad","file":"LPS2-pad-pole-D116-120.stl","name":"Pad D116-120","short":"D116-120","note":"For a pole over Ø116 up to Ø120 mm at the pad. It sits 12.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, no supports","orient":"Lying on a side","size":[102.4,102.4,62.2],"mass":47.8,"bytes":1154884,"mesh":"v2/mesh/pad-D116-120.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":116,"hi":120},{"id":"pad-D120-124","group":"pad","file":"LPS2-pad-pole-D120-124.stl","name":"Pad D120-124","short":"D120-124","note":"For a pole over Ø120 up to Ø124 mm at the pad. It sits 10.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, no supports","orient":"Lying on a side","size":[100.1,100.1,62.5],"mass":42.3,"bytes":1175484,"mesh":"v2/mesh/pad-D120-124.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":120,"hi":124},{"id":"pad-D124-128","group":"pad","file":"LPS2-pad-pole-D124-128.stl","name":"Pad D124-128","short":"D124-128","note":"For a pole over Ø124 up to Ø128 mm at the pad. It sits 8.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, no supports","orient":"Lying on a side","size":[97.7,97.7,62.9],"mass":36.8,"bytes":1162284,"mesh":"v2/mesh/pad-D124-128.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":124,"hi":128},{"id":"pad-D128-132","group":"pad","file":"LPS2-pad-pole-D128-132.stl","name":"Pad D128-132","short":"D128-132","note":"For a pole over Ø128 up to Ø132 mm at the pad. It sits 6.3 mm deep between the coil and the pole, on a 3 mm EPDM liner.","qty":"One per pad joint that measures in its range","print":"4 perimeters, 40 % gyroid, no supports","orient":"Lying on a side","size":[95.5,95.5,63.4],"mass":31.3,"bytes":1167084,"mesh":"v2/mesh/pad-D128-132.json","thumb":"v2/thumbs/pad-D116-120.webp","view":[-56.0,30],"lo":128,"hi":132}],"builds":{"11":{"n":11,"leave":[],"plain":9,"pads":[0,1,2,5,8,11],"bands":[2,5,8,11],"stops":[5,8,11],"hatchJoints":[5,8],"mouth":1870.4,"qr":1593.1,"cans":28,"length":3404.7,"turns":2.635,"mass":7660.5,"note":"<strong>Add two plain segments between segments 2 and 3.<\/strong> The parts are the same: print 9 plain segments instead of 7. The head and panel end up 173° further round the pole from the tail, so check which way the panel will face. Painted beds 3 to 6 for this build are in <span class=\"mono\">3mf/11-segment-build/<\/span>."},"9":{"n":9,"leave":[3,4],"plain":7,"pads":[0,1,2,3,6,9],"bands":[2,3,6,9],"stops":[3,6,9],"hatchJoints":[3,6],"mouth":1674.3,"qr":1397.0,"cans":24,"length":2936.4,"turns":2.156,"mass":6571.7,"note":"<strong>Standard build, your choice.<\/strong> Your painted beds are laid out for it, and every image on this page shows it."},"7":{"n":7,"leave":[3,4,6,7],"plain":5,"pads":[0,1,2,3,4,7],"bands":[2,3,4,7],"stops":[3,4,7],"hatchJoints":[3,4],"mouth":1478.2,"qr":1200.8,"cans":20,"length":2468.2,"turns":1.677,"mass":5482.9,"note":"<strong>Leave out segments 4 and 5.<\/strong> The parts are the same: print 5 plain segments instead of 7. The head and panel end up 173° further back round the pole, so check which way the panel will face. The painted livery jumps at the joint where the segments were left out, unless you repaint the beds for this build."}},"j0":671.75,"dj":98.066,"helixR":141.22,"c":65.145,"dth":1.505346,"dthDeg":86.25,"az0":26.18,"viewAz":66.8,"tail":[[-58.36,418.2,155.9,63.0],[-57.49,403.1,151.2,63.0],[-55.41,390.1,143.6,63.0],[-56.15,377.4,147.7,63.0],[-58.36,367.8,158.3,61.2],[-57.06,353.5,154.5,46.9],[-54.64,341.3,146.5,34.7],[-53.66,337.0,146.5,30.4],[-53.53,353.0,145.4,46.4],[-53.52,368.8,143.2,62.2],[-53.8,384.6,140.7,63.0],[-54.02,400.5,139.1,63.0],[-53.82,416.5,138.5,63.0],[-53.18,432.4,138.4,63.0],[-52.1,448.2,138.3,63.0],[-50.54,463.7,138.4,63.0],[-48.58,479.0,138.3,63.0],[-46.28,494.0,138.5,63.0],[-43.62,508.6,139.8,63.0],[-40.6,522.7,140.9,63.0],[-37.39,536.6,141.9,63.0],[-33.88,550.0,142.3,63.0],[-30.03,562.8,142.5,63.0],[-25.89,575.0,142.5,63.0],[-21.5,586.7,142.4,63.0],[-16.89,597.9,142.3,63.0],[-12.07,608.5,142.3,63.0],[-7.08,618.6,142.2,63.0],[-1.93,628.3,142.2,63.0],[3.37,637.4,142.1,63.0],[8.8,646.0,142.1,63.0],[14.34,654.2,142.0,63.0],[19.96,662.1,142.1,63.0],[25.66,669.6,142.1,63.0]],"zMin":306.6,"tubeD":126.0,"bandLow":858.4,"qrAz":85.6,"qrR":199.0,"dk5p":{"d0":119.0,"z0":800.0,"k":0.014166666666666666},"chart":{"x0":104.0,"x1":1150.0,"d0":52.0,"d1":144.0,"rowY0":34.0,"rowH":24.0,"barY":182.0},"gallery":[{"file":"01-light-pole-snake-v2","w":1800,"h":1200,"title":"Light-pole snake v2","caption":"Your printed snake, long enough to coil 2.2 turns round a street-light pole: your head and tail with 9 identical segments between them."},{"file":"02-after-dark","w":1800,"h":1200,"title":"After dark","caption":"The glow colour of the livery charges under the street lamp, so the coil and its panel are easy to find at night."},{"file":"03-panel-below-the-head","w":1800,"h":1200,"title":"Panel below the head","caption":"Your info panel and QR code sit on the body just below the head, tilted 45° up at 1.40 m, so a phone at chest height sees the code straight on."},{"file":"04-from-the-other-side","w":1800,"h":1200,"title":"From the other side","caption":"From every side you see the coil and four thin steel bands: no clamps, no screws, nothing drilled."},{"file":"05-where-the-holders-are","w":1800,"h":1200,"title":"Where the holders are","caption":"Coil drawn see-through. Six pads sit on the pole behind the tube; four are held by a stainless band in a groove behind the tube."},{"file":"06-one-joint-opened","w":1800,"h":1200,"title":"One joint, opened","caption":"Each part turns down the coil into the one below. The pad slides round the pole into the groove across the joint, and the band goes over it."},{"file":"07-built-from-the-tail-up","w":1800,"h":1200,"title":"Built from the tail up","caption":"Each part is held beside the pole and turned down the coil onto the one below. Nothing has to pass over the lamp."},{"file":"08-everything-printed","w":2100,"h":1200,"title":"Everything printed for one snake","caption":"In print orientation: seven segments, two hatch segments, your head, tail and small parts, and six pads. About 7 kg of PETG."},{"file":"09-heights-and-service-door","w":1800,"h":1200,"title":"Heights and the service door","caption":"Standard build. The lowest band is at 0.86 m, so the pole’s service door stays free on the side shown."}]}</script>
+<script type="module">
+const DATA = JSON.parse(document.getElementById('kit-data').textContent);
+const PARTS = DATA.parts;
+const BYID = new Map(PARTS.map(p => [p.id, p]));
+const PADS = PARTS.filter(p => p.group === 'pad').sort((a, b) => a.lo - b.lo);
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fmtMB = n => n >= 1e6 ? (n / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1e3)) + ' kB';
+const fmtSize = s => s.map(v => v < 10 ? String(+v.toFixed(1)) : String(Math.round(v))).join(' × ') + ' mm';
+const m2 = v => (v / 1000).toFixed(2) + ' m';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const SVGNS = 'http://www.w3.org/2000/svg';
+const ICON_3D = '<svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13.5 5v6L8 14.2 2.5 11V5L8 1.8Zm0 0v6.3m0 0 5.5-3.1M8 8.1 2.5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+
+/* ---------- toast */
+let toastTimer = 0;
+function toast(msg, kind = '') {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.dataset.kind = kind;
+  t.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.hidden = true; }, 4600);
+}
+
+/* ---------- tabs */
+const tabs = $$('[role="tab"]');
+function selectTab(key, focus = false) {
+  for (const t of tabs) {
+    const on = t.dataset.key === key;
+    t.setAttribute('aria-selected', String(on));
+    t.tabIndex = on ? 0 : -1;
+    $('#panel-' + t.dataset.key).hidden = !on;
+    if (on && focus) t.focus();
+  }
+}
+tabs.forEach((t, i) => {
+  t.addEventListener('click', () => selectTab(t.dataset.key));
+  t.addEventListener('keydown', e => {
+    const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (!d) return;
+    e.preventDefault();
+    selectTab(tabs[(i + d + tabs.length) % tabs.length].dataset.key, true);
+  });
+});
+function fromHash() {
+  const h = location.hash.slice(1);
+  if (['body', 'pads-all', 'yours', 'beds'].includes(h)) selectTab(h);
+}
+window.addEventListener('hashchange', fromHash);
+fromHash();
+
+/* ---------- build chooser */
+const B = DATA.builds;
+let build = '9';
+const jz = j => DATA.j0 + j * DATA.dj;
+const ROLE = { pad: 'Pad', band: 'Band', stop: 'Stop' };
+function roleOf(b, j) {
+  const r = ['pad'];
+  if (b.bands.includes(j)) r.push('band');
+  if (b.stops.includes(j)) r.push('stop');
+  return r;
+}
+function jointName(b, j) {
+  if (j === 0) return 'Tail joint';
+  if (j === b.n) return 'Under the head';
+  if (b.hatchJoints.includes(j)) return 'Above a hatch';
+  return 'Joint ' + j;
+}
+
+/* side view of the snake on the pole, to scale: 0.2 px per mm, ground at y 440 */
+function drawElevation() {
+  const b = B[build], svg = $('#elev');
+  const PX = 0.2, CX = 150, Y = z => 440 - z * PX;
+  const R = DATA.helixR, poleTop = 2200;
+  const parts = [];
+  const add = (tag, attrs, text) => {
+    const el = document.createElementNS(SVGNS, tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    if (text != null) el.textContent = text;
+    parts.push(el);
+    return el;
+  };
+  const view = (DATA.viewAz - DATA.dthDeg * (11 - b.n)) * Math.PI / 180;   // seen from the panel's side in every build
+  const at = (az, z, r = R) => [CX + r * PX * Math.sin(az - view), Y(z), Math.cos(az - view)];
+  const az0 = DATA.az0 * Math.PI / 180;
+  // your tail's own centre line from its bottom up to the tail joint, then the coil's helix to the joint under
+  // the head, then the head along the helix to the mouth
+  const all = DATA.tail.map(([a, z, r, w]) => [...at(a * Math.PI / 180, z, r), w]);
+  const thM = b.n * DATA.dth + (b.mouth - jz(b.n)) / DATA.c;
+  for (let i = 1, n = 260; i <= n; i++) {
+    const t = thM * i / n;
+    all.push([...at(az0 + t, DATA.j0 + t * DATA.c), DATA.tubeD / 2]);
+  }
+  const runs = (front) => {                                  // split the line into front and back runs
+    const out = []; let cur = [];
+    for (const p of all) {
+      if ((p[2] >= 0) === front) cur.push(p);
+      else if (cur.length) { out.push(cur); cur = []; }
+    }
+    if (cur.length) out.push(cur);
+    return out;
+  };
+  const path = run => 'M' + run.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L');
+  const tube = (front, color, opacity) => {                  // short round-capped pieces, so the tail can taper
+    const g = add('g', { stroke: color, 'stroke-linecap': 'round', opacity });
+    for (let i = 1; i < all.length; i++) {
+      const p = all[i - 1], q = all[i];
+      if ((p[2] + q[2] >= 0) !== front) continue;
+      const l = document.createElementNS(SVGNS, 'line');
+      for (const [k, v] of [['x1', p[0]], ['y1', p[1]], ['x2', q[0]], ['y2', q[1]], ['stroke-width', (p[3] + q[3]) * PX]]) l.setAttribute(k, v.toFixed(1));
+      g.append(l);
+    }
+  };
+  // ground and scale
+  add('line', { x1: 8, x2: 352, y1: Y(0), y2: Y(0), stroke: 'var(--ink-3)', 'stroke-width': 1 });
+  for (let z = 0; z <= 2000; z += 500) {
+    add('line', { x1: 8, x2: 16, y1: Y(z), y2: Y(z), stroke: 'var(--ink-3)', 'stroke-width': 1 });
+    add('text', { x: 20, y: Y(z) + 4, class: 'lab-dim' }, (z / 1000).toFixed(1));
+  }
+  // side reach from a wheelchair
+  add('line', { x1: 8, x2: 196, y1: Y(1220), y2: Y(1220), stroke: 'var(--aqua)', 'stroke-width': 1, 'stroke-dasharray': '3 4', opacity: 0.7 });
+  add('text', { x: 28, y: Y(1220) - 17, class: 'lab-dim' }, 'wheelchair');
+  add('text', { x: 28, y: Y(1220) - 5, class: 'lab-dim' }, 'reach 1.22');
+  // back of the coil, pole, front of the coil
+  tube(false, '#0A1C38', 1);
+  const dTop = DATA.dk5(poleTop) * PX, dBot = DATA.dk5(0) * PX;
+  add('defs', {}).innerHTML = '<linearGradient id="pole-g" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#4E555B"/><stop offset="0.42" stop-color="#A3AAB0"/><stop offset="0.6" stop-color="#8A9197"/><stop offset="1" stop-color="#4A5157"/></linearGradient>';
+  add('path', { d: `M${CX - dBot / 2} ${Y(0)}L${CX - dTop / 2} ${Y(poleTop)}L${CX + dTop / 2} ${Y(poleTop)}L${CX + dBot / 2} ${Y(0)}Z`, fill: 'url(#pole-g)' });
+  tube(true, '#1D4C91', 1);
+  for (const r of runs(true)) add('path', { d: path(r), fill: 'none', stroke: 'var(--glow)', 'stroke-width': 1.2, opacity: 0.85, 'stroke-linejoin': 'round' });
+  // the panel round the QR code, drawn only when it faces this side
+  const q = at((DATA.qrAz - DATA.dthDeg * (11 - b.n)) * Math.PI / 180, b.qr, DATA.qrR);
+  if (q[2] > 0) add('rect', { x: q[0] - 5, y: q[1] - 5, width: 10, height: 10, rx: 1.5, fill: 'var(--white)', stroke: '#13171D', 'stroke-width': 1 });
+  // pads and bands on the pole
+  for (const j of b.pads) {
+    const z = jz(j), w = DATA.dk5(z) * PX;
+    if (b.bands.includes(j)) add('rect', { x: CX - w / 2 - 1.5, y: Y(z) - 2, width: w + 3, height: 4, fill: 'var(--steel)' });
+    add('rect', { x: CX - 3, y: Y(z) - 3, width: 6, height: 6, fill: 'var(--glow)', stroke: '#13171D', 'stroke-width': 1 });
+  }
+  // heights on the right
+  const labs = [[b.mouth, 'mouth ' + m2(b.mouth), 'lab-glow'], [b.qr, 'QR centre ' + m2(b.qr), 'lab-strong'],
+    [DATA.bandLow, 'lowest band ' + m2(DATA.bandLow), ''], [DATA.zMin, 'tail ' + m2(DATA.zMin), '']];
+  for (const [z, t, cls] of labs) {
+    add('line', { x1: 200, x2: 214, y1: Y(z), y2: Y(z), stroke: 'var(--ink-3)', 'stroke-width': 1 });
+    add('text', { x: 218, y: Y(z) + 4, class: cls }, t);
+  }
+  svg.replaceChildren(svg.querySelector('title'), ...parts);
+}
+
+function renderBuild() {
+  const b = B[build];
+  $('#b-mouth').textContent = m2(b.mouth);
+  $('#b-qr').textContent = m2(b.qr);
+  $('#b-cans').textContent = b.cans + ' cans';
+  $('#b-len').textContent = (b.length / 1000).toFixed(2) + ' m';
+  $('#b-turns').textContent = b.turns.toFixed(1) + ' turns';
+  $('#b-mass').textContent = (b.mass / 1000).toFixed(1) + ' kg';
+  $('#b-note').innerHTML = b.note;
+  drawElevation();
+  renderPads();
+}
+$$('input[name="build"]').forEach(r => r.addEventListener('change', () => { if (r.checked) { build = r.value; renderBuild(); } }));
+
+/* ---------- pad finder */
+const circ = {};                 // joint height (rounded mm) -> what the viewer typed there, as typed
+const exampleCirc = z => Math.PI * DATA.dk5(z) / 10;
+const padFor = d => PADS.find(p => d > p.lo && d <= p.hi) || null;
+function rowsData() {
+  const b = B[build];
+  return b.pads.map(j => {
+    const z = jz(j), key = String(Math.round(z));
+    const typed = Object.prototype.hasOwnProperty.call(circ, key);
+    const v = typed ? parseFloat(circ[key].replace(',', '.')) : exampleCirc(z);
+    const c = Number.isFinite(v) && v > 0 ? v : NaN;
+    const d = c * 10 / Math.PI;
+    const pad = Number.isFinite(d) ? padFor(d) : null;
+    const shims = pad ? Math.max(0, Math.floor((pad.hi - d) / 2 + 1e-9)) : 0;
+    return { j, z, key, c, typed, d, pad, shims, role: roleOf(b, j), name: jointName(b, j) };
+  });
+}
+/* the rows are rebuilt only when the build changes, so typing never replaces the field being typed in */
+function renderPads() {
+  const rows = rowsData();
+  $('#pad-rows').replaceChildren(...rows.map((r, i) => {
+    const tr = document.createElement('tr');
+    const val = r.typed ? circ[r.key] : r.c.toFixed(1);
+    tr.innerHTML = `<td class="j">${esc(r.name)}<small>${m2(r.z)} up</small></td>` +
+      `<td class="rc"><span class="role">${r.role.map(k => `<span class="tag ${k}">${ROLE[k]}</span>`).join('')}</span></td>` +
+      `<td class="cf"><div class="field"><input id="circ-${i}" data-key="${r.key}" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-label="Circumference at ${m2(r.z)}, in centimetres" value="${esc(val)}"><span class="unit">cm</span></div></td>` +
+      '<td class="dia"></td><td class="pick-cell"></td><td class="num shim"></td><td class="v3"></td>';
+    return tr;
+  }));
+  updatePads(rows);
+}
+function updatePads(rows = rowsData()) {
+  const trs = $$('#pad-rows tr');
+  rows.forEach((r, i) => {
+    const tr = trs[i];
+    if (!tr) return;
+    tr.querySelector('.dia').textContent = Number.isFinite(r.d) ? 'Ø' + r.d.toFixed(1) : '–';
+    tr.querySelector('.pick-cell').innerHTML = !Number.isFinite(r.d) ? '<span class="padname bad">Type the circumference</span>'
+      : r.pad ? `<span class="padname">${esc(r.pad.short)}</span><span class="pfile">${esc(r.pad.file)}</span>`
+      : `<span class="padname bad">${r.d <= PADS[0].lo ? 'Pole too thin' : 'Pole too thick'}</span><span class="pfile">v2 fits Ø${PADS[0].lo}–${PADS[PADS.length - 1].hi} mm</span>`;
+    tr.querySelector('.shim').textContent = r.pad ? (r.shims ? r.shims + ' × 1 mm' : 'none') : '–';
+    tr.querySelector('.v3').innerHTML = r.pad ? `<button class="btn sm ghost" type="button" data-view="${esc(r.pad.id)}">${ICON_3D}<span>3D</span></button>` : '';
+  });
+  drawPadMarkers(rows);
+  $$('#panel-pads-all .sizes tr[data-pad]').forEach(tr => tr.classList.toggle('pick', rows.some(r => r.pad && r.pad.id === tr.dataset.pad)));
+  const uniq = [...new Set(rows.filter(r => r.pad).map(r => r.pad.id))];
+  $('#save-pads span').textContent = uniq.length ? `Save these ${uniq.length} pad file${uniq.length > 1 ? 's' : ''}` : 'Save these pads';
+  $('#save-pads').disabled = !uniq.length;
+  renderLane(rows);
+}
+$('#pad-rows').addEventListener('input', e => {
+  const el = e.target.closest('input[data-key]');
+  if (!el) return;
+  circ[el.dataset.key] = el.value;
+  clearTimeout(updatePads.t);
+  updatePads.t = setTimeout(() => updatePads(), 160);
+});
+function drawPadMarkers(rows) {
+  const g = $('#pc-marks'), C = DATA.chart;
+  if (!g) return;
+  const X = d => C.x0 + (Math.min(Math.max(d, C.d0), C.d1) - C.d0) * (C.x1 - C.x0) / (C.d1 - C.d0);
+  $$('#padchart .bar').forEach(b => b.classList.remove('hit'));
+  const els = [];
+  rows.forEach((r, i) => {
+    const y = C.rowY0 + i * C.rowH;
+    const t = document.createElementNS(SVGNS, 'text');
+    t.setAttribute('x', 8); t.setAttribute('y', y + 5); t.setAttribute('class', 'row-lab');
+    t.textContent = `${m2(r.z)}`;
+    els.push(t);
+    if (!Number.isFinite(r.d)) return;
+    const mk = document.createElementNS(SVGNS, 'g');
+    mk.setAttribute('class', 'mk' + (r.pad ? '' : ' bad'));
+    const x = X(r.d);
+    mk.innerHTML = `<line x1="${x}" x2="${x}" y1="${y}" y2="${C.barY}"></line><circle cx="${x}" cy="${y}" r="6"></circle>`;
+    els.push(mk);
+    if (r.pad) $(`#padchart .bar[data-pad="${r.pad.id}"]`)?.classList.add('hit');
+  });
+  g.replaceChildren(...els);
+  const box = $('.chart-scroll'), svg = $('#padchart');
+  const xs = rows.filter(r => Number.isFinite(r.d)).map(r => X(r.d));
+  if (box && xs.length && box.scrollWidth > box.clientWidth + 1) {
+    const k = svg.clientWidth / svg.viewBox.baseVal.width, mid = (Math.min(...xs) + Math.max(...xs)) / 2 * k;
+    box.scrollLeft = Math.max(0, mid - box.clientWidth / 2);
+  }
+}
+
+/* ---------- print list */
+function laneItems(rows) {
+  const b = B[build];
+  const body = [[b.plain, 'segment'], [2, 'segment-hatch'], [1, 'head'], [1, 'tail-P02'], [1, 'tail-tip-P01']];
+  const padCount = new Map();
+  for (const r of rows) if (r.pad) padCount.set(r.pad.id, (padCount.get(r.pad.id) || 0) + 1);
+  const pads = [...padCount].map(([id, q]) => [q, id]).sort((a, b) => BYID.get(a[1]).lo - BYID.get(b[1]).lo);
+  const yours = PARTS.filter(p => p.group === 'yours').map(p => [1, p.id]);
+  return [['Body', body], ['Pads', pads], ['Your door and hatch parts', yours]];
+}
+function renderLane(rows) {
+  const groups = laneItems(rows);
+  const list = $('#lane-list');
+  const els = [];
+  let files = 0, mass = 0, padsN = 0;
+  for (const [title, items] of groups) {
+    if (!items.length) continue;
+    const h = document.createElement('li'); h.className = 'grp'; h.textContent = title; els.push(h);
+    for (const [q, id] of items) {
+      const p = BYID.get(id);
+      const li = document.createElement('li');
+      li.dataset.id = id;
+      li.innerHTML = `<span class="q num">${q} ×</span><span class="n"></span><span class="f"></span><span class="c">${p.mass ? Math.round(p.mass * q) + ' g' : ''}</span>`;
+      li.querySelector('.n').textContent = p.name;
+      li.querySelector('.f').textContent = p.file;
+      els.push(li);
+      files++;
+      mass += (p.mass || 0) * q;
+      if (p.group === 'pad') padsN += q;
+    }
+  }
+  list.replaceChildren(...els);
+  const b = B[build];
+  $('#lane-sum').textContent = `${b.n} segments · ${padsN} pads · ${(mass / 1000).toFixed(1)} kg of PETG`;
+  $('#save-lane span').textContent = `Save all ${files} files`;
+  renderLane.items = groups.flatMap(([, items]) => items.map(([, id]) => BYID.get(id)));
+}
+
+/* ---------- downloads from the project's files */
+let filesP = null, mapP = null;
+const ROOT = 'light-pole-snake/v2';
+function filesNS() {
+  if (!filesP) {
+    const use = window.claude && typeof window.claude.use === 'function' ? window.claude.use.bind(window.claude) : null;
+    filesP = use ? Promise.resolve(use('files')).catch(() => null) : Promise.resolve(null);
+  }
+  return filesP;
+}
+async function pathMap(files) {
+  if (!mapP) {
+    mapP = (async () => {
+      const map = new Map();
+      const walk = async (path, keep) => {
+        let cursor, pages = 0;
+        do {
+          const r = await files.list(path ? { path, recursive: true, cursor } : { recursive: true, cursor });
+          for (const e of r.entries) {
+            if (e.isDirectory) continue;
+            const name = e.path.split('/').pop();
+            if (!keep || keep(e.path, name)) map.set(name, e.path);
+          }
+          cursor = r.cursor;
+        } while (cursor && ++pages < 40);
+      };
+      try {
+        await walk(ROOT);
+      } catch (err) {
+        if (!err || err.code !== 'not_found') throw err;
+      }
+      if (!map.size) await walk('', path => path.includes(ROOT + '/'));
+      return map;
+    })();
+    mapP.catch(() => { mapP = null; });
+  }
+  return mapP;
+}
+const OFF_MSG = 'Downloads work when a member of the Pant Snake project opens this page in claude.ai. The files are in the project folder light-pole-snake/v2.';
+function setDownloadsOff(msg) {
+  const n = $('#dl-note');
+  n.textContent = msg;
+  n.classList.add('warn');
+}
+function filesProblem(err, name) {
+  const code = err && err.code;
+  if (code === 'declined') return toast('Not saved.');
+  if (code === 'rate_limited') return toast('Finish the save prompt that is already open, then try again.', 'warn');
+  if (code === 'not_granted') {
+    setDownloadsOff('Downloads are switched off for this page. Turn them on from the page’s Permissions menu.');
+    return toast('Downloads are switched off for this page.', 'warn');
+  }
+  if (code === 'not_found') return toast(`This view can’t open the project files. ${name || 'The file'} is in the Pant Snake project, folder light-pole-snake/v2.`, 'warn');
+  if (code === 'changed') return toast('The file changed while saving. Try again.', 'warn');
+  if (code === 'bad_request') return toast('This file can’t be saved from here.', 'warn');
+  return toast('The project files can’t be reached right now. Try again in a moment.', 'warn');
+}
+async function saveFile(name, btn) {
+  const files = await filesNS();
+  if (!files) {
+    setDownloadsOff(OFF_MSG);
+    toast('Open this page in claude.ai as a project member to download the files.', 'warn');
+    return false;
+  }
+  if (btn) { btn.disabled = true; btn.dataset.state = 'busy'; }
+  try {
+    const map = await pathMap(files);
+    const path = map.get(name);
+    if (!path) { toast(`${name} is not in the project folder.`, 'warn'); return false; }
+    try {
+      await files.download(path);
+    } catch (err) {
+      if (err && err.code === 'rate_limited' && err.retryAfterMs && err.retryAfterMs < 8000) {
+        await new Promise(r => setTimeout(r, err.retryAfterMs));
+        await files.download(path);
+      } else throw err;
+    }
+    if (btn) { btn.dataset.state = 'saved'; const s = btn.querySelector('span'); if (s && !btn.classList.contains('sm')) s.textContent = 'Saved'; }
+    return true;
+  } catch (err) {
+    filesProblem(err, name);
+    if (btn) delete btn.dataset.state;
+    return false;
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      if (btn.dataset.state === 'busy') delete btn.dataset.state;
+    }
+  }
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('button.dl');
+  if (!b || !b.dataset.file) return;
+  saveFile(b.dataset.file, b).then(ok => { if (ok) toast(`Saved ${b.dataset.file}`, 'ok'); });
+});
+async function saveMany(list, btn, st, mark) {
+  btn.disabled = true;
+  let n = 0;
+  for (const p of list) {
+    st.textContent = `Saving ${n + 1} of ${list.length}: ${p.file}`;
+    const ok = await saveFile(p.file, null);
+    if (!ok) break;
+    n++;
+    if (mark) mark(p);
+  }
+  st.textContent = n === list.length ? `All ${n} files saved.` : `${n} of ${list.length} files saved.`;
+  btn.disabled = false;
+}
+$('#save-lane').addEventListener('click', e => {
+  saveMany(renderLane.items || [], e.currentTarget, $('#lane-status'), p => $(`#lane-list li[data-id="${p.id}"]`)?.classList.add('saved'));
+});
+$('#save-pads').addEventListener('click', e => {
+  const ids = [...new Set(rowsData().filter(r => r.pad).map(r => r.pad.id))];
+  saveMany(ids.map(id => BYID.get(id)), e.currentTarget, $('#pads-status'));
+});
+
+
+/* ---------- 3D viewer */
+const PAINT = {
+  0: { color: '#0B2A5B', roughness: 0.42, clearcoat: 0.35, clearcoatRoughness: 0.3, label: 'Navy' },
+  1: { color: '#7CF06B', roughness: 0.45, clearcoat: 0.25, clearcoatRoughness: 0.35, label: 'Glow' },
+  2: { color: '#5CC8F0', roughness: 0.42, clearcoat: 0.25, clearcoatRoughness: 0.35, label: 'Aqua' },
+  3: { color: '#B9C5CC', roughness: 0.14, clearcoat: 0.9, clearcoatRoughness: 0.08, label: 'Clear window' },
+  4: { color: '#F2F4F5', roughness: 0.5, label: 'White' },
+};
+const dlg = $('#viewer');
+let viewerP = null, current = null;
+const geoCache = new Map();
+async function initViewer() {
+  const THREE = await import('three');
+  const [{ OrbitControls }, { RoomEnvironment }, { toCreasedNormals }] = await Promise.all([
+    import('three/addons/controls/OrbitControls.js'),
+    import('three/addons/environments/RoomEnvironment.js'),
+    import('three/addons/utils/BufferGeometryUtils.js'),
+  ]);
+  const canvas = $('#v-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.15;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  const scene = new THREE.Scene();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+  const camera = new THREE.PerspectiveCamera(28, 1, 1, 20000);
+  const controls = new OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.autoRotateSpeed = 0.8;
+  controls.addEventListener('start', () => { controls.autoRotate = false; });
+  const key = new THREE.DirectionalLight(0xfff3e6, 2.2);
+  key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.bias = -0.0004;
+  scene.add(key, key.target);
+  const rim = new THREE.DirectionalLight(0xe9f0ff, 1.2);
+  scene.add(rim);
+  scene.add(new THREE.HemisphereLight(0xdfe7ef, 0x15181c, 0.35));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.ShadowMaterial({ opacity: 0.42 }));
+  ground.rotation.x = -Math.PI / 2;
+  ground.receiveShadow = true;
+  scene.add(ground);
+  const grid = new THREE.Group();
+  scene.add(grid);
+  const mats = {};
+  for (const [k, o] of Object.entries(PAINT)) {
+    const { label, ...m } = o;
+    mats[k] = new THREE.MeshPhysicalMaterial({ ...m, envMapIntensity: 0.55 });
+  }
+  mats.pad = new THREE.MeshPhysicalMaterial({ color: '#0B2A5B', roughness: 0.62, envMapIntensity: 0.5 });
+  const V = { THREE, renderer, scene, camera, controls, key, rim, ground, grid, mats, toCreasedNormals, group: null, running: false, raf: 0 };
+  V.resize = () => {
+    const el = canvas.parentElement, w = el.clientWidth, h = el.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  };
+  new ResizeObserver(V.resize).observe(canvas.parentElement);
+  const loop = () => {
+    if (!dlg.open) { V.running = false; return; }
+    V.raf = requestAnimationFrame(loop);
+    controls.update();
+    renderer.render(scene, camera);
+  };
+  V.start = () => { if (!V.running) { V.running = true; V.resize(); loop(); } };
+  return V;
+}
+/* LPS2: 'LPS2', groups, bbox lo/hi; per group: state, nv, nf, big, uint16 positions in the bbox, indices */
+async function geometry(V, p) {
+  if (geoCache.has(p.id)) return geoCache.get(p.id);
+  const res = await fetch(p.mesh);
+  if (!res.ok) throw new Error('mesh ' + res.status);
+  const bin = atob((await res.json()).b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const buf = bytes.buffer, dv = new DataView(buf);
+  if (dv.getUint32(0, true) !== 0x3253504C) throw new Error('not a preview mesh');
+  const ng = dv.getUint32(4, true);
+  const lo = [0, 1, 2].map(i => dv.getFloat32(8 + 4 * i, true));
+  const hi = [0, 1, 2].map(i => dv.getFloat32(20 + 4 * i, true));
+  const s = [0, 1, 2].map(k => (hi[k] - lo[k]) / 65535);
+  const cx = (lo[0] + hi[0]) / 2, cy = (lo[1] + hi[1]) / 2;
+  let off = 32;
+  const out = [];
+  for (let gI = 0; gI < ng; gI++) {
+    const state = dv.getUint32(off, true), nv = dv.getUint32(off + 4, true), nf = dv.getUint32(off + 8, true), big = dv.getUint32(off + 12, true);
+    off += 16;
+    const q = new Uint16Array(buf.slice(off, off + nv * 6));
+    off += nv * 6;
+    const pos = new Float32Array(nv * 3);
+    for (let i = 0; i < nv; i++) {
+      const x = lo[0] + q[3 * i] * s[0], y = lo[1] + q[3 * i + 1] * s[1], z = lo[2] + q[3 * i + 2] * s[2];
+      pos[3 * i] = x - cx;              // print frame (z up) to viewer frame (y up), standing on the bed
+      pos[3 * i + 1] = z - lo[2];
+      pos[3 * i + 2] = -(y - cy);
+    }
+    const isz = big ? 4 : 2;
+    const index = big ? new Uint32Array(buf.slice(off, off + nf * 12)) : new Uint16Array(buf.slice(off, off + nf * 6));
+    off += nf * 3 * isz;
+    off += (4 - (off % 4)) % 4;
+    let g = new V.THREE.BufferGeometry();
+    g.setAttribute('position', new V.THREE.BufferAttribute(pos, 3));
+    g.setIndex(new V.THREE.BufferAttribute(index, 1));
+    g = V.toCreasedNormals(g, 32 * Math.PI / 180);
+    g.computeBoundingBox();
+    g.computeBoundingSphere();
+    out.push({ state, g });
+  }
+  geoCache.set(p.id, out);
+  return out;
+}
+function buildGrid(V, size) {
+  const { THREE } = V;
+  for (const c of [...V.grid.children]) { c.geometry.dispose(); c.material.dispose(); V.grid.remove(c); }
+  const half = size / 2, minor = [], major = [];
+  for (let v = -half; v <= half + 1e-6; v += 10) {
+    const arr = Math.round(v) % 50 === 0 ? major : minor;
+    arr.push(v, 0.05, -half, v, 0.05, half, -half, 0.05, v, half, 0.05, v);
+  }
+  const mk = (arr, op) => {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(arr, 3));
+    return new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0xb4bec8, transparent: true, opacity: op, depthWrite: false }));
+  };
+  V.grid.add(mk(minor, 0.07), mk(major, 0.18));
+}
+function dirFrom(V, azDeg, elDeg) {
+  const a = azDeg * Math.PI / 180, e = elDeg * Math.PI / 180;
+  return new V.THREE.Vector3(Math.cos(e) * Math.cos(a), Math.sin(e), -Math.cos(e) * Math.sin(a));
+}
+function frame(V, box, p) {
+  const size = new V.THREE.Vector3(), sph = new V.THREE.Sphere();
+  box.getSize(size);
+  box.getBoundingSphere(sph);
+  const r = sph.radius, foot = Math.max(size.x, size.z);
+  const gridSize = Math.max(40, Math.ceil(foot * 1.7 / 20) * 20);
+  buildGrid(V, gridSize);
+  V.ground.scale.set(gridSize * 4, gridSize * 4, 1);
+  const target = new V.THREE.Vector3(0, size.y * 0.46, 0);
+  const dist = r / Math.sin(V.camera.fov * Math.PI / 360) * 1.04;
+  V.camera.position.copy(target).addScaledVector(dirFrom(V, p.view[0], p.view[1]), dist);
+  V.camera.near = dist / 60;
+  V.camera.far = dist * 30;
+  V.camera.updateProjectionMatrix();
+  V.controls.target.copy(target);
+  V.controls.minDistance = r * 0.9;
+  V.controls.maxDistance = dist * 4;
+  V.controls.autoRotate = !reduced;
+  V.controls.update();
+  V.key.position.copy(target).addScaledVector(dirFrom(V, p.view[0] - 40, 52), dist * 1.6);
+  V.key.target.position.copy(target);
+  const sc = V.key.shadow.camera, half = gridSize * 0.75;
+  Object.assign(sc, { left: -half, right: half, top: half, bottom: -half, near: dist * 0.1, far: dist * 4 });
+  sc.updateProjectionMatrix();
+  V.key.shadow.normalBias = gridSize / 2048 * 1.5;
+  V.rim.position.copy(target).addScaledVector(dirFrom(V, p.view[0] + 165, 30), dist * 1.6);
+}
+const GROUP_NAME = { body: 'Body', pad: 'Pole pad', yours: 'Your part, unchanged' };
+function fillInfo(p) {
+  $('#v-grp').textContent = GROUP_NAME[p.group] || '';
+  $('#v-name').textContent = p.name;
+  $('#v-note').textContent = p.note;
+  const rows = [['Quantity', p.qty], ['Size', fmtSize(p.size)], ['Mass', p.mass ? Math.round(p.mass) + ' g' : '–'], ['Print', p.print], ['On the bed', p.orient]];
+  $('#v-spec').replaceChildren(...rows.map(([k, v]) => {
+    const d = document.createElement('div');
+    d.innerHTML = '<dt></dt><dd></dd>';
+    d.firstChild.textContent = k;
+    d.lastChild.textContent = v;
+    if (k === 'Size' || k === 'Mass') d.lastChild.className = 'num';
+    return d;
+  }));
+  $('#v-file').textContent = p.file;
+  $('#v-fsize').textContent = fmtMB(p.bytes);
+  const b = $('#v-dl');
+  b.dataset.file = p.file;
+  delete b.dataset.state;
+  b.querySelector('span').textContent = 'Download STL';
+}
+function legend(states) {
+  const lg = $('#legend');
+  const show = states.filter(s => s !== 0 || states.length > 1);
+  if (states.length < 2) { lg.hidden = true; return; }
+  lg.replaceChildren(...show.map(s => {
+    const el = document.createElement('span');
+    el.innerHTML = `<i class="chip" style="background:${PAINT[s].color}"></i>`;
+    el.append(PAINT[s].label);
+    return el;
+  }));
+  lg.hidden = false;
+}
+function stageMsg(t) { $('#stage-msg').textContent = t; }
+function stageFallback(p) {
+  $('#stage .stage-fallback')?.remove();
+  const f = document.createElement('div');
+  f.className = 'stage-fallback';
+  f.innerHTML = '<img alt="">';
+  f.firstChild.src = p.thumb;
+  $('#stage').append(f);
+  stageMsg('The 3D view could not start here, so this is the studio render.');
+}
+async function showPart(id) {
+  const p = BYID.get(id);
+  if (!p) return;
+  current = id;
+  fillInfo(p);
+  $('#legend').hidden = true;
+  $('#stage .stage-fallback')?.remove();
+  if (!dlg.open) dlg.showModal();
+  stageMsg('Loading the 3D model…');
+  try {
+    if (!viewerP) viewerP = initViewer();
+    const V = await viewerP;
+    const groups = await geometry(V, p);
+    if (current !== id) return;
+    if (V.group) V.scene.remove(V.group);
+    const grp = new V.THREE.Group();
+    const box = new V.THREE.Box3();
+    for (const { state, g } of groups) {
+      const m = new V.THREE.Mesh(g, p.group === 'pad' ? V.mats.pad : (V.mats[state] || V.mats[0]));
+      m.castShadow = true;
+      m.receiveShadow = true;
+      grp.add(m);
+      box.union(g.boundingBox);
+    }
+    V.scene.add(grp);
+    V.group = grp;
+    frame(V, box, p);
+    legend(groups.map(x => x.state));
+    V.start();
+    stageMsg('');
+  } catch (err) {
+    console.error(err);
+    viewerP = null;
+    stageFallback(p);
+  }
+}
+function siblings() {
+  const p = BYID.get(current);
+  return PARTS.filter(q => q.group === p.group);
+}
+function step(d) {
+  const list = siblings(), i = list.findIndex(q => q.id === current);
+  showPart(list[(i + d + list.length) % list.length].id);
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-view]');
+  if (b) showPart(b.dataset.view);
+});
+$('#v-prev').addEventListener('click', () => step(-1));
+$('#v-next').addEventListener('click', () => step(1));
+$('#v-close').addEventListener('click', () => dlg.close());
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+dlg.addEventListener('keydown', e => {
+  if (e.target.closest('input')) return;
+  if (e.key === 'ArrowRight') step(1);
+  if (e.key === 'ArrowLeft') step(-1);
+});
+
+/* ---------- image lightbox */
+const G = DATA.gallery, lb = $('#lightbox');
+let gi = 0;
+function openImage(i) {
+  gi = (i + G.length) % G.length;
+  const g = G[gi], img = $('#lb-img');
+  img.src = `v2/img/${g.file}.webp`;
+  img.alt = g.title + '. ' + g.caption;
+  img.width = g.w;
+  img.height = g.h;
+  $('#lb-title').textContent = g.title;
+  $('#lb-count').textContent = `${gi + 1} / ${G.length}`;
+  if (!lb.open) lb.showModal();
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.g-btn, .g-open, .ev');
+  if (b) openImage(+b.dataset.idx);
+});
+$('#lb-prev').addEventListener('click', () => openImage(gi - 1));
+$('#lb-next').addEventListener('click', () => openImage(gi + 1));
+$('#lb-close').addEventListener('click', () => lb.close());
+lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+lb.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') openImage(gi + 1);
+  if (e.key === 'ArrowLeft') openImage(gi - 1);
+});
+
+DATA.dk5 = z => DATA.dk5p.d0 - (z - DATA.dk5p.z0) * DATA.dk5p.k;
+renderBuild();
+</script>
+
+</body></html>
