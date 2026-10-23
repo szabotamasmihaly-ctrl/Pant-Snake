@@ -1,6 +1,6 @@
 // One entry per design = one QR code. id is what the QR code carries (?s=<id>).
 // To place a second snake with the same design later, add a row with a new id, e.g. 'bud-04-vizkopo-rez-b'.
-// lat/lng/location: where the snake stands. Aarhus: 30 planned sites (Oct 2026), chosen for footfall first and the livery's landmark second.
+// lat/lng/location: where the snake stands. Aarhus: 50 planned sites (Oct 2026), chosen for footfall first and the livery's landmark second.
 window.SNAKES = [
  {
   "id": "aar-01-rainbow",
@@ -102,7 +102,10 @@ window.SNAKES = [
    "#EFE9DC",
    "#A2472A",
    "#6F7F55"
-  ]
+  ],
+  "lat": 56.15654,
+  "lng": 10.20924,
+  "location": "Bispetorv by Aarhus Teater"
  },
  {
   "id": "aar-07-domkirke-2",
@@ -144,7 +147,10 @@ window.SNAKES = [
    "#5C7F3A",
    "#7D7A70",
    "#8A5A34"
-  ]
+  ],
+  "lat": 56.14577,
+  "lng": 10.19296,
+  "location": "Frederiks Allé at De Mezas Vej"
  },
  {
   "id": "aar-09-dyrehave-2",
@@ -490,6 +496,276 @@ window.SNAKES = [
   "lat": 56.18807,
   "lng": 10.21077,
   "location": "Børglumvej 25, Risskov"
+ },
+ {
+  "id": "aar-12-au-b",
+  "city": "aar",
+  "n": 12,
+  "name": "Yellow Brick Campus",
+  "place": "Aarhus Universitet",
+  "colors": [
+   "#D9A852",
+   "#B98A3E",
+   "#4F6B34"
+  ],
+  "lat": 56.17051,
+  "lng": 10.19835,
+  "location": "Nordre Ringgade at Vestre Ringgade"
+ },
+ {
+  "id": "aar-05-bay-b",
+  "city": "aar",
+  "n": 5,
+  "name": "Bay & Iceberg",
+  "place": "Aarhus Ø · Isbjerget",
+  "colors": [
+   "#9FCFE6",
+   "#F5F8F9",
+   "#0B2742"
+  ],
+  "lat": 56.16771,
+  "lng": 10.19071,
+  "location": "Paludan-Müllers Vej at Vestre Ringgade"
+ },
+ {
+  "id": "aar-28-riisskov-b",
+  "city": "aar",
+  "n": 28,
+  "name": "Anemone Time",
+  "place": "Riis Skov",
+  "colors": [
+   "#6F9A3E",
+   "#8E8C84",
+   "#2F4A26"
+  ],
+  "lat": 56.17294,
+  "lng": 10.21088,
+  "location": "Aldersrovej at Nordre Ringgade"
+ },
+ {
+  "id": "aar-24-lurer-b",
+  "city": "aar",
+  "n": 24,
+  "name": "Bronze Age Lurs",
+  "place": "Danish Bronze Age · Moesgaard",
+  "colors": [
+   "#2B2018",
+   "#C08A3E",
+   "#7A5626"
+  ],
+  "lat": 56.16928,
+  "lng": 10.21558,
+  "location": "Trøjborgvej at Tordenskjoldsgade and Kirkegårdsvej"
+ },
+ {
+  "id": "aar-11-havn-b",
+  "city": "aar",
+  "n": 11,
+  "name": "Container Port",
+  "place": "Aarhus Havn",
+  "colors": [
+   "#1F5F9E",
+   "#B23A2E",
+   "#2E3236"
+  ],
+  "lat": 56.16364,
+  "lng": 10.21469,
+  "location": "Østbanetorvet at Knudrisgade"
+ },
+ {
+  "id": "aar-02-gamleby-b",
+  "city": "aar",
+  "n": 2,
+  "name": "Half-Timbered Street",
+  "place": "Den Gamle By",
+  "colors": [
+   "#D9A441",
+   "#8C2F25",
+   "#2A211C"
+  ],
+  "lat": 56.15737,
+  "lng": 10.19369,
+  "location": "Silkeborgvej at Viborgvej"
+ },
+ {
+  "id": "aar-14-festuge-b",
+  "city": "aar",
+  "n": 14,
+  "name": "Festival Week",
+  "place": "Aarhus Festuge",
+  "colors": [
+   "#F7F5F0",
+   "#C8102E",
+   "#22324A"
+  ],
+  "lat": 56.15216,
+  "lng": 10.18952,
+  "location": "Carl Blochs Gade at Søren Frichs Vej"
+ },
+ {
+  "id": "aar-19-friheden-b",
+  "city": "aar",
+  "n": 19,
+  "name": "Tivoli Friheden at Night",
+  "place": "Tivoli Friheden · Marselisborg forest",
+  "colors": [
+   "#14213D",
+   "#D23B3B",
+   "#B8BEC4"
+  ],
+  "lat": 56.14384,
+  "lng": 10.18934,
+  "location": "Søndre Ringgade at Skanderborgvej and De Mezas Vej"
+ },
+ {
+  "id": "aar-15-pant-b",
+  "city": "aar",
+  "n": 15,
+  "name": "Pant Parade",
+  "place": "The Danish deposit system",
+  "colors": [
+   "#1E5B3A",
+   "#B8BEC4",
+   "#F2C230"
+  ],
+  "lat": 56.1506,
+  "lng": 10.19948,
+  "location": "Frederiks Allé at Banegårdsgade"
+ },
+ {
+  "id": "aar-22-vandmand-b",
+  "city": "aar",
+  "n": 22,
+  "name": "Moon Jellies",
+  "place": "Aarhus Bugt",
+  "colors": [
+   "#0D2B45",
+   "#123A5C",
+   "#2B5070"
+  ],
+  "lat": 56.15254,
+  "lng": 10.20828,
+  "location": "Sønder Allé at Fredensgade"
+ },
+ {
+  "id": "aar-20-tropehus-b",
+  "city": "aar",
+  "n": 20,
+  "name": "Tropical Houses",
+  "place": "Botanisk Have · Tropehusene",
+  "colors": [
+   "#1E3A26",
+   "#3F7F45",
+   "#C9CFC8"
+  ],
+  "lat": 56.15819,
+  "lng": 10.19803,
+  "location": "Vesterbrogade at Vester Allé"
+ },
+ {
+  "id": "aar-27-smil-b",
+  "city": "aar",
+  "n": 27,
+  "name": "City of Smiles",
+  "place": "\"Aarhus – Smilets By\"",
+  "colors": [
+   "#F2C230",
+   "#24427A",
+   "#F7F5EF"
+  ],
+  "lat": 56.1579,
+  "lng": 10.2022,
+  "location": "Vestergade at Grønnegade"
+ },
+ {
+  "id": "aar-23-jul-b",
+  "city": "aar",
+  "n": 23,
+  "name": "Christmas in the Old Town",
+  "place": "Den Gamle By",
+  "colors": [
+   "#152238",
+   "#8C2F25",
+   "#F2F2EE"
+  ],
+  "lat": 56.1597,
+  "lng": 10.20879,
+  "location": "Guldsmedgade at Graven"
+ },
+ {
+  "id": "aar-04-mollestien-b",
+  "city": "aar",
+  "n": 4,
+  "name": "Møllestien",
+  "place": "Latin Quarter cottages",
+  "colors": [
+   "#F3D36B",
+   "#A63F2E",
+   "#5E5B57"
+  ],
+  "lat": 56.15902,
+  "lng": 10.21191,
+  "location": "Mejlgade"
+ },
+ {
+  "id": "aar-01-rainbow-b",
+  "city": "aar",
+  "n": 1,
+  "name": "Rainbow Panorama",
+  "place": "ARoS Aarhus Art Museum",
+  "colors": [
+   "#E5322D",
+   "#2E3236",
+   "#D6EBE9"
+  ],
+  "lat": 56.1527,
+  "lng": 10.2058,
+  "location": "Frederiksgade at Sankt Knuds Torv"
+ },
+ {
+  "id": "aar-03-runes-b",
+  "city": "aar",
+  "n": 3,
+  "name": "Rune Serpent",
+  "place": "Viking Aros · Moesgaard",
+  "colors": [
+   "#A8281E",
+   "#7E1B14",
+   "#1C1A18"
+  ],
+  "lat": 56.1476,
+  "lng": 10.2028,
+  "location": "Jægergårdsgade at M.P. Bruuns Gade"
+ },
+ {
+  "id": "aar-13-godsbanen-b",
+  "city": "aar",
+  "n": 13,
+  "name": "Freight Yard Graffiti",
+  "place": "Godsbanen",
+  "colors": [
+   "#1B1B1B",
+   "#D6337F",
+   "#2BA7CF"
+  ],
+  "lat": 56.15055,
+  "lng": 10.19602,
+  "location": "Godsbanen, Skovgaardsgade"
+ },
+ {
+  "id": "aar-10-bro-b",
+  "city": "aar",
+  "n": 10,
+  "name": "The Infinite Bridge",
+  "place": "Den Uendelige Bro · Varna",
+  "colors": [
+   "#A27B55",
+   "#4A3A2C",
+   "#1E5674"
+  ],
+  "lat": 56.14901,
+  "lng": 10.19932,
+  "location": "Jægergårdsgade at Frederiks Allé"
  },
  {
   "id": "cph-01-nyhavn",
