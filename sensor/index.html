@@ -152,7 +152,7 @@
       <div><em>in the pod</em><b>RAK3172 radio + ER14505 battery</b><span>Lying side by side on a printed tray, so the pod is only 19.5 mm deep. About ten years on one battery.</span></div>
       <div><em>the lock</em><b>Two spring bolts, one key</b><span>Magnets in your key draw the bolts 4.5 mm open. Pulling or prising only presses the hooks harder onto the bolts.</span></div>
     </div>
-    <p class="est">Shown on the 7-segment build for a 1.30 m signal post (tail 31 cm up, mouth about 1.5 m, 20 cans). Figures from the sensor snake README and physics notes and the hidden-sensor plan, 19 Oct 2026. Estimates; nothing is bench-tested yet. The first test is one coil reading a can through 1.2 mm of print, then radio range from a full snake beside a steel post.</p>
+    <p class="est">Shown on the 7-segment build for a 1.30 m signal post (tail 31 cm up, mouth about 1.5 m, 20 cans). Figures from the sensor snake README and physics notes and the hidden-sensor plan, 19 Oct 2026. Cost figures are estimates. The circuit boards are production-ready; the sensors are now being programmed and tuned, coil by coil and for radio range beside a steel post.</p>
   </section>
   <footer class="foot">Pant Snake · Aarhus · 2026</footer>
 </div>
@@ -292,7 +292,7 @@ const scenes = [
      [...$('#Lflow').querySelectorAll('div')].forEach((d, i) => d.classList.toggle('on', t > 1.4 + i * 1.1));
      cam(t, [[0, -110, 6, 3.6, 1.05, 32, 0], [10, -60, 10, 3.9, 1.1, 32, 0]]);
    } },
- { name: 'Cost', d: 10, caps: [[0, '08 · What it costs', 'About DKK 260 a snake', 'Materials for 46 snakes, falling to about DKK 150 at a thousand. Estimates, not quotes, and not bench-tested yet.']],
+ { name: 'Cost', d: 10, caps: [[0, '08 · What it costs', 'About DKK 260 a snake', 'Materials for 46 snakes, falling to about DKK 150 at a thousand. Estimates, not quotes.']],
    enter() { resetAll(); },
    run(t, F) {
      S.setXray(.25);
