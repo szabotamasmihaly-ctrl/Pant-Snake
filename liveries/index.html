@@ -210,7 +210,7 @@ body{margin:0}
   <div class="main">
     <div class="stage" id="stage">
       <canvas id="gl" role="img" aria-label="3D preview of the snake body with the selected livery"></canvas>
-      <div class="fill"><label for="fillr">Fill level</label><input type="range" id="fillr" min="0" max="21" value="12"><output id="fillo">12 of 21 cans</output></div>
+      <div class="fill"><label for="fillr">Fill level</label><input type="range" id="fillr" min="0" max="20" value="12"><output id="fillo">12 of 20 cans</output></div>
       <div class="tools">
         <span class="seg"><button id="dayb" aria-pressed="true">Day</button><button id="nightb" aria-pressed="false">Night</button></span>
         <button id="spin" aria-pressed="true">Auto-rotate</button><button id="reset">Reset view</button>
@@ -255,7 +255,7 @@ body{margin:0}
         <tr><td>PET bottle, 1.5 L</td><td class="num">92 × 320 mm</td><td class="num">−59 mm</td><td><span class="pill bad">Does not pass</span></td><td>C · DKK 3.00</td><td>50 Ft</td></tr>
         <tr><td>PET bottle, 2 L</td><td class="num">104 × 335 mm</td><td class="num">−82 mm</td><td><span class="pill bad">Does not pass</span></td><td>C · DKK 3.00</td><td>50 Ft</td></tr>
       </tbody></table></div>
-    <p>Clearance is the smallest gap between container and inner wall at the tightest point of the coil; negative means it does not pass. Containers run in single file. The snake holds about 21 cans (33 cl), 14 tall cans, 11 half-litre PET bottles or 10 glass beer bottles: about DKK 21 in deposits when full of cans. They go in at the head and come out of the self-closing tail door, 30 cm above the ground, so a collector empties a snake into a bag in minutes. A hidden inductive sensor reports the fill level the whole time, and the collector app shows it.</p>
+    <p>Clearance is the smallest gap between container and inner wall at the tightest point of the coil; negative means it does not pass. Containers run in single file. The snake holds about 20 cans (33 cl), 13 tall cans, 10 half-litre PET bottles or 9 glass beer bottles: about DKK 20 in deposits when full of cans. They go in at the head and come out of the self-closing tail door, 30 cm above the ground, so a collector empties a snake into a bag in minutes. A hidden inductive sensor reports the fill level the whole time, and the collector app shows it.</p>
   </section>
 
   <section id="materials">
@@ -312,7 +312,7 @@ body{margin:0}
 (()=>{
 // ===== surface coordinates (mm) =====
 // x: 0 = tail tip → L = neck. y: 0 = pole side, ~72 = top of coil, 145 = street-facing ridge, ~217 = underside, 290 = pole side
-const L=2700, C=290, D=145, HEAD=2457, W0=167.5, W1=195, F0=40, CAN=115, NCAN=21;
+const L=2700, C=290, D=145, HEAD=2457, W0=167.5, W1=195, F0=40, CAN=115, NCAN=20;
 const VOL=5530; // cm³ printed: 120 mm body 5,209 + bail door and latch 294 + two screw hatches 27
 const EUR=7.46;
 function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -2201,9 +2201,9 @@ const QRS={"aar-30-lysivinduet":[41,"fe622aafbfc130990e106ebe662febb75bf6d215dba
 
 // ===== editions =====
 const EDS={
- aar:{label:'Aarhus',list:AAR,full:'full ≈ DKK 21 in cans',groups:GRPS.aar},
- cph:{label:'Copenhagen',list:CPH,full:'full ≈ DKK 21 in cans',groups:GRPS.cph},
- bud:{label:'Budapest',list:BUD,full:'full ≈ 21 × 50 Ft = 1,050 Ft',groups:GRPS.bud}};
+ aar:{label:'Aarhus',list:AAR,full:'full ≈ DKK 20 in cans',groups:GRPS.aar},
+ cph:{label:'Copenhagen',list:CPH,full:'full ≈ DKK 20 in cans',groups:GRPS.cph},
+ bud:{label:'Budapest',list:BUD,full:'full ≈ 20 × 50 Ft = 1,000 Ft',groups:GRPS.bud}};
 const PLATE={aar:{t:'PANT HER',yes:'dåser og flasker op til 0,5 l',no:'ikke store flasker · ikke affald',scan:'SCAN MIG',q:['fuld?','i stykker?']},
  cph:{t:'PANT HER',yes:'dåser og flasker op til 0,5 l',no:'ikke store flasker · ikke affald',scan:'SCAN MIG',q:['fuld?','i stykker?']},
  bud:{t:'DOBOZ + PALACK',yes:'dobozok, palackok max. 0,5 l-ig',no:'nagy palack, szemét, csikk: nem',scan:'SZKENNELJ',q:['tele van?','elromlott?']}};
@@ -2472,7 +2472,7 @@ function btn(d,i){const b=document.createElement('button');b.role='tab';b.id='ta
 function renderPickers(){const E=EDS[ED],gs=E.groups;
   [1,2,3,4].forEach(n=>{$('picker'+n).innerHTML='';const g=gs[n-1];$('pg'+n).hidden=!g;if(g)$('pg'+n+'h').textContent=g[0]});
   D_.forEach((d,i)=>{const n=gs.findIndex(g=>i>=g[1]&&i<g[2]);$('picker'+(n+1)).appendChild(btn(d,i))});
-  $('facts').innerHTML=['bore ≈ 120 mm','double wall: two 0.8 mm skins + gyroid core','holds ≈ 21 cans or 10–11 half-litre bottles','glow QR 56 mm, scans day and night','QR opens the collector app',E.full].map(t=>`<span>${t}</span>`).join('');
+  $('facts').innerHTML=['bore ≈ 120 mm','double wall: two 0.8 mm skins + gyroid core','holds ≈ 20 cans or 10 half-litre bottles','glow QR 56 mm, scans day and night','QR opens the collector app',E.full].map(t=>`<span>${t}</span>`).join('');
   document.querySelectorAll('#edtabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.ed===ED));
   $('edname').textContent=E.label+' edition'}
 function setEdition(k){if(!EDS[k])return;ED=k;D_=EDS[k].list;renderPickers();select(0);fr.oninput()}
