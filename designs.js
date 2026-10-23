@@ -1,6 +1,6 @@
 // One entry per design = one QR code. id is what the QR code carries (?s=<id>).
 // To place a second snake with the same design later, add a row with a new id, e.g. 'bud-04-vizkopo-rez-b'.
-// lat/lng/location: where the snake stands. Aarhus: 49 planned sites (Oct 2026), chosen for footfall first and the livery's landmark second.
+// lat/lng/location: where the snake stands. Aarhus: 46 planned sites (Oct 2026), chosen for footfall first and the livery's landmark second.
 window.SNAKES = [
  {
   "id": "aar-01-rainbow",
@@ -496,51 +496,6 @@ window.SNAKES = [
   "lat": 56.18807,
   "lng": 10.21077,
   "location": "Børglumvej 25, Risskov"
- },
- {
-  "id": "aar-12-au-b",
-  "city": "aar",
-  "n": 12,
-  "name": "Yellow Brick Campus",
-  "place": "Aarhus Universitet",
-  "colors": [
-   "#D9A852",
-   "#B98A3E",
-   "#4F6B34"
-  ],
-  "lat": 56.17051,
-  "lng": 10.19835,
-  "location": "Nordre Ringgade at Vestre Ringgade"
- },
- {
-  "id": "aar-05-bay-b",
-  "city": "aar",
-  "n": 5,
-  "name": "Bay & Iceberg",
-  "place": "Aarhus Ø · Isbjerget",
-  "colors": [
-   "#9FCFE6",
-   "#F5F8F9",
-   "#0B2742"
-  ],
-  "lat": 56.16771,
-  "lng": 10.19071,
-  "location": "Paludan-Müllers Vej at Vestre Ringgade"
- },
- {
-  "id": "aar-28-riisskov-b",
-  "city": "aar",
-  "n": 28,
-  "name": "Anemone Time",
-  "place": "Riis Skov",
-  "colors": [
-   "#6F9A3E",
-   "#8E8C84",
-   "#2F4A26"
-  ],
-  "lat": 56.17294,
-  "lng": 10.21088,
-  "location": "Aldersrovej at Nordre Ringgade"
  },
  {
   "id": "aar-24-lurer-b",
