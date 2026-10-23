@@ -113,7 +113,7 @@
   <header class="hero">
     <span class="eyebrow">Pant Snake · the story</span>
     <h1>One snake. One day. One city.</h1>
-    <p class="lede">A street snake for deposit cans and bottles, coiled round an ordinary light pole. Anyone can give, anyone can collect. This film follows one snake through a day in Aarhus, then shows what fifty would cost.</p>
+    <p class="lede">A street snake for deposit cans and bottles, coiled round an ordinary light pole. Anyone can give, anyone can collect. This film follows one snake through a day in Aarhus, then shows what 43 would cost.</p>
   </header>
 
   <div class="film" id="film">
@@ -125,7 +125,7 @@
           <div class="panel mapstats" id="mapStats">
             <div class="t">Aarhus · planned sites</div>
             <div class="stat"><b id="nSn">0</b><span>snakes on busy corners, squares and light rail stops</span></div>
-            <div class="stat"><b>~110 m</b><span>average distance to the nearest snake in the busy centre</span></div>
+            <div class="stat"><b>~140 m</b><span>average distance to the nearest snake in the busy centre</span></div>
             <div class="stat"><b>30</b><span>of them in the downtown core, where most people walk</span></div>
             <div class="legend"><span><i style="background:var(--amber)"></i>full</span><span><i style="background:var(--glow)"></i>emptied</span><span><i style="background:var(--aqua)"></i>collector</span></div>
           </div>
@@ -138,16 +138,15 @@
         <!-- cost -->
         <div class="layer costw" id="Lcost">
           <div class="costt">
-            <div class="crow hd"><div>What AU Launch pays for: materials for 50 snakes</div><em>each</em><em>DKK</em></div>
-            <div class="crow"><div>ASA filament<small>about 4 kg a snake with 1.6 mm walls, glow ASA for eyes and QR panels</small></div><em>1,080</em><b>54,000</b></div>
-            <div class="crow"><div>Hidden fill sensors<small>12 coils, 3 chips, radio, 10-year cell, key lock, 5 spare sets</small></div><em>366</em><b>18,300</b></div>
-            <div class="crow"><div>Mounting<small>stainless bands, buckles, EPDM rubber, printed pads</small></div><em>282</em><b>14,100</b></div>
-            <div class="crow"><div>Self-closing doors<small>springs, soft-close dampers, steel pins, latch springs</small></div><em>200</em><b>10,000</b></div>
-            <div class="crow"><div>Assembly<small>glue and silicone</small></div><em>36</em><b>1,800</b></div>
-            <div class="crow"><div>LoRaWAN gateways<small>two backups, only where the city network does not reach</small></div><em></em><b>1,800</b></div>
+            <div class="crow hd"><div>What AU Launch pays for: materials for 43 snakes</div><em>each</em><em>DKK</em></div>
+            <div class="crow"><div>ASA filament<small>about 6.15 kg a snake from full test slices, 1.6 mm ribbed walls, glow ASA for eyes and QR panels</small></div><em>1,412</em><b>60,700</b></div>
+            <div class="crow"><div>Hidden fill sensors<small>12 coils, 3 chips, radio, 10-year cell, key lock, 3 spare sets</small></div><em>360</em><b>15,500</b></div>
+            <div class="crow"><div>Mounting<small>stainless bands, buckles, EPDM rubber, printed pads</small></div><em>309</em><b>13,300</b></div>
+            <div class="crow"><div>Self-closing doors<small>springs, soft-close dampers, steel pins, latch springs</small></div><em>200</em><b>8,600</b></div>
+            <div class="crow"><div>Assembly<small>glue and silicone</small></div><em>44</em><b>1,900</b></div>
             <div class="crow tot"><div>Total, materials only</div><em></em><b id="ctot">0</b></div>
             <div class="per" id="perRow">
-              <div><b>50</b><span>snakes on Aarhus streets for the test</span></div>
+              <div><b>43</b><span>snakes on Aarhus streets for the test</span></div>
               <div><b>Free</b><span>cleaning, repairs, the app and the data</span></div>
               <div><b>No salaries</b><span>nobody's time is paid from the 100,000</span></div>
             </div>
@@ -222,7 +221,7 @@
       <tr><td>Hidden fill sensor, materials</td><td class="n">DKK 270 / 215 / 150</td><td>Hidden-sensor plan, at 30 / 100 / 1,000 snakes</td></tr>
       <tr><td>Printed snake with sensor</td><td class="n">DKK 3,926</td><td>3,656 + 270</td></tr>
       <tr><td>Rotomoulded body at 1,000 a year</td><td class="n">DKK 2,701</td><td>1,976 variable + 724 fixed; Central European moulder; DKK 1.12 M start-up; cheaper than printing from about 375 a year</td></tr>
-      <tr><td>AU Launch ask: materials for 50 test snakes</td><td class="n">DKK 100,000</td><td>Filament 54,000, sensors 18,300, mounting 14,100, self-closing doors 10,000, assembly 1,800, gateways 1,800. No salaries. Free for the city during the test</td></tr>
+      <tr><td>AU Launch ask: materials for 43 test snakes</td><td class="n">DKK 100,000</td><td>Filament 60,700, sensors 15,500, mounting 13,300, self-closing doors 8,600, assembly 1,900. No salaries. Free for the city during the test</td></tr>
     </table></div>
     <p class="est">All figures are estimates, not quotes, from the project's cost model and sensor plan of 19 October 2026. The snake is the 9-segment light-pole build (mouth at 1.67 m, 24 cans). Return rates as cited in the film.</p>
   </section>
@@ -426,7 +425,7 @@ const scenes = [
    enter: resetAll,
    run(t) { S.setItems(fullItems()); const n = smooth(seg(t, 0, 2.6)); S.setNight(n); S.setGlow(smooth(seg(t, 1.6, 3.6)));
      cam(t, [[0, -100, 3, 3.3, 1.05, 32, .34], [8, -60, 3, 3.0, 1.05, 32, .34]]); } },
- { name: 'Aarhus', d: 14, caps: [[0, '10 · Aarhus', 'Now picture fifty of them', 'Busy corners, squares and light rail stops. Each themed snake stands at its landmark when that spot has the foot traffic.']],
+ { name: 'Aarhus', d: 14, caps: [[0, '10 · Aarhus', 'Now picture 43 of them', 'Busy corners, squares and light rail stops. Each themed snake stands at its landmark when that spot has the foot traffic.']],
    enter() { resetAll(); },
    run(t) {
      show('#Lmap', 1); show('#mapStats', seg(t, .8, 1.4));
@@ -444,7 +443,7 @@ const scenes = [
      goal.style.opacity = seg(t, 6, 6.6); goal.style.height = (bars.lastChild.offsetTop - bars.firstChild.offsetTop + 46) + 'px';
    } },
  { name: 'Slogan', d: 7, run(t) { show('#Lslo', 1); const a = ease(seg(t, .3, 1.3)), b = ease(seg(t, 2.4, 3.4)); $('#slo1').style.opacity = a; $('#slo1').style.transform = `translateY(${(1 - a) * 24}px)`; $('#slo2').style.opacity = b; $('#slo2').style.transform = `translateY(${(1 - b) * 24}px)`; show('#mark', 0); }, leave() { show('#mark', 1); } },
- { name: 'Cost', d: 14, caps: [[0, '12 · The ask', 'DKK 100,000 from AU Launch. Free for the city.', 'All we ask for is the material for 50 snakes. Maintenance, the app and the data are free for Aarhus while the test shows what the snakes do.']],
+ { name: 'Cost', d: 14, caps: [[0, '12 · The ask', 'DKK 100,000 from AU Launch. Free for the city.', 'All we ask for is the material for 43 snakes. Maintenance, the app and the data are free for Aarhus while the test shows what the snakes do.']],
    enter: resetAll,
    run(t) {
      show('#Lcost', 1); const rows = $('#Lcost').querySelectorAll('.crow:not(.hd):not(.tot)');

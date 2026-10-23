@@ -1,6 +1,6 @@
 // One entry per design = one QR code. id is what the QR code carries (?s=<id>).
 // To place a second snake with the same design later, add a row with a new id, e.g. 'bud-04-vizkopo-rez-b'.
-// lat/lng/location: where the snake stands. Aarhus: 50 planned sites (Oct 2026), chosen for footfall first and the livery's landmark second.
+// lat/lng/location: where the snake stands. Aarhus: 43 planned sites (Oct 2026), chosen for footfall first and the livery's landmark second.
 window.SNAKES = [
  {
   "id": "aar-01-rainbow",
@@ -147,10 +147,7 @@ window.SNAKES = [
    "#5C7F3A",
    "#7D7A70",
    "#8A5A34"
-  ],
-  "lat": 56.14577,
-  "lng": 10.19296,
-  "location": "Frederiks Allé at De Mezas Vej"
+  ]
  },
  {
   "id": "aar-09-dyrehave-2",
@@ -498,66 +495,6 @@ window.SNAKES = [
   "location": "Børglumvej 25, Risskov"
  },
  {
-  "id": "aar-12-au-b",
-  "city": "aar",
-  "n": 12,
-  "name": "Yellow Brick Campus",
-  "place": "Aarhus Universitet",
-  "colors": [
-   "#D9A852",
-   "#B98A3E",
-   "#4F6B34"
-  ],
-  "lat": 56.17051,
-  "lng": 10.19835,
-  "location": "Nordre Ringgade at Vestre Ringgade"
- },
- {
-  "id": "aar-05-bay-b",
-  "city": "aar",
-  "n": 5,
-  "name": "Bay & Iceberg",
-  "place": "Aarhus Ø · Isbjerget",
-  "colors": [
-   "#9FCFE6",
-   "#F5F8F9",
-   "#0B2742"
-  ],
-  "lat": 56.16771,
-  "lng": 10.19071,
-  "location": "Paludan-Müllers Vej at Vestre Ringgade"
- },
- {
-  "id": "aar-28-riisskov-b",
-  "city": "aar",
-  "n": 28,
-  "name": "Anemone Time",
-  "place": "Riis Skov",
-  "colors": [
-   "#6F9A3E",
-   "#8E8C84",
-   "#2F4A26"
-  ],
-  "lat": 56.17294,
-  "lng": 10.21088,
-  "location": "Aldersrovej at Nordre Ringgade"
- },
- {
-  "id": "aar-24-lurer-b",
-  "city": "aar",
-  "n": 24,
-  "name": "Bronze Age Lurs",
-  "place": "Danish Bronze Age · Moesgaard",
-  "colors": [
-   "#2B2018",
-   "#C08A3E",
-   "#7A5626"
-  ],
-  "lat": 56.16928,
-  "lng": 10.21558,
-  "location": "Trøjborgvej at Tordenskjoldsgade and Kirkegårdsvej"
- },
- {
   "id": "aar-11-havn-b",
   "city": "aar",
   "n": 11,
@@ -586,36 +523,6 @@ window.SNAKES = [
   "lat": 56.15737,
   "lng": 10.19369,
   "location": "Silkeborgvej at Viborgvej"
- },
- {
-  "id": "aar-14-festuge-b",
-  "city": "aar",
-  "n": 14,
-  "name": "Festival Week",
-  "place": "Aarhus Festuge",
-  "colors": [
-   "#F7F5F0",
-   "#C8102E",
-   "#22324A"
-  ],
-  "lat": 56.15216,
-  "lng": 10.18952,
-  "location": "Carl Blochs Gade at Søren Frichs Vej"
- },
- {
-  "id": "aar-19-friheden-b",
-  "city": "aar",
-  "n": 19,
-  "name": "Tivoli Friheden at Night",
-  "place": "Tivoli Friheden · Marselisborg forest",
-  "colors": [
-   "#14213D",
-   "#D23B3B",
-   "#B8BEC4"
-  ],
-  "lat": 56.14384,
-  "lng": 10.18934,
-  "location": "Søndre Ringgade at Skanderborgvej and De Mezas Vej"
  },
  {
   "id": "aar-15-pant-b",
