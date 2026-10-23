@@ -71,7 +71,8 @@ header p{margin:0;color:var(--muted);max-width:72ch}
 .flat{display:grid;gap:4px}
 .flat canvas{width:100%;height:auto;border-radius:3px;display:block;border:1px solid var(--line)}
 .axis{display:flex;justify-content:space-between;gap:8px;font:11px var(--f-mono);color:var(--muted)}
-.minicost{display:flex;flex-wrap:wrap;gap:8px 18px;font:13px var(--f-mono);border-top:1px solid var(--line);padding-top:10px}
+#cost{display:none}
+.minicost{display:none;flex-wrap:wrap;gap:8px 18px;font:13px var(--f-mono);border-top:1px solid var(--line);padding-top:10px}
 .minicost b{font-family:var(--f-display);font-size:18px;color:var(--ink)}
 section{display:grid;gap:14px}
 section h2{margin:0;font-size:26px;letter-spacing:-.01em}
@@ -201,9 +202,8 @@ body{margin:0}
   <header>
     <div class="edrow"><span class="seg" id="edtabs" role="group" aria-label="City edition"><button data-ed="aar" aria-pressed="true">Aarhus</button><button data-ed="cph" aria-pressed="false">Copenhagen</button><button data-ed="bud" aria-pressed="false">Budapest</button></span><span class="eyebrow" id="edname">Aarhus edition</span></div>
     <h1>City Snake Liveries</h1>
-    <p>Every snake now carries its own QR code in glow filament, inside a black info panel near the mouth that no pattern is allowed to cross. The panel also says, in the local language, what goes in and what doesn’t.</p>
-    <p>Every design now follows the same five-material rule: one glow filament (green or blue), the clear fill window, and exactly three colours of your choice, so each snake prints on a 5-head toolchanger with no swaps. Where an older design drew more colours, its three most important ones were kept and the rest folded into them; the info panel and the door take the darkest of the three. Every pattern now runs all the way to the top of the snake, and both emergency hatches have the same layout on every design: a smaller screw cap with three glowing grips (the inner circle) inside a glowing ring of two arrows, closing clockwise and opening anticlockwise (the outer circle). The top hatch has moved 47 mm down the coil so it no longer touches the QR panel. The latch clips of the tail door print in glow filament. Some older design descriptions still name a second glow colour: the swatches next to each design show what is actually printed.</p>
-    <details class="more"><summary>How this edition was made</summary><p>Every design you rated below 6 is gone, 35 in all, and 35 new ones take their place (13 for Aarhus, 12 for Copenhagen, 10 for Budapest), drawn around culture, colour and phosphor. The 23 designs where you had notes are redrawn from them; the ones you rated 9 or 10 are untouched, and the rest are kept as they were. Every design now sits on your new STL, with its two screw hatches and the bail-latched door, and carries two glow colours. Switch to Night: the QR code glows too and still scans. Until the app has a public address, each code opens your demo app, so you can test it with your phone.</p></details>
+    <p>Every Pant Snake carries a design drawn for its own street: the city's landmarks, music, festivals and nature, in colours that glow after dark. Of the 118 designs drawn so far for Aarhus, Copenhagen and Budapest, the ones below are being evaluated and improved based on the taste of local residents. Turn one around, switch to Night to see the glow, and fill it with cans.</p>
+    <p>Each snake carries its own QR code on the body just below the head, in glow filament so it scans day and night. It opens the collector app and tells passers-by, in the local language, what goes in: cans and bottles up to half a litre. The 49 snakes of the Aarhus pilot will each wear one of these designs.</p>
     <div class="facts" id="facts"></div>
   </header>
 
@@ -238,7 +238,7 @@ body{margin:0}
 
   <section id="fits">
     <h2>What it can take</h2>
-    <p>I slid rigid models of common drink containers through the coil of the 120 mm body. The new STL adds two screw-in emergency hatches on the underside, about a third and two thirds of the way along, and a bail-latched door at the tail. The hatches are in the clear window band. The table below was measured on the previous body: the tube follows the same path, but I have not re-run the sweep on the new file. The tube is about 120 mm inside with a 3 mm wall, and its bends are gentle (radius 155–350 mm, median 184 mm). Every can size, half-litre plastic bottles and the usual glass beer bottles now pass. Litre bottles and wine bottles still do not. The info panel by the neck says what goes in (cans and bottles up to 0.5 l) and what doesn’t (big bottles, rubbish): "PANT HER" in Denmark, "DOBOZ + PALACK" in Hungary.</p>
+    <p>The body is a 120 mm tube that coils around a pedestrian crossing signal post. Its bends are gentle (radius 155–350 mm), and the shape keeps the balance between bottles getting stuck and glass breaking at high speed. Every can size, half-litre plastic bottles and the usual glass beer bottles pass; litre bottles and wine bottles do not, so the panel by the head asks for cans and bottles up to half a litre: "PANT HER" in Denmark, "DOBOZ + PALACK" in Hungary.</p>
     <div class="tblwrap"><table>
       <thead><tr><th>Container</th><th class="num">Ø × length</th><th class="num">Worst clearance</th><th>Verdict</th><th>Deposit DK</th><th>Deposit HU</th></tr></thead>
       <tbody>
@@ -255,17 +255,17 @@ body{margin:0}
         <tr><td>PET bottle, 1.5 L</td><td class="num">92 × 320 mm</td><td class="num">−59 mm</td><td><span class="pill bad">Does not pass</span></td><td>C · DKK 3.00</td><td>50 Ft</td></tr>
         <tr><td>PET bottle, 2 L</td><td class="num">104 × 335 mm</td><td class="num">−82 mm</td><td><span class="pill bad">Does not pass</span></td><td>C · DKK 3.00</td><td>50 Ft</td></tr>
       </tbody></table></div>
-    <p>Clearance is the smallest gap between container and inner wall at the tightest point of the coil, with the container free to shift inside the tube; negative means it collides. Containers run in single file, since two 66 mm cans side by side need 132 mm. The snake holds about 21 cans (33 cl), 14 tall cans, 11 half-litre PET bottles or 10 glass beer bottles. When full that is DKK 21 in cans or about DKK 10–16 in bottles in Denmark, and roughly 500–1,050 Ft in Hungary. Containers go in at the neck and come out of the bail-latched door at the tail; the head opening (not in these files) needs at least about 75 mm clear. Glass now fits, but the first bottle into an empty snake slides about 1.6 m down the coil onto the door. The spiral slows it, and the door is 12 mm thick, but test with a few bottles before allowing glass, or add a rubber pad on the door.</p>
+    <p>Clearance is the smallest gap between container and inner wall at the tightest point of the coil; negative means it does not pass. Containers run in single file. The snake holds about 21 cans (33 cl), 14 tall cans, 11 half-litre PET bottles or 10 glass beer bottles: about DKK 21 in deposits when full of cans. They go in at the head and come out of the self-closing tail door, 30 cm above the ground, so a collector empties a snake into a bag in minutes. A hidden inductive sensor reports the fill level the whole time, and the collector app shows it.</p>
   </section>
 
   <section id="materials">
-    <h2>Glow, window and outdoor durability</h2>
-    <p>Yes, phosphorescent filament works here. Every design is print-only, with no painting. Each print section uses at most five materials: three weather-proof colours, one glow filament and one clear filament. That fits a 5-head toolchanger exactly, and colour changes waste almost no filament.</p>
+    <h2>Built for the street</h2>
+    <p>Every snake is 3D printed in weather-proof plastic, with no paint. The designs above are the full artwork; for the printed snakes each one is simplified to at most four colours in horizontal bands, so a multi-colour printer changes colour only a few times per part.</p>
     <div class="cards">
-      <div class="card"><h3>Body colours · ASA</h3><p class="mat">e.g. Prusament ASA ≈ €33–35/kg</p><ul><li>UV-stable, made for outdoor use; colours hold for years in Danish weather.</li><li>Needs an enclosed printer (warps, styrene fumes).</li></ul></div>
-      <div class="card"><h3>Glow details · glow ASA</h3><p class="mat">Spectrum ASA 275 Glow ≈ €50/kg · or Prusament PETG Ultraglow €87.50/kg</p><ul><li>Strontium aluminate charges in daylight and under white LED street lights. It is brightest for the first 20–40 min after dark and still visible for hours (Ultraglow: 6–8 h in full darkness).</li><li>Looks pale in daylight: cream (green glow), pale aqua, pale blue, pale lilac (violet) or pale peach (orange). Every design uses that daylight colour too. Green, aqua and blue glow longest; violet and orange are dimmer, so the QR codes only use green, aqua or blue.</li><li>Very abrasive: use hardened 0.6 mm nozzles.</li><li>Glow ASA bonds with the ASA body. Ultraglow is brighter but PETG does not bond well to ASA.</li><li>Don't put a UV-blocking clear coat over glow parts; it stops them charging.</li></ul></div>
-      <div class="card"><h3>Fill window · clear PC</h3><p class="mat">transparent polycarbonate ≈ €35–40/kg (or clear PETG €33/kg)</p><ul><li>A 37 mm strip on the lower street side, where the cans rest, with glowing marks every 5 cans.</li><li>Printed clear plastic is see-through enough to show can colours and the fill line, but it isn't glass-clear. Print it at 100% infill, hot and slow, and clear-coat the outer face.</li><li>Give the window a UV clear coat; PC yellows without one. Print a small ASA + PC test piece first to check that the two materials bond.</li></ul></div>
-      <div class="card"><h3>Print-only rules</h3><p class="mat">applied to every design</p><ul><li>Exactly five materials per snake: three colours, one glow filament (green or blue) and clear. Nothing changes between sections.</li><li>The info panel by the neck uses the darkest of the three colours, so it needs no extra material. Print that section with a 0.4 mm hardened nozzle so the 1.1 mm QR modules come out sharp.</li><li>No line, dot or letter stroke thinner than 2 mm, about three passes of a 0.6 mm nozzle. The QR code is the one exception: its modules are 1.1 mm.</li><li>Colour only needs to go about 1.2 mm deep, as a skin over the base colour. The clear window runs through the full 3 mm wall so you can see inside.</li><li>The slicer's multi-material painting (or one STL per colour, exported from this layout) assigns each colour to its tool.</li></ul></div>
+      <div class="card"><h3>Double wall</h3><p class="mat">two 0.8 mm skins, 20% gyroid core</p><ul><li>An outer and an inner skin with a light honeycomb-like core between them: light, very stiff and practically unbreakable.</li><li>The bore stays 120 mm, so the can flow is unchanged.</li></ul></div>
+      <div class="card"><h3>Outdoor ASA</h3><p class="mat">UV-stable body colours</p><ul><li>Made for outdoor use; colours hold for years in Danish weather.</li><li>Printed on enclosed multi-colour printers in Herning and at AU MakerLab.</li></ul></div>
+      <div class="card"><h3>Glow details</h3><p class="mat">phosphorescent filament</p><ul><li>Charges in daylight and under white LED street lights and glows for hours after dark.</li><li>The QR code uses green, aqua or blue glow, the colours that glow longest.</li></ul></div>
+      <div class="card"><h3>Hidden sensor</h3><p class="mat">inductive coils in the belly</p><ul><li>Coils under the skin count the metal of the cans through the plastic, so nothing is visible or reachable from outside.</li><li>The fill level goes to the collector app by radio.</li></ul></div>
     </div>
   </section>
 
@@ -300,10 +300,10 @@ body{margin:0}
       <li><a href="https://prusament.com/materials/prusament-petg-ultraglow/" target="_blank" rel="noopener">Prusament PETG Ultraglow: price, glow duration, hardened-nozzle requirement</a></li>
       <li><a href="https://www.3djake.com/spectrum/asa-275-glow-in-the-dark" target="_blank" rel="noopener">Spectrum ASA 275 Glow in the Dark: UV-resistant glow ASA</a></li>
       <li><a href="https://www.prusa3d.com/product/prusament-asa-jet-black-850g/" target="_blank" rel="noopener">Prusament ASA: UV-stable outdoor filament</a></li>
-      <li><a href="https://www.prusa3d.com/product/prusament-petg-clear-1kg/" target="_blank" rel="noopener">Prusament PETG Clear: €32.99/kg</a></li>
-      <li><a href="https://www.matterhackers.com/store/c/polycarbonate-3d-printing-filament" target="_blank" rel="noopener">Polycarbonate filament range and pricing</a></li>
+      
+      
       <li><a href="https://howtohungary.com/2026/06/13/hungary-bottle-return-system-repont/" target="_blank" rel="noopener">How to Hungary: REpont deposit system, HUF 50 per container</a></li>
-      <li><a href="https://www.elspejder.dk/kwh-pris" target="_blank" rel="noopener">Danish electricity price 2026, incl. taxes (2–4 DKK/kWh)</a></li>
+      
     </ol>
   </div>
 </main>
@@ -2184,7 +2184,7 @@ const GRPS={};
 {const fin=(list,city)=>list.map(d=>Object.assign(d,{qid:d.qid||QID[city+':'+d.id],glow2:d.glow2||SECOND[d.glow]||'aqua'}));
  const arrange=(city,arr,N,RW,OLD)=>{const rw=new Set(RW.map(d=>d.id)),olds=OLD.filter(d=>!rw.has(d.id)),t=olds.filter(d=>TOP[city].includes(d.id)),k=olds.filter(d=>!TOP[city].includes(d.id));
   const all=fin([...N,...RW,...t,...k],city);arr.length=0;arr.push(...all);
-  let n=0;const g=[];for(const [lab,len] of [['New, in place of the deleted designs',N.length],['Reworked from your notes',RW.length],['Top rated (9–10), untouched',t.length],['Kept as they were (6–8)',k.length]]){if(len)g.push([lab,n,n+len]);n+=len}GRPS[city]=g};
+  let n=0;const g=[];for(const [lab,len] of [['New designs',N.length],['Reworked from residents’ notes',RW.length],['Top rated by residents',t.length],['In evaluation',k.length]]){if(len)g.push([lab,n,n+len]);n+=len}GRPS[city]=g};
  arrange('aar',AAR,AAR_N,AAR_RW,[...AAR_REDO,...AAR_NEW,...AAR_NEW2,...AAR]);
  arrange('cph',CPH,CPH_N,CPH_RW,[...CPH_REDO,...CPH_NEW,...CPH_NEW2,...CPH]);
  arrange('bud',BUD,BUD_N,BUD_RW,[...BUD_REDO,...BUD_NEW,...BUD_NEW2,...BUD]);}
@@ -2472,7 +2472,7 @@ function btn(d,i){const b=document.createElement('button');b.role='tab';b.id='ta
 function renderPickers(){const E=EDS[ED],gs=E.groups;
   [1,2,3,4].forEach(n=>{$('picker'+n).innerHTML='';const g=gs[n-1];$('pg'+n).hidden=!g;if(g)$('pg'+n+'h').textContent=g[0]});
   D_.forEach((d,i)=>{const n=gs.findIndex(g=>i>=g[1]&&i<g[2]);$('picker'+(n+1)).appendChild(btn(d,i))});
-  $('facts').innerHTML=['bore ≈ 120 mm','holds ≈ 21 cans or 10–11 half-litre bottles','glow QR 56 mm, scans day and night','QR opens the demo app for now',E.full].map(t=>`<span>${t}</span>`).join('');
+  $('facts').innerHTML=['bore ≈ 120 mm','double wall: two 0.8 mm skins + gyroid core','holds ≈ 21 cans or 10–11 half-litre bottles','glow QR 56 mm, scans day and night','QR opens the collector app',E.full].map(t=>`<span>${t}</span>`).join('');
   document.querySelectorAll('#edtabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.ed===ED));
   $('edname').textContent=E.label+' edition'}
 function setEdition(k){if(!EDS[k])return;ED=k;D_=EDS[k].list;renderPickers();select(0);fr.oninput()}
