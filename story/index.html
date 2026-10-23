@@ -126,7 +126,7 @@
             <div class="t">Aarhus · planned sites</div>
             <div class="stat"><b id="nSn">0</b><span>snakes on busy corners, squares and light rail stops</span></div>
             <div class="stat"><b>~115 m</b><span>average distance to the nearest snake in the busy centre</span></div>
-            <div class="stat"><b>30</b><span>of them in the downtown core, where most people walk</span></div>
+            <div class="stat"><b>85 m</b><span>or more between snakes downtown, 110 m elsewhere</span></div>
             <div class="legend"><span><i style="background:var(--amber)"></i>full</span><span><i style="background:var(--glow)"></i>emptied</span><span><i style="background:var(--aqua)"></i>collector</span></div>
           </div>
         </div>
@@ -223,7 +223,7 @@
       <tr><td>Rotomoulded body at 1,000 a year</td><td class="n">DKK 2,701</td><td>1,976 variable + 724 fixed; Central European moulder; DKK 1.12 M start-up; cheaper than printing (DKK 3,656 a snake including printer time and labour) from about 375 a year</td></tr>
       <tr><td>AU Launch ask: materials for 49 test snakes</td><td class="n">DKK 100,000</td><td>Filament 56,700, sensors 17,400, mounting 13,800, self-closing doors 9,800, assembly 2,300. No salaries. Free for the city during the test</td></tr>
     </table></div>
-    <p class="est">All figures are estimates, not quotes, from the project's cost model and sensor plan of 19 October 2026. The snake shown is the 7-segment build for a 1.30 m signal post: it starts 31 cm above the pavement, the mouth is at about 1.5 m and it holds 20 cans. Costs are the 49-snake budget as in the AU Launch application. Return rates as cited in the film.</p>
+    <p class="est">All figures are estimates, not quotes, from the project's cost model and sensor plan of 19 October 2026. The snake shown is the 7-segment build for a 1.30 m signal post: its tail door is 30 cm above the pavement, the mouth is at about 1.5 m and it holds 20 cans. Costs are the 49-snake budget as in the AU Launch application. Return rates as cited in the film.</p>
   </section>
   <footer class="foot">Pant Snake · Aarhus · 2026</footer>
 </div>
@@ -397,7 +397,7 @@ const scenes = [
      sites.forEach(x => { const full = FULL.has(x.s.n), d = done.has(x.s.n); x.c.style.fill = d ? 'var(--glow)' : full ? 'var(--amber)' : 'var(--aqua)'; x.c.setAttribute('opacity', full || d ? 1 : .45);
        x.ring.setAttribute('opacity', full && !d ? .4 + .6 * Math.abs(Math.sin(t * 3)) : 0); });
    } },
- { name: 'Empty', d: 12, caps: [[0, '06 · Empty', 'Open the door at the tail', 'The tail starts 31 cm up. A bag goes under the door, so every can drops straight in.'], [4.5, '06 · Empty', 'Every can slides out', '20 cans, DKK 20 in deposit for the collector. A side hatch reaches any can that sticks.']],
+ { name: 'Empty', d: 12, caps: [[0, '06 · Empty', 'Open the door at the tail', 'The tail door is 30 cm up. A bag goes under the door, so every can drops straight in.'], [4.5, '06 · Empty', 'Every can slides out', '20 cans, DKK 20 in deposit for the collector. A side hatch reaches any can that sticks.']],
    enter: resetAll,
    run(t) {
      S.setXray(.62 * smooth(seg(t, .5, 2)));
