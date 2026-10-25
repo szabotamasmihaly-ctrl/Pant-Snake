@@ -1083,10 +1083,10 @@ export function mountCollector(root) {
   }
 
   // expected full snakes for the next 12 hours: the cans still waiting after the usual collectors at that hour
-  // (the best-time model), counted as snakes of about 20 cans; "now" is the snakes that are full right now
+  // (the best-time model), counted as snakes of about 24 cans; "now" is the snakes that are full right now
   function fullByHour() {
     const fullNow = S.snakes.filter(s => (eff(s).f ?? 0) >= 3).length;
-    return sh.bestTimes(S.snakes, 3).hours.map((h, k) => ({ at: h.at, hour: h.hour, n: k === 0 ? fullNow : Math.min(S.snakes.length, Math.round(h.cans / 20)) }));
+    return sh.bestTimes(S.snakes, 3).hours.map((h, k) => ({ at: h.at, hour: h.hour, n: k === 0 ? fullNow : Math.min(S.snakes.length, Math.round(h.cans / 24)) }));
   }
   // the home sheet: city, how many snakes are full now, and the slider. Pull it up for the day's chart and quick links.
   function homeCard() {
