@@ -210,7 +210,7 @@ body{margin:0}
   <div class="main">
     <div class="stage" id="stage">
       <canvas id="gl" role="img" aria-label="3D preview of the snake body with the selected livery"></canvas>
-      <div class="fill"><label for="fillr">Fill level</label><input type="range" id="fillr" min="0" max="20" value="12"><output id="fillo">12 of 20 cans</output></div>
+      <div class="fill"><label for="fillr">Fill level</label><input type="range" id="fillr" min="0" max="24" value="14"><output id="fillo">14 of 24 cans</output></div>
       <div class="tools">
         <span class="seg"><button id="dayb" aria-pressed="true">Day</button><button id="nightb" aria-pressed="false">Night</button></span>
         <button id="spin" aria-pressed="true">Auto-rotate</button><button id="reset">Reset view</button>
@@ -255,7 +255,7 @@ body{margin:0}
         <tr><td>PET bottle, 1.5 L</td><td class="num">92 × 320 mm</td><td class="num">−59 mm</td><td><span class="pill bad">Does not pass</span></td><td>C · DKK 3.00</td><td>50 Ft</td></tr>
         <tr><td>PET bottle, 2 L</td><td class="num">104 × 335 mm</td><td class="num">−82 mm</td><td><span class="pill bad">Does not pass</span></td><td>C · DKK 3.00</td><td>50 Ft</td></tr>
       </tbody></table></div>
-    <p>Clearance is the smallest gap between container and inner wall at the tightest point of the coil; negative means it does not pass. Containers run in single file. The snake holds about 20 cans (33 cl), 13 tall cans, 10 half-litre PET bottles or 9 glass beer bottles: about DKK 20 in deposits when full of cans. They go in at the head and come out of the self-closing tail door, 30 cm above the ground, so a collector empties a snake into a bag in minutes. A hidden inductive sensor reports the fill level the whole time, and the collector app shows it.</p>
+    <p>Clearance is the smallest gap between container and inner wall at the tightest point of the coil; negative means it does not pass. Containers run in single file. The snake holds about 24 cans (33 cl), 16 tall cans, 13 half-litre PET bottles or 12 glass beer bottles: about DKK 24 in deposits when full of cans. They go in at the head and come out of the self-closing tail door, 30 cm above the ground, so a collector empties a snake into a bag in minutes. A hidden inductive sensor reports the fill level the whole time, and the collector app shows it.</p>
   </section>
 
   <section id="materials">
@@ -312,7 +312,7 @@ body{margin:0}
 (()=>{
 // ===== surface coordinates (mm) =====
 // x: 0 = tail tip → L = neck. y: 0 = pole side, ~72 = top of coil, 145 = street-facing ridge, ~217 = underside, 290 = pole side
-const L=2700, C=290, D=145, HEAD=2457, W0=167.5, W1=195, F0=40, CAN=115, NCAN=20;
+const L=2700, C=290, D=145, HEAD=2457, W0=167.5, W1=195, F0=40, CAN=115, NCAN=24, CANL=(HEAD-F0)/NCAN;
 const VOL=5530; // cm³ printed: 120 mm body 5,209 + bail door and latch 294 + two screw hatches 27
 const EUR=7.46;
 function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -2201,9 +2201,9 @@ const QRS={"aar-30-lysivinduet":[41,"fe622aafbfc130990e106ebe662febb75bf6d215dba
 
 // ===== editions =====
 const EDS={
- aar:{label:'Aarhus',list:AAR,full:'full ≈ DKK 20 in cans',groups:GRPS.aar},
- cph:{label:'Copenhagen',list:CPH,full:'full ≈ DKK 20 in cans',groups:GRPS.cph},
- bud:{label:'Budapest',list:BUD,full:'full ≈ 20 × 50 Ft = 1,000 Ft',groups:GRPS.bud}};
+ aar:{label:'Aarhus',list:AAR,full:'full ≈ DKK 24 in cans',groups:GRPS.aar},
+ cph:{label:'Copenhagen',list:CPH,full:'full ≈ DKK 24 in cans',groups:GRPS.cph},
+ bud:{label:'Budapest',list:BUD,full:'full ≈ 24 × 50 Ft = 1,200 Ft',groups:GRPS.bud}};
 const PLATE={aar:{t:'PANT HER',yes:'dåser og flasker op til 0,5 l',no:'ikke store flasker · ikke affald',scan:'SCAN MIG',q:['fuld?','i stykker?']},
  cph:{t:'PANT HER',yes:'dåser og flasker op til 0,5 l',no:'ikke store flasker · ikke affald',scan:'SCAN MIG',q:['fuld?','i stykker?']},
  bud:{t:'DOBOZ + PALACK',yes:'dobozok, palackok max. 0,5 l-ig',no:'nagy palack, szemét, csikk: nem',scan:'SZKENNELJ',q:['tele van?','elromlott?']}};
@@ -2224,7 +2224,7 @@ function overlay(c,M,d){
   if(!d.nowin){c.fillStyle=d.frame;c.fillRect(F0-6,W0-4,HEAD-F0+2,W1-W0+8);
   c.fillStyle='#A9BCC4';c.fillRect(F0,W0,HEAD-F0-10,W1-W0);M.fillStyle='#f00';M.fillRect(F0,W0,HEAD-F0-10,W1-W0);}
   if(!d.nowin)both((t,k)=>{t.fillStyle=k;t.fillRect(F0-6,W0-4,HEAD-F0+2,2.4);t.fillRect(F0-6,W1+1.6,HEAD-F0+2,2.4);
-    for(let n=1;n<=NCAN;n++){const x=F0+n*CAN;if(x>HEAD-14)break;const big=n%5===0;t.fillRect(x-1.5,W1+4,3,big?10:5);if(big){t.fillRect(x-1.5,W0-12,3,8);t.font='700 13px "JetBrains Mono", monospace';t.fillText(String(n),x+4,W1+17)}}},g,'#0f0');
+    for(let n=1;n<=NCAN;n++){const x=F0+n*CANL;if(x>HEAD-14)break;const big=n%5===0;t.fillRect(x-1.5,W1+4,3,big?10:5);if(big){t.fillRect(x-1.5,W0-12,3,8);t.font='700 13px "JetBrains Mono", monospace';t.fillText(String(n),x+4,W1+17)}}},g,'#0f0');
   if(hz.length){c.restore();M.restore();
    // each hatch: a smaller screw cap with three grips (inner circle) inside a ring of two arrows (outer circle).
    // M maps true millimetres on the surface (along, around) to texture millimetres, so the circles come out round on the print.
@@ -2370,7 +2370,7 @@ const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+
 function lookAt(e,c,up){const z=norm(sub(e,c)),x=norm(cross(up,z)),y=cross(z,x);return [x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,e),-dot(y,e),-dot(z,e),1]}
 function mul(a,b){const o=new Array(16).fill(0);for(let i=0;i<4;i++)for(let j=0;j<4;j++)for(let k=0;k<4;k++)o[j*4+i]+=a[k*4+i]*b[j*4+k];return o}
 const HOME={yaw:-0.6,pitch:0.12,dist:3400,tz:1080};const cam={...HOME};
-let spinning=true,current=0,ready=false,night=0,nightT=0,fillN=12;
+let spinning=true,current=0,ready=false,night=0,nightT=0,fillN=14;
 function hex3(h){const m=h.match(/#(..)(..)(..)/);return m?m.slice(1).map(x=>parseInt(x,16)/255):[.9,.9,.88]}
 function draw(){if(!ready)return;
   const w=cv.clientWidth*devicePixelRatio|0,h=cv.clientHeight*devicePixelRatio|0;if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h}
@@ -2379,7 +2379,7 @@ function draw(){if(!ready)return;
   gl.clearColor(...dayBg.map((v,i)=>v+(nb[i]-v)*night),1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
   const LK=window.__LOOK,eye=LK?LK[0]:[Math.cos(cam.yaw)*Math.cos(cam.pitch)*cam.dist,Math.sin(cam.yaw)*Math.cos(cam.pitch)*cam.dist,cam.tz+Math.sin(cam.pitch)*cam.dist];
   gl.useProgram(prog);gl.uniformMatrix4fv(U.uMVP,false,mul(persp(.62,w/h,50,20000),lookAt(eye,LK?LK[1]:[0,0,cam.tz],[0,0,1])));
-  gl.uniform3fv(U.uEye,eye);gl.uniform1f(U.uNight,night);gl.uniform1f(U.uFill,F0+fillN*CAN);gl.uniform3fv(U.uGlow,GLOWNIGHT[D_[current].glow].map(v=>Math.pow(v,1/2.2)));gl.uniform3fv(U.uGlow2,GLOWNIGHT[D_[current].glow2].map(v=>Math.pow(v,1/2.2)));
+  gl.uniform3fv(U.uEye,eye);gl.uniform1f(U.uNight,night);gl.uniform1f(U.uFill,F0+fillN*CANL);gl.uniform3fv(U.uGlow,GLOWNIGHT[D_[current].glow].map(v=>Math.pow(v,1/2.2)));gl.uniform3fv(U.uGlow2,GLOWNIGHT[D_[current].glow2].map(v=>Math.pow(v,1/2.2)));
   gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texObj);gl.uniform1i(U.uTex,0);
   gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,mskObj);gl.uniform1i(U.uMask,1);
   for(const m of meshes){gl.uniform1f(U.uUseTex,m.tex?1:0);gl.uniform1f(U.uEmit,m.emit?1:0);gl.uniform3fv(U.uCol,m.emit?hex3(GLOWDAY[D_[current].glow]):m.collar?hex3(D_[current].collar):(m.col||[1,1,1]));gl.bindVertexArray(m.vao);gl.drawElements(gl.TRIANGLES,m.count,m.itype,0)}}
@@ -2392,7 +2392,7 @@ function flats(){const d=D_[current];const f=document.getElementById('flat'),fc=
   const tmp=document.createElement('canvas');tmp.width=n.width;tmp.height=n.height;const tc=tmp.getContext('2d');tc.drawImage(msk,0,0,n.width,n.height);
   const id=tc.getImageData(0,0,n.width,n.height),nd=nc.getImageData(0,0,n.width,n.height),gc=GLOWNIGHT[d.glow],gc2=GLOWNIGHT[d.glow2];
   for(let i=0;i<id.data.length;i+=4){const fx=((i/4)%n.width)/n.width*L;
-    if(id.data[i]>127){const filled=fx<F0+fillN*CAN&&fx>F0;const k=Math.floor((fx-F0)/CAN);nd.data[i]=filled?(k%3?70:120):10;nd.data[i+1]=filled?(k%2?70:40):12;nd.data[i+2]=filled?(k%4?80:50):16}
+    if(id.data[i]>127){const filled=fx<F0+fillN*CANL&&fx>F0;const k=Math.floor((fx-F0)/CANL);nd.data[i]=filled?(k%3?70:120):10;nd.data[i+1]=filled?(k%2?70:40):12;nd.data[i+2]=filled?(k%4?80:50):16}
     else if(id.data[i+1]>127){nd.data[i]=gc[0]*255;nd.data[i+1]=gc[1]*255;nd.data[i+2]=gc[2]*255}
     else if(id.data[i+2]>127){nd.data[i]=gc2[0]*255;nd.data[i+1]=gc2[1]*255;nd.data[i+2]=gc2[2]*255}}
   nc.putImageData(nd,0,0)}
@@ -2472,7 +2472,7 @@ function btn(d,i){const b=document.createElement('button');b.role='tab';b.id='ta
 function renderPickers(){const E=EDS[ED],gs=E.groups;
   [1,2,3,4].forEach(n=>{$('picker'+n).innerHTML='';const g=gs[n-1];$('pg'+n).hidden=!g;if(g)$('pg'+n+'h').textContent=g[0]});
   D_.forEach((d,i)=>{const n=gs.findIndex(g=>i>=g[1]&&i<g[2]);$('picker'+(n+1)).appendChild(btn(d,i))});
-  $('facts').innerHTML=['bore ≈ 120 mm','double wall: two 0.8 mm skins + gyroid core','holds ≈ 20 cans or 10 half-litre bottles','glow QR 56 mm, scans day and night','QR opens the collector app',E.full].map(t=>`<span>${t}</span>`).join('');
+  $('facts').innerHTML=['bore ≈ 120 mm','double wall: two 0.8 mm skins + gyroid core','holds ≈ 24 cans or 13 half-litre bottles','glow QR 56 mm, scans day and night','QR opens the collector app',E.full].map(t=>`<span>${t}</span>`).join('');
   document.querySelectorAll('#edtabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.ed===ED));
   $('edname').textContent=E.label+' edition'}
 function setEdition(k){if(!EDS[k])return;ED=k;D_=EDS[k].list;renderPickers();select(0);fr.oninput()}
